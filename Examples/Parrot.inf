@@ -1,0 +1,62 @@
+Array mpos --> 4;
+Array piclist --> 1 0;
+Array picsize --> 2;
+
+Global parrot_w;
+Global parrot_h;
+
+[ Main x y c sampling b;
+
+  @set_cursor -1;
+  @mouse_window 0;
+  @picture_table piclist;
+  @picture_data 1 picsize ?~nopic;
+  
+  parrot_w = picsize-->1;
+  parrot_h = picsize-->0;
+  
+  for (::)
+  {
+    @read_char 1 -> c;
+    if (c=='q' or 'Q') quit;
+    if (c=='c' or 'C')
+    {
+       @erase_window -1;
+       continue;
+    }
+    if (c>='0' && c<='9')
+    {
+       c = c-'0'+2;
+       @set_colour 1 c;
+       continue;
+    }
+    if (c=='s' or 'S')
+    {
+       sampling=1;
+       continue;
+    }
+      
+    if (c ~= 253 or 254) continue;
+    
+    @read_mouse mpos;
+    x = mpos-->1;
+    y = mpos-->0;
+    b = mpos-->2;
+    if (sampling)
+    {
+      @set_cursor y x;
+      @set_colour 1 $FFFF;
+      sampling = 0;
+      continue;
+    }
+    x = x - parrot_w / 2;
+    y = y - parrot_h / 2;
+    if (b == 1)
+      @erase_picture 1 y x;
+    else
+      @draw_picture 1 y x;
+  }
+ 
+ .nopic;
+  "Where's me pictures?";
+];

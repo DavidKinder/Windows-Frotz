@@ -1,0 +1,467 @@
+!% -W6
+
+! Currently there's no way to make Inform generate a story file with a value other than
+! zero in the flags3 field. To set it to 1 you need to use a hex editor to change the
+! flags3 value at 0x010b to 1, and then add one to the checksum value at 0x001d.
+
+release 2;
+
+[ main key major minor;
+
+  major = $32-->0 / 256;
+  minor = $32-->0 % 256;
+  if ((major < 1) || ((major == 1) && (minor < 1)))
+  {
+    print "This interpreter claims to only support the Z-Machine Standard version ", major, ".", minor, ".^";
+    print "Continuing may crash the interpreter. Continue (Y@@47N)? ";
+
+    @read_char 1 -> key;
+    if (key ~= 121)
+      quit;
+  }
+
+  while (1)
+  {
+    @erase_window 0;
+    print "Z-Machine Standard 1.1 Conformance Test^^";
+    print "1) Header^";
+    print "2) Save and Restore^";
+    print "3) Text Styles^";
+    print "4) True Colour^";
+#iftrue (#version_number == 6);
+    print "5) Screen Buffering^";
+    print "6) Fonts^";
+    print "7) Colour Numbers^";
+    print "8) Transparency^";
+#endif;
+    print "^Enter a number to run a test, or press 'Esc' to exit.^";
+
+    @read_char 1 -> key;
+    switch (key)
+    {
+    27: quit;
+    49: header(major,minor);
+    50: save_restore();
+    51: styles();
+    52: true_colour();
+#iftrue (#version_number == 6);
+    53: buffer_screen();
+    54: fonts();
+    55: colour_num();
+    56: transparency();
+#endif;
+    }
+  }
+];
+
+[ pause key;
+
+  print "^Press a key to continue...";
+  @read_char 1 -> key;
+];
+
+[ header major minor extend flags3;
+
+  @erase_window 0;
+  print "Header Test^^";
+
+  extend = $36-->0;
+  if (extend ~= 0)
+  {
+    print "The header extension table in this file is ", extend-->0 ," words long. ";
+    print "(Standard 1.1 defines a total of 6 header extension words.)^";
+
+    if ((major < 1) || ((major == 1) && (minor < 1)))
+      print "As this interpreter does not support Standard 1.1, the following may be incorrect.^";
+
+    if (extend-->0 >= 4)
+      flags3 = extend-->4;
+    else
+      flags3 = 0;
+
+    new_line;
+    print "This interpreter ", (can) flags3 & 1, " draw transparent text.^";
+
+    if (extend-->0 >= 5)
+      print "The foreground colour is ", (hex)extend-->5, " ", (rgb)extend-->5, "^";
+    if (extend-->0 >= 6)
+      print "The background colour is ", (hex)extend-->6, " ", (rgb)extend-->6, "^";
+    if (extend-->0 >= 5)
+    print "^(Colours are given as (R,G,B), where each component is between 0 and 31, so ";
+    print (rgb)$7FFF, " is white, and ", (rgb)$001F, " is red.)^";
+  }
+
+  pause();
+];
+
+Array testdata -> "test";
+Array testfile string "test.dat";
+
+[ save_restore result;
+
+  @erase_window 0;
+  print "Save and Restore Test^^";
+
+  print "A file selection dialog should not appear for the first save and restore calls.^^";
+
+  print "Saving data without prompting for a file name ... ";
+  @save testdata 4 testfile 0 -> result;
+  print (success)result, ".^";
+
+  print "Restoring data without prompting for a file name ... ";
+  @restore testdata 4 testfile 0 -> result;
+  print (success)result, ".^";
+
+  print "Saving data with prompting for a file name ... ";
+  @save testdata 4 testfile 1 -> result;
+  print (success)result, ".^";
+
+  print "Restoring data with prompting for a file name ... ";
+  @restore testdata 4 testfile 1 -> result;
+  print (success)result, ".^";
+
+  print "Saving data without a prompt argument ... ";
+  @save testdata 4 testfile -> result;
+  print (success)result, ".^";
+
+  print "Restoring data without a prompt argument ... ";
+  @restore testdata 4 testfile -> result;
+  print (success)result, ".^";
+
+  print "Saving data with default arguments ... ";
+  @save testdata 4 -> result;
+  print (success)result, ".^";
+
+  print "Restoring data with default arguments ... ";
+  @restore testdata 4 -> result;
+  print (success)result, ".^";
+
+  pause();
+];
+
+[ styles;
+
+  @erase_window 0;
+  print "Text Style Combination Test^^";
+
+  print "Text styles can now be combined. This should be reflected in the appearance of the text below";
+#iftrue (#version_number == 6);
+  print ", and the values of the style window property";
+#endif;
+  print ".^^";
+
+  @set_text_style 2;
+  print "This text should appear bold", (show_style)-3, ".^";
+
+  @set_text_style 0;
+  @set_text_style 4;
+  print "This text should appear italic", (show_style)-3, ".^";
+
+  @set_text_style 0;
+  @set_text_style 6;
+  print "This text should appear bold and italic", (show_style)-3, ".^";
+
+  @set_text_style 0;
+  @set_text_style 1;
+  print "This text should appear reversed", (show_style)-3, ".^";
+
+  @set_text_style 0;
+  @set_text_style 8;
+  print "This text should appear fixed width", (show_style)-3, ".^";
+
+  @set_text_style 0;
+  @set_text_style 9;
+  print "This text should appear reversed and fixed width", (show_style)-3, ".^";
+
+  @set_text_style 0;
+  pause();
+];
+
+[ true_colour;
+
+  @erase_window 0;
+  print "True Colour Test^^";
+
+  @"EXT:13" $0010 $0000;
+  print "This text should be dark red on black.^";
+  @"EXT:13" $2d7f (-2);
+  print "This text should be light red on black.^";
+  @"EXT:13" $0000 $7eab;
+  print "This text should be black on light blue.^";
+  @"EXT:13" $03e0 $0200;
+  print "This text should be light green on dark green.^";
+  @"EXT:13" (-2) (-1);
+  print "This text should be light green on the default background.^";
+  @"EXT:13" (-1) $0010;
+  print "This text should be the default foreground on dark red.^";
+
+#iftrue (#version_number == 6);
+  new_line;
+  mouse_click();
+  @"EXT:13" $7fff (-3);
+  after_mouse_click();
+  print "This text should be white with the background matching the clicked colour.^";
+  mouse_click();
+  @"EXT:13" (-3) $0000;
+  after_mouse_click();
+  print "This text should be the clicked colour on black.^";
+#endif;
+
+  @set_colour 1 1;
+  pause();
+];
+
+#iftrue (#version_number == 6);
+
+[ buffer_screen result;
+
+  @erase_window 0;
+  print "Screen Buffering Test^^";
+
+  @"EXT:29S" 0 -> result;
+  print "buffer_screen 0 returned ", result, "^";
+
+  @"EXT:29S" 1 -> result;
+  print "buffer_screen 1 returned ", result, "^";
+
+  @"EXT:29S" -1 -> result;
+  print "buffer_screen -1 returned ", result, "^";
+
+  pause();
+];
+
+[ fonts result;
+
+  @erase_window 0;
+  print "Font Change Test^^";
+
+  @set_font 4 1 -> result;
+  print "Set the font of window 1 to fixed width. This text should be in the normal font.^";
+
+  @set_font 4 0 -> result;
+  print "Set the font of window 0 to fixed width. This text should be in the fixed width font.^";
+
+  @set_font 1 (-3) -> result;
+  print "Set the font of the current window to normal. This text should be in the normal font.^";
+
+  pause();
+];
+
+[ colour_num i col fg bg tfg tbg;
+
+  @erase_window 0;
+  print "Test of the relationship between true colours and colour numbers.^^";
+
+  @set_colour 1 1;
+  print "Setting true colours in window 0...^";
+  @"EXT:13" $2d7f $0010;
+  @get_wind_prop (-3) 11 -> col;
+  fg = col & $ff;
+  bg = col / $100;
+  @get_wind_prop (-3) 16 -> tfg;
+  @get_wind_prop (-3) 17 -> tbg;
+  print "This text should be light red on dark red.^";
+  print "The foreground and background true colours are ", (rgb)tfg, " and ", (rgb)tbg, ".^";
+  print "The foreground and background colour numbers are ", fg, " and ", bg, ".^";
+
+  print "^Setting many different true colours in window 1...^";
+  for (i = 1: i < 500: i++)
+    @"EXT:13" i $0000 1;
+
+  print "Setting the colour numbers for window 0 to be (", fg, ", ", bg, ")...^";
+  @set_colour fg bg;
+  print "Ideally, this text should also be light red on black.^";
+  @get_wind_prop (-3) 16 -> tfg;
+  @get_wind_prop (-3) 17 -> tbg;
+  print "The foreground and background true colours are ", (rgb)tfg, " and ", (rgb)tbg, ".^";
+
+  @set_colour 1 1;
+  pause();
+];
+
+[ transparency y y1 fsize h col tbg;
+
+  @erase_window 0;
+  print "Transparent Background Test^^";
+
+  @get_cursor cursor_table;
+  y = cursor_table-->0;
+  @get_wind_prop 1 13 -> fsize;
+  h = fsize / 256;
+
+  draw_fade(y,2*h,0);
+  y1 = y+(h/2);
+  @set_cursor y1 1;
+  @set_colour 4 15;
+  print "    This text should have a transparent background ...";
+
+  y1 = y+(2*h);
+  draw_fade(y1,2*h,1);
+  y1 = y1+(h/2);
+  @set_cursor y1 1;
+  @"EXT:13" $2d7f (-4);
+  print "    So should this text, too ...";
+
+  @get_wind_prop (-3) 11 -> col;
+  @get_wind_prop (-3) 17 -> tbg;
+
+  y = cursor_table-->0;
+  y1 = cursor_table-->1;
+  @set_cursor y y1;
+  @set_colour 1 1;
+
+  print "^^^^^When printing the above text, the true background colour property was ", tbg;
+  print " (it should be -4), and the background colour number was ", col / 256, " (it should be 15).^";
+
+  print "^Now calling erase_line and erase_window with the background set to transparent. ";
+  print "If any solid rectangles have appeared in the display, the interpreter is at fault.^";
+
+  @set_colour 0 3 0;
+  @set_colour 0 4 1;
+  @set_colour 0 15 0;
+  @set_colour 0 15 1;
+  @erase_line 1;
+  @move_window 1 1 1;
+  @window_size 1 128 128;
+  @erase_window 1;
+  @erase_window -2;
+
+  @set_colour 1 1;
+  pause();
+];
+
+#endif;
+
+#ifdef UNICODE;
+
+Array zork1 --> $13F4 $5E05 $9B00 $DEDD;
+Array zork2 --> $13F4 $5CA6 $E010 $DEDD;
+Array zork3 --> $13F4 $14D8 $82F0 $DEDD;
+Array zork4 --> $13E5 $1B00 $DEDD $D2F0;
+
+! The values given in the specification are wrong
+Array japan --> $14D8 $88A5 $9A1A $98D3 $7561;
+
+[ unicode;
+
+  @erase_window 0;
+  print "Unicode Output Test^^";
+
+  print "If this interpreter correctly supports Unicode embedded in strings, ";
+  print "the next four lines should first be ~Zork~ followed by a trademark symbol, ";
+  print "then on each following line the trademark symbol is moved one place to the left:^^";
+  @print_addr zork1; new_line;
+  @print_addr zork2; new_line;
+  @print_addr zork3; new_line;
+  @print_addr zork4; new_line;
+
+  print "^The next line should contain ~Japanese~ in Japanese (provided that the current ";
+  print "font contains the necessary Japanese characters):^^";
+  @print_addr japan; new_line;
+
+  pause();
+];
+
+#endif;
+
+[ can bit;
+
+  if (bit)
+    print "can";
+  else
+    print "cannot";
+];
+
+[ success flag;
+
+  if (flag)
+    print "successful";
+  else
+    print "failed";
+];
+
+[ rgb colour;
+
+  print "(",colour%32,",",(colour%1024)/32,",",(colour/1024),")";
+];
+
+[ hex x y;
+
+  y = (x & $7f00) / $100;
+  if (x < 0) y = y + $80;
+  x = x & $ff;
+  print "$", (hexdigit) y/$10, (hexdigit) y, (hexdigit) x/$10, (hexdigit) x;
+];
+
+[ hexdigit x;
+
+  x = x % $10;
+  switch (x)
+  {
+  0 to 9: print x;
+  10: print "a";
+  11: print "b";
+  12: print "c";
+  13: print "d";
+  14: print "e";
+  15: print "f";
+  }
+];
+
+#iftrue (#version_number == 6);
+
+Array cursor_table --> 0 0;
+Array mouse_table --> 0 0 0 0;
+
+[ mouse_click key x y;
+
+  @mouse_window -1;
+  @set_colour 1 1;
+  print "Click the mouse on a colour^";
+  @read_char 1 -> key;
+  @mouse_window 1;
+
+  @read_mouse mouse_table;
+  y = mouse_table-->0;
+  x = mouse_table-->1;
+  @get_cursor cursor_table;
+  @set_cursor y x;
+];
+
+[ after_mouse_click x y;
+
+  y = cursor_table-->0;
+  x = cursor_table-->1;
+  @set_cursor y x;
+];
+
+[ show_style win result;
+
+  @get_wind_prop win 10 -> result;
+  print " (style property is ", result, ")";
+];
+
+[ draw_fade y h ex w i col;
+
+  @window_size 1 h 16;
+  for (i = 0: i < 32: i++)
+  {
+    w = 16 * i;
+    @move_window 1 y w;
+
+    col = (i*32*32)+(i*32)+i;
+    if (ex ~= 0)
+      col = $7fff - col;
+
+    @"EXT:13" (-2) col 1;
+    @erase_window 1;
+  }
+];
+
+#ifnot;
+
+[ show_style;
+];
+
+#endif;
+

@@ -1,0 +1,175 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Frotz.css">
+ </head>
+ <body>
+<h1>Revision History</h1>
+
+<b>1.17</b>
+<ul>
+<li>Fixed a long standing bug which led to incorrect Quetzal save files being produced when
+a Blorbed game file is loaded into the interpreter. The save files worked with previous
+versions of Windows Frotz as the bug was present in both the loading and saving logic, but
+such save files could not be loaded into other interpreters.<br>
+Unfortunately, fixing this bug means that loading old Windows Frotz saved files when running
+a Blorbed game is broken, as it is not possible to automatically detect old Windows Frotz saved
+files. To work around this, old saved files can be renamed to end with ".badsav", which causes
+the interpreter to load them with the old, incorrect logic. The game position can then be
+re-saved as a correct Quetzal save file.
+<li>Corrected a problem which could result in the options dialog using the wrong font.
+</ul>
+
+<b>1.16</b>
+<ul>
+<li>Added support for speaking the game's text using Microsoft SAPI 5. This is controlled
+by the options on the new "Speech" page of the options dialog.
+<li>Updated several links on the Help / Internet Links menu.
+</ul>
+
+<b>1.15</b>
+<ul>
+<li>The implementation of the algorithm for scaling the images in the <b>About This Game</b>
+dialog has been sped up.
+</ul>
+
+<b>1.14</b>
+<ul>
+<li>Increased an internal buffer size, as the default size was leading to an interpreter
+crash with a very wide display and a small font.
+</ul>
+
+<b>1.13</b>
+<ul>
+<li>Improved the logic used to output Unicode text: now if a character can be drawn in
+any font on the system, that font will be used where needed. For best results a 'Unicode'
+font (e.g. "Arial Unicode MS" or "Code 2000") should be installed, though it doesn't need
+to be selected as either the proportional or fixed width font.
+</ul>
+
+<b>1.12</b>
+<ul>
+<li>Improved margin logic for non-V6 games.
+<li>Updated to the latest version of ModPlug, which is now compiled into the interpreter.
+</ul>
+
+<b>1.11</b>
+<ul>
+<li>Added an option to say whether, for a game with an iFiction record, the <b>About This Game</b>
+dialog is never shown, only shown the first time a game is loaded, or shown every time.
+<li>Added an option to set the user name that is copied into the game's header. This is only used by
+a few test versions of Infocom's games.
+<li>When saving or loading files, an appropriate file extension is appended if the user enters
+a file name without an extension (for sample, ".sav" will be appended for saved games).
+<li>Minor improvements to the interpreter's appearance under Windows Vista.
+</ul>
+
+<b>1.10</b>
+<ul>
+<li>Changed the interpreter to first read the Blorb 'Fspc' chunk to find cover art,
+in preference to looking in the iFiction metadata.
+</ul>
+
+<b>1.09</b>
+<ul>
+<li>Added support for "The Treaty of Babel" iFiction metadata format in Blorb files. This is
+the metadata format that Inform 7 uses.
+<li>Added the menu item <b>Help/About This Game</b> which, when playing an appropriately
+packaged Blorb file, shows a dialog with the cover art and description of the game. This dialog
+is also shown the first time a game is played in Windows Frotz.
+<li>Added support for Ogg Vorbis music, based on code submitted to Windows Glk by David Moreno.
+<li>Finally renamed the interpreter to just <b>Windows Frotz</b>.
+</ul>
+
+<b>1.08</b>
+<ul>
+<li>The file extensions <b>.zlb</b> and <b>.zblorb</b> are recognised for Blorb files containing
+<nobr>Z-code</nobr>.
+<li>If the game is in a Blorb file containing Inform 7 metadata, then the metadata is used to determine
+the title of the game, as displayed in the title bar.
+<li>The size of the <nobr>Z-Machine</nobr> stack has been greatly increased, as games compiled by Inform 7
+tend to use substantially more recursion.
+<li>Added an option to set whether the text written to the script file is wrapped or not.
+</ul>
+
+<b>1.07</b>
+<ul>
+<li>Fixed a bug that caused Frotz to produce Quetzal format save files with incorrect values for
+all local variables in the game.
+</ul>
+
+<b>1.06</b>
+<ul>
+<li>Put back the original icons, due to popular demand. The true colour icons are still available
+in the program, but you'll have to set them up yourself with Windows Explorer.
+<li>Added a French translation of the UI by Jean-Luc Pontico.
+<li>Implemented the <nobr>Z-Machine</nobr> Standard Version 1.1. This adds a number of
+new features to the Z-Machine, including true colour and background transparency support.
+<li>The <b>encode_text</b> opcode now correctly encodes space and caret characters.
+<li>For all Z-Machine versions other than V1, Z-character 7 of row 2 in the alphabet table is now
+always the newline character, as required by &sect;3.5.5.1 of the Z-Machine specification.
+<li>The default foreground and background colour values in the header are now set correctly for V6 if
+the colours chosen in the options dialog match any of the standard Z-Machine colours.
+</ul>
+
+<b>1.05</b>
+<ul>
+<li>Added true colour icons drawn by Javier San José.
+<li>Changing the input language with Windows' Language Bar (part of Advanced Text
+Services) now works.
+<li>A crash when using the options dialog after the game has finished has been fixed.
+</ul>
+
+<b>1.04</b>
+<ul>
+<li>Transcript log files now end in <b>.log</b> by default.
+<li>Added a new <b>Help/Internet Links</b> sub-menu, containing links to some relevant web sites.
+<li>Added an option to disable Frotz from registering itself as the default application for Z-code files.
+<li>Added support for some of the more common GNU Readline editing keys during input.
+<li>Added a field to the status bar, showing the Z-code version number of the currently loaded game.
+<li>OpenType and Postscript Type1 fonts can now be used, providing the version of Windows that Frotz
+is running on supports them.
+<li>Corrected the the notification routine that is called after a sound finishes playing. This stops
+the game <b>Zen Speaks!</b> from locking up the interpreter.
+<li>The Expand Abbreviations option no longer breaks 'z' in V4+ games.
+</ul>
+
+<b>1.03</b>
+<ul>
+<li>The window can be made to fill the entire screen; press <b>Alt+Enter</b> to toggle this full screen mode on and off.
+<li>Added options to set left and right margins.
+<li>Added an option to scroll text as fast as possible.
+<li>Added an option to control whether or not <b>[More]</b> prompts are shown.
+<li>The <b>Report errors</b> option now defaults to <b>Never</b>.
+<li>Frotz attempts to register file associations with Windows, so that double clicking on a Z-code file
+starts the interpreter.
+<li>The cursor now puts back what was under it when it is removed.
+</ul>
+
+<b>1.02</b>
+<ul>
+<li>Added a field to the status bar, showing how long the current game has been playing.
+<li>Added a new menu item <b>File/Stop Playback</b>, which, if a recorded script is being played back, stops the playback.
+<li>The scrollback dialog now opens at the end of the text, not the start.
+<li>The <b>read_char</b> opcode now returns the correct value if a timeout occurs.
+<li>Fixed a problem which stopped font anti-aliasing from occuring on some Windows 9x systems.
+</ul>
+
+<b>1.01</b>
+<ul>
+<li>Added a Spanish translation of the UI by Javier San José.
+<li>Added .dat and .zip as file extensions for Z-code games to the New Game file dialog.
+<li>The new window size is now written into the game's header when the window is resized.
+<li>The Expand Abbreviations option no longer breaks those abbrevations in V4+ games.
+<li>Fixed serious problems with save, restore and restart for Z-code games in Blorb files.
+<li>Fixed problems with games in directories with very long names.
+<li>Fixed incorrect display of accented characters in the translated versions of the [Hit any key to exit.] message.
+</ul>
+
+<b>1.00</b>
+<ul>
+<li>First release.
+</ul>
+ </body>
+</html>
+

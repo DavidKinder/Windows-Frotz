@@ -1,0 +1,41 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frotz", "Frotz.vcproj", "{EA543C7F-DFA4-4FBB-9A23-41EB8D95F349}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrotzDeutsch", "FrotzDeutsch\FrotzDeutsch.vcproj", "{30FB133B-C909-4272-A32C-115BD444358B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrotzEspañol", "FrotzEspañol\FrotzEspañol.vcproj", "{475082AB-849A-4DF3-AF3B-905BD3D8F696}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrotzFrançais", "FrotzFrançais\FrotzFrançais.vcproj", "{384DAB77-AAEF-4885-B971-E84872C5667A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrotzItaliano", "FrotzItaliano\FrotzItaliano.vcproj", "{384DAB77-AAEF-4885-B971-E84872C56675}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{EA543C7F-DFA4-4FBB-9A23-41EB8D95F349}.Debug.ActiveCfg = Debug|Win32
+		{EA543C7F-DFA4-4FBB-9A23-41EB8D95F349}.Debug.Build.0 = Debug|Win32
+		{EA543C7F-DFA4-4FBB-9A23-41EB8D95F349}.Release.ActiveCfg = Release|Win32
+		{EA543C7F-DFA4-4FBB-9A23-41EB8D95F349}.Release.Build.0 = Release|Win32
+		{30FB133B-C909-4272-A32C-115BD444358B}.Debug.ActiveCfg = Debug|Win32
+		{30FB133B-C909-4272-A32C-115BD444358B}.Release.ActiveCfg = Release|Win32
+		{30FB133B-C909-4272-A32C-115BD444358B}.Release.Build.0 = Release|Win32
+		{475082AB-849A-4DF3-AF3B-905BD3D8F696}.Debug.ActiveCfg = Debug|Win32
+		{475082AB-849A-4DF3-AF3B-905BD3D8F696}.Release.ActiveCfg = Release|Win32
+		{475082AB-849A-4DF3-AF3B-905BD3D8F696}.Release.Build.0 = Release|Win32
+		{384DAB77-AAEF-4885-B971-E84872C5667A}.Debug.ActiveCfg = Debug|Win32
+		{384DAB77-AAEF-4885-B971-E84872C5667A}.Release.ActiveCfg = Release|Win32
+		{384DAB77-AAEF-4885-B971-E84872C5667A}.Release.Build.0 = Release|Win32
+		{384DAB77-AAEF-4885-B971-E84872C56675}.Debug.ActiveCfg = Debug|Win32
+		{384DAB77-AAEF-4885-B971-E84872C56675}.Release.ActiveCfg = Release|Win32
+		{384DAB77-AAEF-4885-B971-E84872C56675}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

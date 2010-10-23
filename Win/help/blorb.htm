@@ -1,0 +1,27 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Frotz.css">
+ </head>
+ <body>
+<h1>Blorb Files</h1>
+Infocom's Z-code format has proved to be a very durable design for writing text adventures. However, by today's
+standards, the formats they used for graphics and sound are very primitive. In order to address this, Andrew
+Plotkin came up with the Blorb format.
+<p>
+A Blorb file contains all the graphics and sound files needed for a game. It can also contain the Z-code for the
+game as well, but does not need to: The game could also be distributed as separate Z-code and Blorb files. If you
+try to load a Blorb file into Windows Frotz that does not contain Z-code, it will ask you to load the
+appropriate Z-code file into the interpreter instead.
+<p>
+Blorb files can contain JPEG and PNG graphics files, AIFF sound samples, and MOD and Ogg Vorbis music files.
+Windows Frotz supports all of these formats, including transparency, opacity and gamma correction for
+PNG graphics. Windows Frotz also supports Kevin Bracey's extensions to the Blorb format for
+<a href="running_infocom.htm#graphics">Infocom's V6 games</a>.
+<p>
+From version 2.0, the Blorb specification also includes iFiction metadata and cover art chunks; Inform 7 can produce
+Blorb files containing these. If present, Windows Frotz uses them to determine the title of the game and to
+populate the <b>Help/About This Game</b> dialog.
+ </body>
+</html>
+

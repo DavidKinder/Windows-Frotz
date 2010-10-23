@@ -1,0 +1,35 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Frotz.chm
+Contents file=Frotz.hhc
+Default Window=help
+Default topic=overview.htm
+Display compile progress=No
+Full-text search=Yes
+Language=0x809 English (United Kingdom)
+Title=Windows Frotz
+
+[WINDOWS]
+help=,"Frotz.hhc",,"overview.htm",,,,,,0x42520,,0x3006,[600,32,1200,632],,,,,,,0
+
+
+[FILES]
+zcode.htm
+archive.htm
+blorb.htm
+credits.htm
+editing_keys.htm
+examples.htm
+getting_started.htm
+infocom.htm
+menus_toolbar.htm
+options.htm
+overview.htm
+running_infocom.htm
+revision.htm
+
+[TEXT POPUPS]
+options.txt
+
+[INFOTYPES]
+

@@ -1,0 +1,64 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Frotz.css">
+ </head>
+ <body>
+<h1>Running Infocom Games</h1>
+
+If you obtain one of Activision's compilations of the Infocom games on CD, or one of the original Infocom
+releases, then the games can be played by loading the <nobr>Z-code</nobr> file into Windows Frotz. For
+all but the V6 graphical games, this is the file ending in <b>.dat</b>. For the V6 games, the <nobr>Z-code</nobr>
+file is the one ending in <b>.zip</b> (which is not to be confused with the zip archive format used by such
+programs as WinZip).
+
+<h2>Games with Sound</h2>
+
+The Amiga release of <b>The Lurking Horror</b> and the Amiga and Macintosh releases of <b>Sherlock</b>
+both play sounds at points in the game.
+<p>
+In order to hear the sounds, the first step is to make sure that the <nobr>Z-code</nobr> game file is one of the
+releases that supports sound. This can be checked by looking at the release number that the game prints
+when it is first started in Windows Frotz: Releases 219 and 221 of <b>The Lurking Horror</b> and
+release 26 of <b>Sherlock</b> support sound. If your <nobr>Z-code</nobr> game file is not one of these releases
+then patches are available to convert it to a suitable release at<br>
+<a href="http://www.ifarchive.org/indexes/if-archiveXinfocomXpatches.html">http://www.ifarchive.org/indexes/if-archiveXinfocomXpatches.html</a>
+<p>
+Windows Frotz does not support the sound files as originally released by Infocom. Kevin Bracey
+has converted these files into the Blorb resource format. The files can be downloaded from<br>
+<a href="http://www.ifarchive.org/indexes/if-archiveXinfocomXmediaXblorb.html">http://www.ifarchive.org/indexes/if-archiveXinfocomXmediaXblorb.html</a>
+<p>
+Make sure that the Blorb sound resource file has the same name as the <nobr>Z-code</nobr> game file (except for the
+<b>.blb</b> extension) and then simply load the <nobr>Z-code</nobr> game file into Windows Frotz. You can test
+that sound is working by entering
+<pre>
+  blow whistle
+  wait
+</pre>
+as the first two commands in <b>Sherlock</b>.
+
+<h2><a name="graphics"></a>Games with Graphics</h2>
+
+Infocom's last four games (<b>Arthur</b>, <b>Journey</b>, <b>Shogun</b> and <b>Zork Zero</b>) were all released
+using an updated version of the Z-Machine, V6. This allowed these games to contain more elaborate graphics than
+previous Infocom games.
+<p>
+Windows Frotz does not support the graphics files as originally released by Infocom. Kevin Bracey has
+developed extensions to the Blorb resource format to allow the Infocom graphics to be converted into Blorb files,
+which can be downloaded from<br>
+<a href="http://www.ifarchive.org/indexes/if-archiveXinfocomXmediaXblorb.html">http://www.ifarchive.org/indexes/if-archiveXinfocomXmediaXblorb.html</a>
+<p>
+Make sure that the Blorb graphics resource file has the same name as the <nobr>Z-code</nobr> game file (except for
+the <b>.blb</b> extension) and then simply load the <nobr>Z-code</nobr> game file into Windows Frotz.
+<p>
+The graphics Infocom included with these games were originally designed for a screen resolution of 320x200. Since
+this is much smaller than screen resolutions today, Windows Frotz has an <a href="options.htm">option</a> to
+set a factor by which these graphics are scaled. A scaling factor of 2 works well for resolutions of 800x600 and
+below; for higher resolutions at least 3 is recommended.
+<p>
+In addition, the Atari ST version of <b>Beyond Zork</b> came with a title picture. This picture has been converted
+to PNG and packaged into a Blorb file, which is available at the link given above for all the other Blorb files. If
+this Blorb file is present then Windows Frotz will show the title picture when <b>Beyond Zork</b> starts.
+ </body>
+</html>
+

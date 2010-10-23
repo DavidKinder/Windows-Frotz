@@ -1,0 +1,48 @@
+.topic 1
+The proportional font used for text in the game.
+.topic 2
+The fixed-width font used for text in the game that needs a particular layout.
+.topic 3
+The size, in points, of the fonts used for text in the game.
+.topic 4
+This factor is used to scale the graphics files for Infocom's V6 games (Arthur, Journey, Shogun and Zork Zero).
+.topic 5
+The default colour for text.
+.topic 6
+The default colour for the background.
+.topic 7
+This code is passed to the game to identify the machine the game is running on.
+.topic 8
+Whether errors in the game cause Frotz to stop, are reported or are suppressed.
+.topic 9
+Whether serious errors are ignored or not.
+.topic 10
+Expands the common abbreviations 'g', 'x' and 'z'. Useful for the older Infocom games.
+.topic 11
+Sets the Tandy flag in the game's header. This causes some of the older Infocom games to behave
+slightly differently.
+.topic 12
+Whether text scrolling is as fast as possible or not.
+.topic 13
+The width, in pixels, of the left display margin.
+.topic 14
+The width, in pixels, of the right display margin.
+.topic 15
+Whether or not the interpreter pauses with a [More] prompt after displaying a screen of text.
+.topic 16
+If selected, then when Frotz starts it makes itself the default application for any Z-code files.
+.topic 17
+Whether text in the script file is line wrapped or not.
+.topic 18
+Whether, for a game with an iFiction record, the About This Game dialog is never shown, only shown
+the first time a game is loaded, or always shown.
+.topic 19
+The user name copied into the game's header. This is only used by a few test versions of Infocom's
+games.
+.topic 20
+If selected, the interpreter will speak all text as it is printed by the game.
+.topic 21
+The voice to speak text with.
+.topic 22
+Sets how quickly the chosen voice speaks the game's text.
+

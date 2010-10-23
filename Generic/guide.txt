@@ -1,0 +1,548 @@
+
+Sorry, I didn't have the time to finish this. This is the first draft
+of what should once become a useful description of Frotz internals.
+
+-- Stefan
+
+---------------
+TECHNICAL GUIDE
+---------------
+
+  In the first place, "Frotz" was designed for MS-DOS only, but since
+  then it has become more and more portable. You are invited to write
+  front-ends for other systems, but before you do so you should email
+  me to avoid double efforts:
+
+    s.jokisch@avu.de
+
+  Frotz is freeware. It may be used and distributed freely provided
+  no commercial profit is involved. (c) 1995-1997 Stefan Jokisch
+
+~~~ Contents of this file ~~~
+
+  (1) Manifest
+
+  (2) The Frotz core
+
+     i. C language
+    ii. usage of the standard C library
+   iii. constants to set at compile time
+    iv. memory management
+     v. file management
+    vi. IO architecture (simplified)
+   vii. bells and whistles
+  viii. Infocom bug fixes
+
+  (3) The Frotz IO interface
+
+     i. short overview
+    ii. improving the interface
+
+  (4) Changes in the new release
+
+     i. new features and bug fixes
+    ii. what porters of V2.01 should be aware of
+
+~~~ (1) Manifest ~~~
+
+  The source code consists of the following files:
+
+  BUFFER.C	-- high-level output routines
+  FASTMEM.C 	-- undo, restart, save, restore and verify opcodes
+  FILES.C 	-- text file handling
+  GETOPT.C 	-- replacement for a Unix-style getopt function
+  HOTKEY.C 	-- hot key implementation (e.g. multiple undo)
+  INPUT.C 	-- high-level input routines
+  MAIN.C 	-- main routine and global variables
+  MATH.C 	-- arithmetic, boolean and comparison opcodes
+  OBJECT.C 	-- object and property manipulation opcodes
+  PROCESS.C 	-- interpreter loop and controlling opcodes
+  RANDOM.C 	-- random number generator
+  REDIRECT.C 	-- output stream #3
+  SCREEN.C 	-- generic screen manipulation routines
+  SOUND.C 	-- sound_effect opcode
+  STREAM.C 	-- control of input and output streams
+  TABLE.C 	-- opcodes to manipulate table structures
+  TEXT.C 	-- text encoding and decoding
+  VARIABLE.C 	-- Z-machine variables and stack
+  FROTZ.H 	-- include file for all the above modules
+
+  GENERIC.C	-- generic interface using stdio
+
+  BC_INIT.C 	-- Borland C interface, initialisation
+  BC_INPUT.C 	-- Borland C interface, input functions
+  BC_MOUSE.C 	-- Borland C interface, mouse support
+  BC_PIC.C 	-- Borland C interface, picture functions
+  BC_SMPL.C 	-- Borland C interface, sound support
+  BC_SCRN.C 	-- Borland C interface, screen manipulation
+  BC_TEXT.C 	-- Borland C interface, text functions
+  BC_FROTZ.H 	-- Borland C interface, declarations
+
+  Sorry, there is still no makefile.
+
+~~~ (2) The Frotz core ~~~
+
+i. C language
+
+  Frotz is written in ANSI C. It consists of a platform independent
+  core and a platform specific IO interface. The code assumes that
+  characters from #32 to #126 refer to the standard ASCII character
+  set. It also relies on the following data type sizes:
+
+    char... 1 byte
+    short.. 2 bytes
+    int.... 2 bytes or more
+    long... 4 bytes or more
+
+  A character may be signed or unsigned.
+
+ii. usage of the standard C library
+
+  Only two modules of the core, "files.c" and "fastmem.c", make use
+  of the standard C library; and even these two modules need just a
+  handful of functions. This way you can hardly expect any troubles
+  arising from sloppy library implementations, and as an additional
+  benefit, it is possible to create small Frotz executables. Here's
+  a list of all library functions required:
+
+  <stdio.h>
+    fopen, fclose, fgetc, fputc, fread, fwrite, fseek, ftell, ferror
+  <stdlib.h>
+    malloc, realloc, free
+  <string.h>
+    memcpy, strchr, strcpy, strlen
+
+  Finally, the constants EOF, NULL, SEEK_CUR, SEEK_END, SEEK_SET and
+  the data type FILE are used, too. The core itself sets the SEEK_***
+  constants if your C compiler fails to do so.
+
+iii. constants to set at compile time
+
+  There are a few self-explanatory constants you may want to set:
+
+  MAX_FILE_NAME		[default 80]
+  TEXT_BUFFER_SIZE	[default 200]
+  INPUT_BUFFER_SIZE	[default 200]
+  STACK_SIZE		[default 1024]
+  MAX_UNDO_SLOTS	[default 25]
+
+  Furthermore, there are constants for defining default file names:
+
+  DEFAULT_SAVE_NAME 	[default "story.sav"]
+  DEFAULT_SCRIPT_NAME 	[default "story.scr"]
+  DEFAULT_COMMAND_NAME	[default "story.rec"]
+  DEFAULT_AUXILARY_NAME	[default "story.aux"]
+
+  You can also create file names at run time (e.g. "zork1.sav").
+
+iv. memory management
+
+  Unlike "Zip", Frotz doesn't implement virtual memory: The entire
+  story file is loaded into one big chunk of memory (up to 512KB).
+  Consequentely, the C compiler's malloc/realloc/free functions as
+  well as its pointer variables must be able to deal with such big
+  chunks. If this is not the case, then there's still hope. Memory
+  access is channelled through a number of macros in "frotz.h":
+
+  LOW_BYTE(addr,v) - given a 16 bit address and an 8 bit variable,
+	store the byte at the address in the variable
+  LOW_WORD(addr,v) - given a 16 bit address and a 16 bit variable,
+	store the word at the address in the variable
+  SET_BYTE(addr,v) - given a 16 bit address and an 8 bit variable,
+	store the value of the variable in the byte at the address
+  SET_WORD(addr,v) - given a 16 bit address and a 16 bit variable,
+	store the value of the variable in the word at the address
+  CODE_BYTE(v) - given an 8 bit variable,
+	store the value of the variable at PC and increment PC by 1
+  CODE_WORD(v) - given a 16 bit variable,
+	store the value of the variable at PC and increment PC by 2
+  HIGH_WORD(addr,v) - given a 32 bit address and an 8 bit variable,
+	store the word at the address in the variable
+  GET_PC(v) - given a 32 bit variable,
+	store PC (i.e. program counter) in the variable
+  SET_PC(v) - given a 32 bit variable,
+	set PC (i.e. program counter) to the value of the variable
+
+  The header file "frotz.h" contains generic defintions for these
+  macros which work for every system that doesn't suffer from any
+  64KB limitations. If your compiler cannot handle this, you will
+  have to change the macros as well as "fastmem.c". The same will
+  also be necessary if you wish to implement virtual memory. When
+  re-writing the ****_WORD macros, note that the Z-machine stores
+  16 bit values MSB-LSB, i.e. the high byte comes first.
+
+v. file management
+
+  Frotz knows about several different file types. The most important
+  one is the story file which is kept open all the time. Other files
+  types are needed during play. The core uses one of the following
+  constants to tell the IO interface what type of file it would like
+  to open:
+
+  FILE_RESTORE - a game file containing a saved game state,
+	to be opened for reading
+  FILE_SAVE - same as above,
+	to be opened for writing
+  FILE_PLAYBACK - a command file containing the player's commands,
+	to be opened for reading
+  FILE_RECORD - same as above,
+	to be opened for writing
+  FILE_LOAD_AUX - an auxilary file (see below),
+	to be opened for reading
+  FILE_SAVE_AUX - same as above,
+	to be opened for writing
+  FILE_SCRIPT - a transscription of the game output,
+	to be opened for writing
+
+  All file formats are independend of the interface or OS used.
+
+  Saved games are stored in a compressed format; the implementation
+  of the save opcode gives an implicit definition. (Since the state
+  of the stack is part of the game file you might also want to look
+  at the "call" function for the stack format.) Auxilary files are
+  only used by V6 games, usually in order to save a function key
+  definition to disk (see the "Specification of the Z-machine" for
+  further information). Command and transcript files are plain text
+  files. Frotz replaces European characters with their substitutes,
+  e.g. "ae" for a-umlaut, before sending them to the transscript.
+
+vi. IO architecture (simplified)
+
+		    +------------+
+		    |   text.c   | --- TEXT DECODING
+		    +------------+
+			  ||
+			  || print_char, new_line.
+			  ||
+		    +------------+
+		    |  buffer.c  | --- WORD CONSTRUCTION
+		    +------------+
+			  ||
+			  || stream_word, stream_new_line.
+			  ||
+		    +------------+
+		    |  stream.c  | --- DISTRIBUTION
+		   /+------------+\
+		  //      ||      \\
+	     [1] //       || [2]   \\ [3]
+		//        ||        \\
+  +------------+/   +------------+   \+------------+
+  |  files.c   |    | redirect.c |    |  screen.c  | --- OUTPUT STREAMS
+  +------------+    +------------+    +------------+
+    <stdio.h>          SET_BYTE        IO interface
+
+	[1] script_word, script_new_line.
+	[2] memory_word, memory_new_line.
+	[3] screen_word, screen_new_line.
+
+		    +------------+
+		    |  input.c   | --- HIGH LEVEL INPUT
+		    +------------+
+			  ||
+			  || stream_read_input, stream_read_key.
+			  ||
+		    +------------+
+	............|  stream.c  |........... --- SWITCH
+	.	   /+------------+\         .
+	. 	  //      .       \\        .
+    [3] .    [1] //       . [5]    \\ [2]   . [4]
+	. 	//        .         \\      .
+  +------------+/         .          \+------------+
+  |  files.c   |...........           |  screen.c  | --- IO STREAMS
+  +------------+                      +------------+
+    <stdio.h>                          IO interface
+
+	[1] replay_read_input, replay_read_key.
+	[2] console_read_input, console_read_key.
+	[3] script_write_input, script_erase_input.
+	[4] screen_write_input, screen_erase_input.
+	[5] record_write_input, record_write_key.
+
+vii. bells and whistles
+
+  Frotz implements some more or less useful gimmicks. The interface
+  switches these options on and off using the following variables:
+
+  option_attribute_assignment
+    generate a message whenever object attributes change
+  option_attribute_testing
+    generate a message whenever object attributes are tested
+  option_object_movement
+    generate a message whenever objects move
+  option_object_locating
+    generate a message whenever objects are located
+  option_context_lines
+    the number of context lines to keep when scrolling
+  option_left_margin
+    the initial width of the left margin in window 0 (screen units)
+  option_right_margin
+    the initial width of the right margin in window 0 (screen units)
+  option_piracy
+    make the piracy opcode behave as if the game was an illegal copy
+  option_undo_slots
+    the (maximum) number of slots for multiple undo
+  option_expand_abbreviations
+    expand g, x, z ==> again, examine, wait
+
+  The "option_context_lines" only takes effect if at least two MORE
+  prompts appear between two consequent input activities. The first
+  MORE prompt always appears when the last input line reaches the
+  top of the window; the timing of all following prompts depends on
+  this option. The "option_piracy" is somewhat pointless as no game
+  makes use of the piracy opcode. (DOS Frotz offers an undocumented
+  switch -p to activate it, anyway.) The "option_undo_slots" cannot
+  exceed the upper limit set by MAX_UNDO_SLOTS. Of course, the real
+  number of undo slots is also limited by the size of available RAM.
+  Finally, the "option_expand_abbreviations" has been made for old
+  games that lack common abbreviations g, x, z. It's only an option
+  since it could cause trouble if a game used g, x, z for something
+  else (e.g. "catch mister x").
+
+viii. Infocom bug fixes
+
+  Beyond Zork Release 47
+  Beyond Zork Release 49
+  Beyond Zork Release 51
+  Beyond Zork Release 57
+
+    Application of get_prop_adr to a non-object stores 0.
+
+  Lurking Horror Release 219
+  Lurking Horror Release 221
+
+    Frotz pauses to make sure that each sound in a sequence is
+    played completely.
+
+  Sherlock Release 21
+  Sherlock Release 26
+
+    Attempts to modify attribute #48 do nothing.
+
+  Wishbringer Solid Gold Release 23
+
+    Use of show_status is ignored.
+
+  Zork I German Release 3
+
+    When running a V5 game, the Frotz core pretends the font size is
+    1x1 -- even if the IO interface calculates in screen units. This
+    way Frotz avoids the bug in "Zork 1 German".
+
+~~~ (3) The Frotz IO interface ~~~
+
+i. short overview
+
+  This isn't a complete definition of all interface functions. See
+  the comments in the Borland C interface for more information on
+  that subject. (You can identify IO interface functions easily as
+  their names are prefixed "os_".) This is a sketchy collection of
+  general remarks concerning the IO interface.
+
+  (a) screen
+
+  The screen is a rectangular area divided into "screen units", i.e.
+  pixels or characters or anything in between. Its top left corner
+  has coordinates (1,1). The width and height of the screen are set
+  by the interface and stored in h_screen_width and h_screen_height.
+
+  (b) cursor
+
+  A cursor marks the screen coordinates where text input and output
+  take place. The cursor can be turned on or off, i.e. made visible
+  or invisible. It can be moved anywhere on the screen; its current
+  coordinates, however, cannot be asked for.
+
+  (c) text
+
+  Text is printed using the current set of attributes: font, style,
+  and colours. Possible settings of these attributes -- as well as
+  the character codes allowed -- are defined in the "Specification
+  of the Z-machine". Attributes can change at any time, even in the
+  middle of a string: The special codes NEW_FONT/NEW_STYLE are used
+  to signal such changes within a string of character codes.
+
+  (d) text format
+
+  The interface stores the width and height of its fixed width font
+  in h_font_width and h_font_height. As usual, width and height are
+  measured in screen units; old systems with a text mode should set
+  this to 1x1. There is also a function to ask for the availability
+  and format of various fonts. Finally, one can calculate the width
+  of a character or string before printing it.
+
+  (e) keyboard
+
+  The interface is able to read both single keystrokes and complete
+  input lines from the keyboard; see the "Specification" for a list
+  of legal input key codes. The core may set a time limit such that
+  input gets interrupt as soon as this limit is hit. The return key
+  (code 13) usually finishes an input line, but some games also use
+  other keys as input terminators. The core offers is_terminator to
+  recognize terminating keys.
+
+  (f) mouse
+
+  Frotz distinguishes between single and double mouse clicks. These
+  are both treated like ordinary keystrokes except that the current
+  mouse arrow coordinates are written to "mouse_x" and "mouse_y".
+
+  (g) pictures
+
+  All four V6 games released by Infocom display pictures which come
+  in separate graphics files; only "Arthur" can also be run without
+  pictures. Because the graphics files came in different formats on
+  different machines, it's up to the IO interface to decompress and
+  draw the pictures. The interface can also report the availability
+  and format of a given picture before it is drawn.
+
+  --> see BC_PIC.C for an implicit definition of the graphics file
+      format
+  --> MCGA graphics files for all four V6 game are available from
+      the if-archive at ftp.gmd.de
+
+  (h) sound
+
+  There may be a collection of sampled sounds accompanying the story
+  file. The core tells the interface to load, play, stop and remove
+  individual sounds. The volume can be set in the range from 1 to 8.
+  A sound can be played once, several times or in an infinite loop.
+  The IO interface signals the end of a sound to the core by calling
+  the end_of_sound function.
+
+  --> see BC_SMPL.C for an implicit definition of the sound file
+      format
+  --> sound files for Sherlock and The Lurking Horror are available
+      from the if-archive at ftp.gmd.de.
+  --> the same site also offers a description of the various sound
+      file format used by Infocom
+
+ii. improving the interface
+
+  This section contains a number of suggestions that would make nice,
+  but not necessary additions to your IO interface.
+
+  (a) input line editing and history
+
+  It's up to the IO interface to implement input line editing and/or
+  history. There is only one problem: A few games (Beyond Zork, Zork
+  0, Shogun) use the arrow keys as input terminators. DOS Frotz uses
+  the following strategy to solve this conflict:
+
+  - arrow keys are editing keys in window 0 (i.e. if cwin == 0)
+  - arrow keys are input terminators otherwise
+  - page up/down is a replacement for terminating arrow up/down
+
+  This should work very well except for two limitations. First, in
+  Shogun and Zork 0 the player can no longer move along the cardinal
+  directions using the arrow keys. In particular, to walk through
+  the city streets close to the end of Shogun, he must use a mouse
+  or type n/s/e/w plus return. Second, when the room description no
+  longer fits into the status window of Beyond Zork, the player must
+  press page up/down instead of arrow up/down to scroll the text.
+
+  (b) aliases
+
+  Christopher Madsen has added support for aliases to his OS/2 port
+  of Frotz. His source code is available at the if-archive.
+
+  (c) word completion
+
+  See the function completion in TEXT.C.
+
+  (d) intelligent default file names
+
+  The core usually suggests default file names like "story.sav" or
+  "story.scr". If you prefer file names deduced from the story title
+  like "zork1.sav" or "zork1.scr", you should add the lines
+
+  extern char script_name[];
+  extern char command_name[];
+  extern char save_name[];
+  extern char auxilary_name[];
+
+  to your IO interface and modify os_process_arguments to create the
+  file names you like.
+
+  (e) scroll back
+
+  So far nobody has dared to implement a scroll back feature to view
+  text that has already been scrolled off the screen. There are good
+  reasons not to try: With moving, re-sizing and overlapping windows
+  there is hardly hope for a clean, reliable solution; not to speak
+  of pictures and other oddities in the text window. However, it may
+  be feasible to send the game transscript to an alternative screen
+  and implement scroll back for this "transscript screen".
+
+  (f) right justified text
+
+  David Kinder's Amiga port already offers right justified text as
+  an option. You need to implement an additional text buffer which
+  collects text for window 0 until a line is complete. Justify the
+  text whenever the word wrapping algorithm inserts a newline; see
+  screen_word in SCREEN.C.
+
+  (g) re-sizeable screen
+
+  ###
+
+~~~ (4) Changes in the new release ~~~
+
+i. new features and bug fixes
+
+  ###
+
+ii. what porters of V2.01 should be aware of
+
+  * The module MENU.C has gone; its contents have moved to INPUT.C.
+
+  * A new module REDIRECT.C has been split off STREAM.C.
+
+  * Frotz V2.22 comes with a built-in random number generator. As a
+    benefit, command files have become more portable. On the other
+    hand, old command files (recorded with previous Frotz releases)
+    might fail as random events work differently.
+
+  * The new interface function "os_random_seed" returns a random
+    seed value in the range from 0 to 32767.
+
+  * The interface functions os_message_on and os_message_off have
+    been removed. There are generic replacements in SCREEN.C.
+
+  * Last time the CONFIG_PICTURES bit has been forgotten; it should
+    be set by os_init_screen in a V6 game if the interface can draw
+    pictures. This bit doesn't have any effect, though.
+
+  * The interface function os_mouse_area has been removed. SCREEN.C
+    automatically ignores clicks outside the current mouse window.
+
+  * The following input functions have been renamed (sorry):
+      os_get_file_name	--> os_read_file_name
+      os_read 		--> os_read_line
+      os_read_char 	--> os_read_key
+
+  * If os_read_file_name (former os_get_file_name) needs to prompt
+    for a file name (i.e. if it doesn't open a file requester), the
+    comments in DOS Frotz V2.01 suggested to use display_string and
+    display_new_line. This is no longer true; see BC_INPUT.C.
+
+  * os_read_line (former os_read) has a new parameter "continued".
+    This flag was introduced because the timeouts in Border Zone
+    used to reset any input line history search once per second --
+    a confusing experience for the user. Now the interface has the
+    chance to preserve the previous state if this flag is set.
+
+  * os_read_key (former os_read_char) is now allowed to return hot
+    key codes.
+
+  * A new function os_font_data replaces os_font_available. It has
+    the same syntax as os_picture_data and returns the font format
+    to the caller. This was previously done by os_set_font.
+
+  * The function os_display_string must now be able to handle style
+    and font changes similar to os_string_width. See BC_PRNT.C.
+
+  * IO interfaces that used or set the "beyond_zork_flag" and the
+    "german_zork_flag" need to be re-written: These two variables
+    have been replaced by "story_id". See FASTMEM.C.
+
+  * The constant "DEFAULT_COLOUR" has gone.

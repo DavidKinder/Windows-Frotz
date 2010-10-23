@@ -1,0 +1,140 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Frotz.css">
+ </head>
+ <body>
+<h1>Changing Options</h1>
+From the Options dialog, you can change display and interpreter options of Windows Frotz.
+<p>
+Note that when the Z-Machine was designed, computers usually had fixed displays, so little thought was put into
+allowing the game and interpreter to cope with changes to the screen size, font or colour settings during a
+game. Windows Frotz does its best to cope with display option changes, but occasionally it may prove
+necessary to restart or restore a saved position to get the game to run correctly with changed display options.
+<p>
+<h2>Display</h2>
+<p>
+<b>Font</b><br>
+The proportional font used for text in the game.
+<p>
+<b>Fixed width font</b><br>
+The fixed-width font used for text in the game that needs a particular layout, such as the status bar, or any
+maps or symbols the game might display.
+<p>
+<b>Font size</b><br>
+The size, in points, of the fonts used for text in the game. This applies to both the proportional and fixed
+width fonts.
+<p>
+<b>V6 scaling</b><br>
+The factor used to scale the graphics files for <a href="running_infocom.htm#graphics">Infocom's V6 games</a>.
+<p>
+<b>Text colour</b><br>
+The default colour for text. Unless the game explicitly chooses a colour, this colour will be used for all text
+in the game.
+<p>
+<b>Background colour</b><br>
+The default colour for the background. Unless the game explicitly chooses a colour, this colour will be used for
+the background.
+<p>
+<b>Left margin</b><br>
+The width, in pixels, of the left display margin.
+<p>
+<b>Right margin</b><br>
+The width, in pixels, of the right display margin.
+<p>
+<b>Fast scrolling</b><br>
+If this option is selected, text is scrolled as fast as possible.
+<p>
+<b>Show [More] prompts</b><br>
+If this option is selected, the interpreter pauses with a <b>[More]</b> prompt after displaying a screen of text.
+
+<p>
+<h2>Interpreter</h2>
+<p>
+<b>Interpreter number</b><br>
+The code passed to the game to identify the machine the game is running on. This is used by a few of the later
+Infocom games to change the appearance of the game. For example, by default <b>Zork Zero</b> has a black
+background, but if the interpreter number is <b>Amiga</b> the background is grey (from version 366), and if
+the interpreter number is <b>MSDOS</b> the background is white (from version 387). Also, <b>Journey</b> adds
+an extra menu to the interpreter window only when the interpreter number is <b>Macintosh</b>.
+<p>
+<b>Report errors</b><br>
+The rule the interpreter follows on encountering an error in the game that is not serious enough for it to
+have to stop.
+The choices are:
+<table border="0" cellpadding="2" cellspacing="0">
+  <tr>
+    <td nowrap><strong>Never</strong></td>
+    <td>Never show any messages. All errors are silently ignored.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>First time</strong></td>
+    <td>Show a message the first time the error occurs, and silently ignore it after that.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Always</strong></td>
+    <td>Always show a message when an error occurs.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Fatal error</strong></td>
+    <td>Treat all errors as fatal errors. When an error occurs the interpreter will stop.</td>
+  </tr>
+</table>
+<p>
+<b>Ignore runtime errors</b><br>
+If this option is selected, the interpreter will attempt to continue, even if it encounters a serious error in
+the game. It is recommended that this option not be selected unless you are trying to run a game for which source
+is not available and the author cannot be contacted.
+<p>
+<b>Username</b><br>
+This option sets the eight character user name that is copied into the game's header when the game is
+started. This is only used by a few test versions of Infocom's games.
+<p>
+<b>Expand abbreviations</b><br>
+With their later games, Infocom introduced the shortcut commands <b>g</b>, <b>x</b> and <b>z</b> as synonyms
+for the commands <b>again</b>, <b>examine</b> and <b>wait</b>, respectively. If this option is selected, the
+interpreter will expand these shortcuts into the full command, even if the game does not support it. This is
+useful for playing the older Infocom adventures.
+<p>
+<b>Set the Tandy header flag</b><br>
+This option sets or clears a flag in the game's header that was used by Infocom to indicate a game being
+sold through the Tandy Corporation. This causes some of the older Infocom games to behave slightly differently.
+For further information, see<br>
+<a href="http://www.ifarchive.org/if-archive/infocom/info/tandy_bits.html">http://www.ifarchive.org/if-archive/infocom/info/tandy_bits.html</a>
+<p>
+<b>Wrap script lines</b><br>
+If selected, all output sent to the transcript file is wrapped so that no line is longer than 80 characters.
+Otherwise, a new line is only started in the transcript file when the game generates a carriage return, such
+as at the end of a paragraph.
+
+<p>
+<h2>Startup</h2>
+<p>
+<b>If the game has an iFiction record ...</b><br>
+When Frotz loads a game that contains an iFiction record, it may show the <b>About This Game</b> dialog.
+This option determines whether the dialog is never shown, only shown the first time, or shown every time.
+<p>
+<b>Set Frotz as the default ...</b><br>
+If selected, then when Frotz is started it registers itself with Windows Explorer, so that double clicking
+on a Z-code file (i.e. a file ending with .z1, .z2, .z3, .z4, .z5, .z6, .z7 or .z8) runs Frotz and opens
+that file.
+Note that this option is only available under versions of Windows prior to Vista, as Windows' User Account
+Control feature prevents such registration.
+
+<p>
+<h2>Speech</h2>
+<p>
+Note that this option page is only shown if the computer has Microsoft's Speech API version 5 installed on it.
+<p>
+<b>Speak text as it is printed</b><br>
+When this option is selected, the interpreter will speak all text as it is printed by the game.
+<p>
+<b>Voice</b><br>
+The voice to speak text with.
+<p>
+<b>Speed</b><br>
+This slider controls how quickly the chosen voice speaks the game's text.
+
+ </body>
+</html>
+

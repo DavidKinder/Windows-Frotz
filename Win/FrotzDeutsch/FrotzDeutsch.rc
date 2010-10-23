@@ -1,0 +1,622 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_FROTZ MENU 
+BEGIN
+    POPUP "&Datei"
+    BEGIN
+        MENUITEM "&Neues Spiel...\tStrg+N",     ID_FILE_NEW
+        MENUITEM "Spielstand &laden...\tStrg+O", ID_FILE_OPEN
+        MENUITEM "Spielstand &speichern...\tStrg+S", ID_FILE_SAVE
+        MENUITEM "Skriptausführung s&toppen\tCtrl+T", ID_FILE_STOP
+        MENUITEM SEPARATOR
+        MENUITEM "&Beenden\tAlt+F4",            ID_APP_EXIT
+    END
+    POPUP "&Ansicht"
+    BEGIN
+        MENUITEM "S&ymbolleiste",               ID_VIEW_TOOLBAR
+        MENUITEM "&Statusleiste",               ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Einstellungen...\tStrg+P",   ID_VIEW_OPTIONS
+        MENUITEM "Sc&rollen\tStrg+L",           ID_VIEW_SCROLLBACK
+    END
+    POPUP "&Hilfe"
+    BEGIN
+        MENUITEM "&Hilfethemen",                ID_HELP_FINDER
+        POPUP "Internet Links"
+        BEGIN
+            MENUITEM "Windows Frotz",           ID_LINKS_FROTZ
+            MENUITEM SEPARATOR
+            MENUITEM "The Interactive Fiction Archive", ID_LINKS_ARCHIVE
+            MENUITEM "Z-code Games at the IF Archive", ID_LINKS_ZCODE
+            MENUITEM "Baf's Guide to the IF Archive", ID_LINKS_BAF
+            MENUITEM "Interactive Fiction Database", ID_LINKS_IFDB
+            MENUITEM SEPARATOR
+            MENUITEM "IF Wiki",                     ID_LINKS_IFWIKI
+            MENUITEM "IF Competition",              ID_LINKS_IFCOMP
+            MENUITEM "IF Art Show",                 ID_LINKS_ARTSHOW
+            MENUITEM SEPARATOR
+            MENUITEM "Inform 7",                    ID_LINKS_INFORM7
+            MENUITEM "Inform 6",                    ID_LINKS_INFORM6
+            MENUITEM "Inform 6 FAQ and Beginner's Guide", ID_LINKS_FAQ
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Über dieses &Spiel",          ID_APP_ABOUT_GAME
+        MENUITEM "&Über Windows Frotz",         ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUT DIALOGEX 0, 0, 288, 64
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Über Windows Frotz"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         139,IDC_LOGO,"Static",SS_BITMAP | SS_SUNKEN,42,3,175,38
+    GROUPBOX        "Info",IDC_BORDER,3,7,282,33
+    CONTROL         "",IDC_INFO,"RichEdit20A",ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN,8,18,272,17,
+                    WS_EX_TRANSPARENT
+    DEFPUSHBUTTON   "OK",IDOK,96,45,96,14
+END
+
+IDD_OPTIONS_DISPLAY DIALOGEX 0, 0, 212, 147
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_CONTEXTHELP
+CAPTION "Anzeige"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "&Schriftart",IDC_STATIC,6,4,36,8
+    COMBOBOX        IDC_PROP_FONT,6,14,198,64,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Schriftart mit fester &Breite",IDC_STATIC,6,32,99,8
+    COMBOBOX        IDC_FIXED_FONT,6,42,198,64,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Schrift&grad",IDC_STATIC,6,63,38,8
+    COMBOBOX        IDC_FONT_SIZE,53,62,38,64,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&V6 Skalierung",IDC_STATIC,101,63,48,8
+    COMBOBOX        IDC_V6_SCALE,154,62,38,64,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Text&farbe",IDC_STATIC,6,83,37,8
+    PUSHBUTTON      "",IDC_TEXT_COLOUR,53,81,38,13
+    LTEXT           "&Hintergrund",IDC_STATIC,101,83,39,8
+    PUSHBUTTON      "",IDC_BACK_COLOUR,153,81,38,13
+    LTEXT           "Te&xtabstand Links",IDC_STATIC,6,99,43,16
+    EDITTEXT        IDC_LEFT_MARGIN,53,101,38,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Textabstand &Rechts",IDC_STATIC,101,99,42,16
+    EDITTEXT        IDC_RIGHT_MARGIN,153,101,38,13,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "S&chnelles Scrollen",IDC_FAST_SCROLL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,120,98,9
+    CONTROL         "[&Weiter] anzeigen",IDC_MORE_PROMPT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,132,85,9
+END
+
+IDD_OPTIONS_INTERPRETER DIALOGEX 0, 0, 212, 111
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_CONTEXTHELP
+CAPTION "Interpreter"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "&Interpreter-Nummer",IDC_STATIC,6,4,77,8
+    COMBOBOX        IDC_TERP_NUMBER,6,14,97,64,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Fehlermeldungen",IDC_STATIC,6,32,76,8
+    COMBOBOX        IDC_ERRORS,6,42,97,58,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Ben&utzername",IDC_STATIC,108,32,72,8
+    EDITTEXT        IDC_USERNAME,108,42,96,12,ES_AUTOHSCROLL
+    CONTROL         "Laufzeitfehler &ignorieren",IDC_IGNORE_RUNTIME,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,61,114,9
+    CONTROL         "Abkürzungen &expandieren",IDC_EXPAND,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,73,110,9
+    CONTROL         "&Tandy-Flag setzen",IDC_TANDY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,6,85,97,9
+    CONTROL         "Automatischer &Zeilenumbruch",IDC_WRAP_SCRIPT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,97,124,9
+END
+
+IDD_OPTIONS_STARTUP DIALOGEX 0, 0, 211, 67
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_CONTEXTHELP
+CAPTION "Programmstart"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Wenn das Spiel einen iFi&ction Eintrag hat, den Dialog anzeigen",
+                    IDC_LABEL_IFICTION,6,11,108,18
+    COMBOBOX        IDC_SHOW_IFICTION,115,14,90,58,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Frotz als Sta&ndardprogramm zum Öffnen von Z-code Dateien im Windows Explorer festlegen",
+                    IDC_REGISTER_FILETYPES,"Button",BS_AUTOCHECKBOX | 
+                    BS_MULTILINE | WS_TABSTOP,6,36,175,17
+END
+
+IDD_OPTIONS_SPEECH DIALOGEX 0, 0, 211, 88
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_CONTEXTHELP
+CAPTION "Rede"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Text &vorlesen wie es gedruckt wird",IDC_SPEAK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,7,134,8
+    LTEXT           "&Stimme",IDC_STATIC,7,24,26,9
+    COMBOBOX        IDC_VOICE,36,22,164,95,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Spee&d",IDC_STATIC,7,45,22,8
+    CONTROL         "",IDC_SPEECH_RATE,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,36,42,164,13,WS_EX_TRANSPARENT
+END
+
+IDD_SCROLLBACK DIALOGEX 0, 0, 288, 121
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+CAPTION "Scrollen"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Fenster schließen",IDOK,2,2,65,13
+    PUSHBUTTON      "Markierten Text in die Zwischenablage kopieren",
+                    IDC_COPY,73,2,170,13
+    CONTROL         "",IDC_TEXT,"RichEdit20A",ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP,2,17,283,100
+END
+
+IDD_LOADGAME DIALOGEX 0, 0, 200, 12
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Spielstände im Quetzal-Format speichern und laden",
+                    IDC_QUETZAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,0,
+                    181,9
+END
+
+IDD_ABOUTGAME DIALOGEX 0, 0, 111, 68
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,47,97,14
+    CONTROL         "",IDC_INFO,"RichEdit20A",ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | 
+                    WS_VSCROLL,7,7,97,34
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_OPTIONS DLGINIT
+BEGIN
+    IDC_FONT_SIZE, 0x403, 2, 0
+0x0038, 
+    IDC_FONT_SIZE, 0x403, 2, 0
+0x0039, 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3831, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3032, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3232, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3432, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3632, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3832, "\000" 
+    IDC_V6_SCALE, 0x403, 2, 0
+0x0031, 
+    IDC_V6_SCALE, 0x403, 2, 0
+0x0032, 
+    IDC_V6_SCALE, 0x403, 2, 0
+0x0033, 
+    IDC_V6_SCALE, 0x403, 2, 0
+0x0034, 
+    IDC_TERP_NUMBER, 0x403, 7, 0
+0x4544, 0x2043, 0x3032, "\000" 
+    IDC_TERP_NUMBER, 0x403, 10, 0
+0x7041, 0x6c70, 0x2065, 0x4949, 0x0065, 
+    IDC_TERP_NUMBER, 0x403, 10, 0
+0x614d, 0x6963, 0x746e, 0x736f, 0x0068, 
+    IDC_TERP_NUMBER, 0x403, 6, 0
+0x6d41, 0x6769, 0x0061, 
+    IDC_TERP_NUMBER, 0x403, 9, 0
+0x7441, 0x7261, 0x2069, 0x5453, "\000" 
+    IDC_TERP_NUMBER, 0x403, 6, 0
+0x534d, 0x4f44, 0x0053, 
+    IDC_TERP_NUMBER, 0x403, 8, 0
+0x4243, 0x204d, 0x3231, 0x0038, 
+    IDC_TERP_NUMBER, 0x403, 7, 0
+0x4243, 0x204d, 0x3436, "\000" 
+    IDC_TERP_NUMBER, 0x403, 10, 0
+0x7041, 0x6c70, 0x2065, 0x4949, 0x0063, 
+    IDC_TERP_NUMBER, 0x403, 11, 0
+0x7041, 0x6c70, 0x2065, 0x4949, 0x7367, "\000" 
+    IDC_TERP_NUMBER, 0x403, 6, 0
+0x6154, 0x646e, 0x0079, 
+    IDC_ERRORS, 0x403, 6, 0
+0x654b, 0x6e69, 0x0065, 
+    IDC_ERRORS, 0x403, 22, 0
+0x6542, 0x6d69, 0x6520, 0x7372, 0x6574, 0x206e, 0x7541, 0x7466, 0x6572, 
+0x6574, 0x006e, 
+    IDC_ERRORS, 0x403, 6, 0
+0x6d49, 0x656d, 0x0072, 
+    IDC_ERRORS, 0x403, 19, 0
+0x6542, 0x2069, 0x6546, 0x6c68, 0x7265, 0x6220, 0x6565, 0x646e, 0x6e65, 
+"\000" 
+    IDC_SHOW_IFICTION, 0x403, 6, 0
+0x654b, 0x6e69, 0x0065, 
+    IDC_SHOW_IFICTION, 0x403, 22, 0
+0x6542, 0x6d69, 0x6520, 0x7372, 0x6574, 0x206e, 0x7541, 0x7466, 0x6572, 
+0x6574, 0x006e, 
+    IDC_SHOW_IFICTION, 0x403, 6, 0
+0x6d49, 0x656d, 0x0072, 
+    0
+END
+
+IDD_OPTIONS_DISPLAY DLGINIT
+BEGIN
+    IDC_FONT_SIZE, 0x403, 2, 0
+0x0038, 
+    IDC_FONT_SIZE, 0x403, 2, 0
+0x0039, 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3831, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3032, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3232, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3432, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3632, "\000" 
+    IDC_FONT_SIZE, 0x403, 3, 0
+0x3832, "\000" 
+    IDC_V6_SCALE, 0x403, 2, 0
+0x0031, 
+    IDC_V6_SCALE, 0x403, 2, 0
+0x0032, 
+    IDC_V6_SCALE, 0x403, 2, 0
+0x0033, 
+    IDC_V6_SCALE, 0x403, 2, 0
+0x0034, 
+    0
+END
+
+IDD_OPTIONS_INTERPRETER DLGINIT
+BEGIN
+    IDC_TERP_NUMBER, 0x403, 7, 0
+0x4544, 0x2043, 0x3032, "\000" 
+    IDC_TERP_NUMBER, 0x403, 10, 0
+0x7041, 0x6c70, 0x2065, 0x4949, 0x0065, 
+    IDC_TERP_NUMBER, 0x403, 10, 0
+0x614d, 0x6963, 0x746e, 0x736f, 0x0068, 
+    IDC_TERP_NUMBER, 0x403, 6, 0
+0x6d41, 0x6769, 0x0061, 
+    IDC_TERP_NUMBER, 0x403, 9, 0
+0x7441, 0x7261, 0x2069, 0x5453, "\000" 
+    IDC_TERP_NUMBER, 0x403, 6, 0
+0x534d, 0x4f44, 0x0053, 
+    IDC_TERP_NUMBER, 0x403, 8, 0
+0x4243, 0x204d, 0x3231, 0x0038, 
+    IDC_TERP_NUMBER, 0x403, 7, 0
+0x4243, 0x204d, 0x3436, "\000" 
+    IDC_TERP_NUMBER, 0x403, 10, 0
+0x7041, 0x6c70, 0x2065, 0x4949, 0x0063, 
+    IDC_TERP_NUMBER, 0x403, 11, 0
+0x7041, 0x6c70, 0x2065, 0x4949, 0x7367, "\000" 
+    IDC_TERP_NUMBER, 0x403, 6, 0
+0x6154, 0x646e, 0x0079, 
+    IDC_ERRORS, 0x403, 6, 0
+0x654b, 0x6e69, 0x0065, 
+    IDC_ERRORS, 0x403, 22, 0
+0x6542, 0x6d69, 0x6520, 0x7372, 0x6574, 0x206e, 0x7541, 0x7466, 0x6572, 
+0x6574, 0x006e, 
+    IDC_ERRORS, 0x403, 6, 0
+0x6d49, 0x656d, 0x0072, 
+    IDC_ERRORS, 0x403, 19, 0
+0x6542, 0x2069, 0x6546, 0x6c68, 0x7265, 0x6220, 0x6565, 0x646e, 0x6e65, 
+"\000" 
+    0
+END
+
+IDD_OPTIONS_STARTUP DLGINIT
+BEGIN
+    IDC_SHOW_IFICTION, 0x403, 6, 0
+0x654b, 0x6e69, 0x0065, 
+    IDC_SHOW_IFICTION, 0x403, 22, 0
+0x6542, 0x6d69, 0x6520, 0x7372, 0x6574, 0x206e, 0x7541, 0x7466, 0x6572, 
+0x6574, 0x006e, 
+    IDC_SHOW_IFICTION, 0x403, 6, 0
+0x6d49, 0x656d, 0x0072, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_FROTZ               BITMAP                  "..\\res\\Toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_FROTZ ACCELERATORS 
+BEGIN
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "D",            ID_HOT_DEBUG,           VIRTKEY, ALT, NOINVERT
+    "H",            ID_HOT_HELP,            VIRTKEY, ALT, NOINVERT
+    "P",            ID_HOT_PLAYBACK,        VIRTKEY, ALT, NOINVERT
+    "X",            ID_HOT_QUIT,            VIRTKEY, ALT, NOINVERT
+    "R",            ID_HOT_RECORD,          VIRTKEY, ALT, NOINVERT
+    "N",            ID_HOT_RESTART,         VIRTKEY, ALT, NOINVERT
+    "S",            ID_HOT_SEED,            VIRTKEY, ALT, NOINVERT
+    "U",            ID_HOT_UNDO,            VIRTKEY, ALT, NOINVERT
+    "A",            ID_RL_BEGIN,            VIRTKEY, CONTROL, NOINVERT
+    "D",            ID_RL_DEL,              VIRTKEY, CONTROL, NOINVERT
+    "E",            ID_RL_END,              VIRTKEY, CONTROL, NOINVERT
+    "B",            ID_RL_BACK,             VIRTKEY, CONTROL, NOINVERT
+    "F",            ID_RL_FORWARD,          VIRTKEY, CONTROL, NOINVERT
+    "W",            ID_RL_RUBOUT,           VIRTKEY, CONTROL, NOINVERT
+    "K",            ID_RL_KILL,             VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_VIEW_OPTIONS,        VIRTKEY, CONTROL, NOINVERT
+    "L",            ID_VIEW_SCROLLBACK,     VIRTKEY, CONTROL, NOINVERT
+    "T",            ID_FILE_STOP,           VIRTKEY, CONTROL, NOINVERT
+    VK_RETURN,      ID_FULLSCREEN,          VIRTKEY, ALT, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_FROTZ TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    BUTTON      ID_VIEW_OPTIONS
+    BUTTON      ID_VIEW_SCROLLBACK
+    BUTTON      ID_HELP_FINDER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Ändert die Fenstergröße"
+    AFX_IDS_SCMOVE          "Ändert die Fensterposition"
+    AFX_IDS_SCMINIMIZE      "Verkleinert das Fenster zu einem Symbol"
+    AFX_IDS_SCMAXIMIZE      "Vergößert das Fenster auf maximale Größe"
+    AFX_IDS_SCCLOSE         "Schließt das Fenster und beendet Frotz"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_IDLEMESSAGE     "Windows Frotz"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "Öffnet ein neues Z-Code Spiel\nNeu"
+    ID_FILE_OPEN            "Lädt einen gespeicherten Spielstand\nLaden"
+    ID_FILE_SAVE            "Speichert den aktuellen Spielstand\nSpeichern"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_OPTIONS         "Ermöglicht die Änderung von Einstellungen\nEinstellungen"
+    ID_VIEW_SCROLLBACK      "Öffnet ein Fenster, in dem bereits verflossener Text angezeigt wird\nScrollen"
+    ID_FILE_STOP            "Ausführung eines aufgezeichneten Skripts anhalten\nStopp"
+    ID_APP_ABOUT_GAME       "Zeigt die Beschreibung und das Titelbild für dieses Spiel an"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Zeigt Programminformationen an\nInfo"
+    ID_APP_EXIT             "Schließt das Fenster und beendet Frotz\nBeenden"
+    ID_HELP_FINDER          "Zeigt die Hilfe zu Windows Frotz an\nHilfe"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_TIME       "00:00:00"
+    ID_INDICATOR_ZCODE      "ZZ"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Blendet die Symbolleiste ein oder aus\nSymbolleiste ein-/ausblenden"
+    ID_VIEW_STATUS_BAR      "Blendet die Statusleiste ein oder aus\nStatusleiste ein-/ausblenden"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Stellt die normale Größe des Fensters wieder her"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_BLORB_GLULX         "Sie haben versucht, eine Blorb-Datei zu laden, die ein Glulx Spiel\nenthält. Für dieses Spiel benötigen Sie einen Glulx-Interpreter.\n\nSie können beispielsweise versuchen, dieses Spiel mit\nWindows Glulxe zu öffnen."
+    IDS_BLORB_NOEXEC        "Sie haben versucht, eine Blorb-Datei zu laden, die keine\ninterpretierbaren Spielinformationen enthält. Es könnte sich\nhierbei um eine Blorb-Datei handeln, die nur Grafiken oder\nSound-Daten für ein Spiel enthält.\n\nBitte suchen Sie nach einer Datei mit dem gleichen Namen aber\neiner anderen Endung (.z5, .z6 oder .z8) und versuchen Sie,\ndiese mit Windows Frotz zu öffnen."
+    IDS_MORE                "[Weiter]"
+    IDS_HIT_KEY_EXIT        "[Zum Beenden Taste drücken.]"
+    IDS_TITLE               "Windows Frotz"
+    IDS_FATAL               "Frotz fataler Fehler"
+    IDS_ZCODE_FILTER        "Z-Code Dateien (.z?;.zlb;.zblorb)|*.z?;*.zlb;*.zblorb|Infocom Dateien (.dat;.zip)|*.dat;*.zip|Alle Dateien (*.*)|*.*||"
+    IDS_ZCODE_TITLE         "Öffnet ein Z-Code Spiel"
+    IDS_SAVE_FILTER         "Spielstände (.sav)|*.sav;*.badsav|Alle Dateien (*.*)|*.*||"
+    IDS_SAVE_TITLE          "Speichert den aktuellen Spielstand"
+    IDS_RESTORE_TITLE       "Lädt einen gespeicherten Spielstand"
+    IDS_SCRIPT_FILTER       "Protokolldateien (.log)|*.log|Alle Dateien (*.*)|*.*||"
+    IDS_SCRIPT_TITLE        "Ein Script schreiben"
+    IDS_RECORD_FILTER       "Record-Dateien (.rec)|*.rec|Alle Dateien (*.*)|*.*||"
+    IDS_RECORD_TITLE        "Eingaben in Datei protokollieren"
+    IDS_PLAYBACK_TITLE      "Protokollierte Eingaben zurückspielen"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_AUX_FILTER          "Alle Dateien (*.*)|*.*||"
+    IDS_SAVE_AUX_TITLE      "Speichert eine Hilfsdatei"
+    IDS_LOAD_AUX_TITLE      "Öffnet eine Hilfsdatei"
+    IDS_FROTZ               "Frotz"
+    IDS_FAIL_DIRECTSOUND    "Initialisierung von DirectSound fehlgeschlagen"
+    IDS_FULLSCREEN          "Frotz wird in den Vollbildmodus umschalten. Möchten Sie fortfahren?\n\nZur Information: Drücken Sie erneut Alt+Enter, um in den Fenstermodus zurück zu gelangen."
+    IDS_ABOUT_INFO          "{\\rtf1\\ansi{\\b Windows Frotz %ver%, programmiert von David Kinder.\\line Ein weiteres Produkt der Frobozz Magic Z-Code Interpreter Company.}{\\line\\super{ }\\par}Windows Frotz wird unter den Bedingungen der GNU General Public License veröffentlicht. In der Datei COPYING, die diesem Programm beiliegt, finden Sie die vollständigen Lizenzbedingungen.{\\line\\super{ }\\par}Windows Frotz copyright David Kinder 2002-%year%.\\line Frotz copyright Stefan Jokisch 1995-1997.{\\line\\super{ }\\par}Frotz wurde programmiert von Stefan Jokisch, mit Unterstützung von Jim Dunleavy und David Griffith. Windows Frotz nutzt die jpeglib der Independent JPEG Group; libpng von Guy Eric Schalnat, Andreas Dilger, Glenn Randers-Pehrson und anderen; zlib von Jean-loup Gailly und Mark Adler; ModPlug von Olivier Lapicque; und libogg und libvorbis der Xiph.org Foundation.{\\line\\super{ }\\par}Deutsche Übersetzung: Lothar May}"
+    IDS_QUETZAL             "Spielstände im Quetzal-Format speichern und laden"
+    IDS_OPTIONS             "Einstellungen"
+    IDS_LINK                "Gehe zu der Webseite %s"
+END
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\Frotz.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\Frotz.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

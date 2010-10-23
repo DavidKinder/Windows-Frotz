@@ -1,0 +1,49 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Frotz.css">
+ </head>
+ <body>
+<h1>Example Z-code files</h1>
+Included with Windows Frotz in the <b>Examples</b> directory are a few example Z-code files,
+demonstrating some of the interpreter's capabilities:
+
+<h2>Parrot.zlb</h2>
+
+Parrot is a simple demonstration of Windows Frotz's graphics support. Click on the right
+mouse button to draw a picture (Actually, the toucan image from the libpng distribution.) at the current
+mouse location. Click on the left mouse button to draw a blank square and on C to clear the window. To
+change the colour for drawing squares and clearing the window press any of the number keys to select a
+standard colour, or press S and then click on a pixel to choose the colour at the current mouse location.
+<p>
+Note that the toucan image is drawn translucently: The toucan's shadow is alpha blended with whatever
+is currently in the square in which it is drawn.
+<p>
+Parrot was written by Kevin Bracey.
+
+<h2>Unicode.z5</h2>
+
+Unicode demonstrates input and output of Unicode characters. Firstly it demonstrates printing Unicode
+characters that have been added to the Z-code file's Zcharacter table, specifically the Euro currency
+symbol (Unicode 0x20AC), the copyright symbol (Unicode 0x00A9) and the trademark symbol (Unicode 0x2122).
+Unicode then prints out several character sets, covering the standard Latin-1 set, then the Greek, Cyrillic
+and Arabic sets.
+<p>
+Note that although most Windows fonts contain most of the commonly used Unicode characters, they do not
+usually contain them all. The <b>Arial Unicode MS</b> font from Microsoft contains all 20,000 odd characters.
+<p>
+Finally, Unicode demonstrates input. If you press a key, Unicode will try to tell you what it believes
+you have entered. If you have a Western European PC (and possibly others) then you can usually enter a
+Euro symbol by pressing Ctrl+Alt+4. If this is the case, you can see Unicode accepting the Euro symbol
+as input, even though it is not part of the standard Z-Machine characters, because the Euro symbol has
+been added to the file's Zcharacter table.
+
+<h2>ZSpec11.z6</h2>
+
+This program is a demonstration of the features added in the <nobr>Z-Machine</nobr> Standard Version 1.1,
+which the interpreter now implements. The most important new features introduced are true colour
+support, so that games can request a colour by specifying it as an RGB triplet, and transparent
+text, so that games can write text over an arbitrary background, such as a picture.
+ </body>
+</html>
+

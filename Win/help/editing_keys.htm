@@ -1,0 +1,139 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" type="text/css" href="Frotz.css">
+ </head>
+ <body>
+<h1>Editing Keys</h1>
+When Windows Frotz is waiting for input from the user, the following keys have special meanings:
+<table border="0" cellpadding="2" cellspacing="0">
+  <tr></tr>
+  <tr></tr>
+  <tr>
+    <td nowrap width="100"><strong>Alt+D</strong></td>
+    <td>Show the menu of debugging options.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Alt+H</strong></td>
+    <td>Show the list of available hotkeys.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Alt+N</strong></td>
+    <td>Restart the currently playing game.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Alt+P</strong></td>
+    <td>Play back a file containing previously recorded input.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Alt+R</strong></td>
+    <td>Begin recording user input to a file.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Alt+S</strong></td>
+    <td>Enter a seed for the random number generator.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Alt+U</strong></td>
+    <td>Undo the last turn.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Alt+X</strong></td>
+    <td>Exit the interpreter.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Alt+Enter</strong></td>
+    <td>Toggle full screen mode.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Delete</strong></td>
+    <td>Delete the character under the cursor.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Backspace</strong></td>
+    <td>Delete the character to the left of the cursor.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Home</strong></td>
+    <td>Move the cursor to the start of the input line.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>End</strong></td>
+    <td>Move the cursor to the end of the input line.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Cursor Left</strong></td>
+    <td>Move the cursor to the left.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Cursor Right</strong></td>
+    <td>Move the cursor to the right.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Cursor Up</strong></td>
+    <td>Show the previous input in the input history.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Cursor Down</strong></td>
+    <td>Show the next input in the input history.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Tab</strong></td>
+    <td>Try to complete the last word in the input line by comparing against the game's dictionary.</td>
+  </tr>
+</table>
+<p>
+In addition, the following editing keys from GNU Readline (and many other Unix related programs) are
+supported:
+<table border="0" cellpadding="2" cellspacing="0">
+  <tr></tr>
+  <tr></tr>
+  <tr>
+    <td nowrap width="100"><strong>Ctrl+A</strong></td>
+    <td>Move the cursor to the start of the input line.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Ctrl+E</strong></td>
+    <td>Move the cursor to the end of the input line.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Ctrl+B</strong></td>
+    <td>Move the cursor to the left.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Ctrl+F</strong></td>
+    <td>Move the cursor to the right.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Ctrl+D</strong></td>
+    <td>Delete the character under the cursor.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Ctrl+K</strong></td>
+    <td>Delete the input text from the cursor to the end of the input line.</td>
+  </tr>
+  <tr>
+    <td nowrap><strong>Ctrl+W</strong></td>
+    <td>Delete the input text from the cursor to the previous white space.</td>
+  </tr>
+    <td nowrap><strong>Ctrl+V</strong></td>
+    <td>Paste the contents of the clipboard into the input line.</td>
+  </tr>
+</table>
+<p>
+The hotkeys assigned to menu items are given <a href="menus_toolbar.htm">here</a>.
+<p>
+Some of Infocom's later games expect to be told when the user presses the cursor keys during input. For
+example, <b>Zork Zero</b> allows commands to be bound to the cursor keys. In order to get the behaviour of the
+original Infocom intepreters, hold down the <b>Ctrl</b> key when pressing a cursor key, and instead of
+being used to edit the input line, the cursor key press will be sent to the game.
+<p>
+Windows Frotz can cope with games requiring input in languages and alphabets other than the system
+default (For example, a Russian game would require Cyrillic input.) provided that the version of Windows
+that the interpreter is running on supports it. For this to work, enable Advanced Text Services in the
+Language Options of Windows' Control Panel. This will enable the Language Bar. With the interpreter window
+selected, change the Language Bar to show whatever input you require, and the interpreter will switch
+to expecting input in that language.
+ </body>
+</html>
+
