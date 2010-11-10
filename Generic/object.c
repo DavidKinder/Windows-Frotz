@@ -666,6 +666,13 @@ void z_get_prop_len (void)
     zword addr;
     zbyte value;
 
+    if (zargs[0] == 0) {
+
+	store (0);	/* demanded by Spec 1.1 */
+	return;
+
+    }
+
     /* Back up the property pointer to the property id */
 
     addr = zargs[0] - 1;
