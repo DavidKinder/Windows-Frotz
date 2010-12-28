@@ -17,9 +17,11 @@ a Blorbed game is broken, as it is not possible to automatically detect old Wind
 files. To work around this, old saved files can be renamed to end with ".badsav", which causes
 the interpreter to load them with the old, incorrect logic. The game position can then be
 re-saved as a correct Quetzal save file.
-<li>Corrected a problem which could result in the options dialog using the wrong font.
+<li>Unicode characters now appear correctly in the scrollback dialog, provided that the dialog
+font supports them.
 <li>The <b>get_prop_len</b> opcode now returns 0 when its argument is 0, as required by the
 <nobr>Z-Machine</nobr> Standard Version 1.1.
+<li>Corrected a problem which could result in the options dialog using the wrong font.
 </ul>
 
 <b>1.16</b>

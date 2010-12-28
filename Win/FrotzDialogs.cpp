@@ -19,6 +19,17 @@ static char THIS_FILE[] = __FILE__;
 extern FrotzApp theApp;
 
 /////////////////////////////////////////////////////////////////////////////
+// Call-back function for streaming into rich edit controls
+/////////////////////////////////////////////////////////////////////////////
+
+static DWORD CALLBACK RichStreamCB(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+{
+  CFile* pFile = (CFile*)dwCookie;
+  *pcb = pFile->Read(pbBuff,cb);
+  return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // RichEdit control for About dialogs
 /////////////////////////////////////////////////////////////////////////////
 
@@ -59,15 +70,8 @@ void CRichInfo::SetText(int format, const CString& text)
 
   EDITSTREAM stream;
   stream.dwCookie = (DWORD)&inFile;
-  stream.pfnCallback = StreamInCB;
+  stream.pfnCallback = RichStreamCB;
   StreamIn(format,stream);
-}
-
-DWORD CALLBACK CRichInfo::StreamInCB(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
-{
-  CFile* pFile = (CFile*)dwCookie;
-  *pcb = pFile->Read(pbBuff,cb);
-  return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -706,9 +710,12 @@ BOOL OptionsSpeechPage::OnInitDialog()
 
 IMPLEMENT_DYNAMIC(ScrollbackDialog, BaseDialog)
 
-ScrollbackDialog::ScrollbackDialog(const char* text, CWnd* pParent)
-  : m_textTop(0), BaseDialog(ScrollbackDialog::IDD, pParent), m_text(text)
+ScrollbackDialog::ScrollbackDialog(LPCWSTR text, int textLen, CWnd* pParent)
+  : BaseDialog(ScrollbackDialog::IDD, pParent)
 {
+  m_text = text;
+  m_textLen = textLen;
+  m_textTop = 0;
 }
 
 ScrollbackDialog::~ScrollbackDialog()
@@ -759,11 +766,18 @@ BOOL ScrollbackDialog::OnInitDialog()
   // Set the background colour
   m_edit.SetBackgroundColor(FALSE,GetSysColor(COLOR_3DFACE));
 
-  // Set the control to plain text mode
-  m_edit.SetTextMode(TM_PLAINTEXT);
+  // Set the control to only show plain text, but allow all code pages
+  m_edit.SetTextMode(TM_PLAINTEXT|TM_SINGLELEVELUNDO|TM_MULTICODEPAGE);
 
   // Put the text into the control
-  m_edit.SetWindowText(m_text);
+  if (m_text != NULL)
+  {
+    CMemFile inFile((BYTE*)m_text,m_textLen*sizeof(WCHAR));
+    EDITSTREAM stream;
+    stream.dwCookie = (DWORD)&inFile;
+    stream.pfnCallback = RichStreamCB;
+    m_edit.StreamIn(SF_TEXT|SF_UNICODE,stream);
+  }
 
   // Scroll the control to the end of the text
   m_edit.SetFocus();

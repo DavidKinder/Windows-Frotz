@@ -23,9 +23,6 @@ public:
   afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 
   void SetText(int format, const CString& text);
-
-protected:
-  static DWORD CALLBACK StreamInCB(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
 };
 
 class AboutGameDialog : public BaseDialog
@@ -209,7 +206,7 @@ class ScrollbackDialog : public BaseDialog
   DECLARE_DYNAMIC(ScrollbackDialog)
 
 public:
-  ScrollbackDialog(const char* text, CWnd* pParent = NULL);
+  ScrollbackDialog(LPCWSTR text, int textLen, CWnd* pParent = NULL);
   virtual ~ScrollbackDialog();
 
 // Dialog Data
@@ -225,7 +222,8 @@ public:
   afx_msg void OnCopy();
 
 protected:
-  const char* m_text;
+  LPCWSTR m_text;
+  int m_textLen;
   int m_textTop;
   CRichEditCtrl m_edit;
 };

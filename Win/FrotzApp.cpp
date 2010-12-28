@@ -1476,16 +1476,8 @@ void FrotzApp::OnViewOptions()
 
 void FrotzApp::OnViewScrollback()
 {
-  // Convert the scrollback buffer to ASCII
-  int len = m_scrollback.GetSize();
-  char* text = new char[len+1];
-  ::ZeroMemory(text,len+1);
-  if (::WideCharToMultiByte(CP_ACP,0,(LPCWSTR)m_scrollback.GetData(),len,text,len,NULL,NULL) > 0)
-  {
-    ScrollbackDialog dialog(text);
-    dialog.DoModal();
-  }
-  delete[] text;
+  ScrollbackDialog dialog((LPCWSTR)m_scrollback.GetData(),m_scrollback.GetSize());
+  dialog.DoModal();
 }
 
 void FrotzApp::OnUpdateAppAboutGame(CCmdUI *pCmdUI)
