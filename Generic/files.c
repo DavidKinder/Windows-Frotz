@@ -150,15 +150,41 @@ void script_char (zword c)
 	{ script_char (' '); script_char (' '); script_char (' '); return; }
     if (c == ZC_GAP)
 	{ script_char (' '); script_char (' '); return; }
-    if (c > 0xff)
-	{ script_char ('?'); return; }
 
 #ifdef __MSDOS__
+
+    if (c > 0xff)
+	c = '?';
     if (c >= ZC_LATIN1_MIN)
 	c = latin1_to_ibm[c - ZC_LATIN1_MIN];
-#endif
 
-    fputc (c, sfp); script_width++;
+    fputc (c, sfp);
+    script_width++;
+
+#else
+
+    /* Encode as UTF-8 */
+
+    if (c > 0x7ff) {
+
+	fputc (0xe0 | ((c >> 12) & 0xf), sfp);
+	fputc (0x80 | ((c >> 6) & 0x3f), sfp);
+	fputc (0x80 | (c & 0x3f), sfp);
+
+    }
+    else if (c > 0x7f) {
+
+	fputc (0xc0 | ((c >> 6) & 0x1f), sfp);
+	fputc (0x80 | (c & 0x3f), sfp);
+
+    }
+    else
+
+	fputc (c, sfp);
+
+    script_width++;
+
+#endif
 
 }/* script_char */
 
