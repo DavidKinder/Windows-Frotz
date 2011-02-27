@@ -23,10 +23,15 @@ static UINT Indicators[] =
   ID_INDICATOR_NUM
 };
 
+bool FilterHotkeys(char c)
+{
+  return (strchr("DHNPRSUX",c) == NULL);
+}
+
 FrotzFrameWnd::FrotzFrameWnd() : m_clientWnd(NULL), m_codePage(CP_ACP)
 {
   m_menuBar.SetUseF10(false);
-  m_menuBar.SetUseAltX(false);
+  m_menuBar.SetFilterAltX(FilterHotkeys);
 }
 
 FrotzFrameWnd::~FrotzFrameWnd()
