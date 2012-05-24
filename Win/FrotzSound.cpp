@@ -230,12 +230,12 @@ bool FrotzSoundAIFF::Play(int repeat, int volume)
   SetBufferVolume(GetDecibelVolume(volume) * 100L);
 
   // Start the buffer playing
-  return PlayBuffer();
+  return PlayBuffer(false);
 }
 
 bool FrotzSoundAIFF::IsPlaying(void)
 {
-  return IsBufferPlaying();
+  return m_Active;
 }
 
 // Write sample data into the supplied PCM sample buffers
@@ -295,7 +295,7 @@ bool FrotzSoundAIFF::CheckRenderPtr(void)
 // Check if the sound has finished playing
 bool FrotzSoundAIFF::IsSoundOver(DWORD tick)
 {
-  if (m_Playing == false)
+  if (m_Active == false)
     return true;
 
   // Check if sound is playing forever
@@ -534,12 +534,12 @@ bool FrotzSoundMOD::Play(int repeat, int volume)
   SetBufferVolume(GetDecibelVolume(volume) * 100L);
 
   // Start the buffer playing
-  return PlayBuffer();
+  return PlayBuffer(false);
 }
 
 bool FrotzSoundMOD::IsPlaying(void)
 {
-  return IsBufferPlaying();
+  return m_Active;
 }
 
 void FrotzSoundMOD::WriteSampleData(unsigned char* sample, int len)
@@ -563,7 +563,7 @@ void FrotzSoundMOD::WriteSampleData(unsigned char* sample, int len)
 // Check if the sound has finished playing
 bool FrotzSoundMOD::IsSoundOver(DWORD tick)
 {
-  if (m_Playing == false)
+  if (m_Active == false)
     return true;
 
   // Check if sound is playing forever
@@ -752,12 +752,12 @@ bool FrotzSoundOGG::Play(int repeat, int volume)
   SetBufferVolume(GetDecibelVolume(volume) * 100L);
 
   // Start the buffer playing
-  return PlayBuffer();
+  return PlayBuffer(false);
 }
 
 bool FrotzSoundOGG::IsPlaying(void)
 {
-  return IsBufferPlaying();
+  return m_Active;
 }
 
 // Write sample data into the supplied PCM sample buffers
@@ -791,7 +791,7 @@ void FrotzSoundOGG::WriteSampleData(unsigned char* sample, int len)
 // Check if the sound has finished playing
 bool FrotzSoundOGG::IsSoundOver(DWORD tick)
 {
-  if (m_Playing == false)
+  if (m_Active == false)
     return true;
 
   // Check if sound is playing forever
