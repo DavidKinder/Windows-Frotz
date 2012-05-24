@@ -103,12 +103,13 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "The Interactive Fiction Archive", ID_LINKS_ARCHIVE
             MENUITEM "Z-code Games at the IF Archive", ID_LINKS_ZCODE
-            MENUITEM "Baf's Guide to the IF Archive", ID_LINKS_BAF
             MENUITEM "Interactive Fiction Database", ID_LINKS_IFDB
             MENUITEM SEPARATOR
+            MENUITEM "intfiction.org Forum",        ID_LINKS_INTFICTION
+            MENUITEM "Planet IF",                   ID_LINKS_PLANETIF
             MENUITEM "IF Wiki",                     ID_LINKS_IFWIKI
             MENUITEM "IF Competition",              ID_LINKS_IFCOMP
-            MENUITEM "IF Art Show",                 ID_LINKS_ARTSHOW
+            MENUITEM "ifMUD",                       ID_LINKS_IFMUD
             MENUITEM SEPARATOR
             MENUITEM "Inform 7",                    ID_LINKS_INFORM7
             MENUITEM "Inform 6",                    ID_LINKS_INFORM6
