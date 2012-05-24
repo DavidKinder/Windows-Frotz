@@ -300,7 +300,7 @@ BOOL AboutDialog::OnInitDialog()
   CString aboutText;
   aboutText.LoadString(IDS_ABOUT_INFO);
   aboutText.Replace("%ver%","1.17");
-  aboutText.Replace("%year%","2010");
+  aboutText.Replace("%year%","2012");
   m_info.SetText(SF_RTF,aboutText);
   return TRUE;
 }
