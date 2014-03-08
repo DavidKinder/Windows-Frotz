@@ -1,8 +1,5 @@
-!% -W6
-
-! Currently there's no way to make Inform generate a story file with a value other than
-! zero in the flags3 field. To set it to 1 you need to use a hex editor to change the
-! flags3 value at 0x010b to 1, and then add one to the checksum value at 0x001d.
+!% $ZCODE_HEADER_EXT_WORDS=3
+!% $ZCODE_HEADER_FLAGS_3=1
 
 release 2;
 
