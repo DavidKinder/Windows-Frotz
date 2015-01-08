@@ -614,9 +614,9 @@ void FrotzWnd::FillSolid(LPCRECT rect, COLORREF colour)
 }
 
 // Draw a bitmap graphic
-void FrotzWnd::DrawGraphic(FrotzGfx* gfx, int x, int y)
+void FrotzWnd::DrawGraphic(FrotzGfx* gfx, int x, int y, double r)
 {
-  gfx->Paint(m_bitmap,x,y,((FrotzApp*)AfxGetApp())->GetGfxScaling());
+  gfx->Paint(m_bitmap,m_dc,x,y,r);
 }
 
 // Get the colour of a pixel
@@ -871,6 +871,26 @@ void FrotzWnd::ResizeDisplay(void)
 
   // Take sure that the input code is notified
   InputType(Input::Reset);
+}
+
+// Calculate the ERF for scaling pictures
+double FrotzWnd::CalcScalingERF(void)
+{
+  FrotzApp* app = (FrotzApp*)AfxGetApp();
+  bb_resolution_t* res = bb_get_resolution(app->GetBlorbMap());
+  if (res == NULL)
+  {
+    if (story_id != BEYOND_ZORK)
+      return 1.0;
+
+    double erfx = (double)m_wndSize.cx / 320.0;
+    double erfy = (double)m_wndSize.cy / 200.0;
+    return (erfx < erfy) ? erfx : erfy;
+  }
+
+  double erfx = (double)m_wndSize.cx / (double)res->px;
+  double erfy = (double)m_wndSize.cy / (double)res->py;
+  return (erfx < erfy) ? erfx : erfy;
 }
 
 // Select a font into the device context

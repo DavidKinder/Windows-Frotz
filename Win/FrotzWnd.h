@@ -167,7 +167,7 @@ public:
   // Fill a rectangle with the given colour
   void FillSolid(LPCRECT rect, COLORREF colour);
   // Draw a bitmap graphic
-  void DrawGraphic(FrotzGfx* gfx, int x, int y);
+  void DrawGraphic(FrotzGfx* gfx, int x, int y, double r);
   // Get the colour of a pixel
   COLORREF GetPixel(POINT p);
 
@@ -208,6 +208,8 @@ public:
   void SetAllowResize(bool allow);
   // Resize the display and redraw
   void ResizeDisplay(void);
+  // Calculate the ERF for scaling pictures
+  double CalcScalingERF(void);
 
   // Wrapper for showing and removing the cursor
   class DrawCursor

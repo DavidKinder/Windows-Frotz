@@ -5,7 +5,9 @@
 
 #include "StdAfx.h"
 #include "Dib.h"
+#include "FrotzApp.h"
 #include "FrotzGfx.h"
+#include "FrotzWnd.h"
 
 #include <math.h>
 #include <setjmp.h>
@@ -24,12 +26,21 @@ extern "C" __declspec(dllimport) void ScaleGfx(COLORREF*, UINT, UINT, COLORREF*,
 static char THIS_FILE[] = __FILE__;
 #endif
 
+// The single application instance
+extern FrotzApp theApp;
+
+// The single output window instance
+extern FrotzWnd* theWnd;
+
 FrotzGfx::FrotzGfx()
 {
   m_pixels = NULL;
   m_header = NULL;
   m_width = 0;
   m_height = 0;
+  m_ratioStd = 1.0;
+  m_ratioMin = 0.0;
+  m_ratioMax = 0.0;
   m_adapt = false;
 }
 
@@ -42,19 +53,39 @@ FrotzGfx::~FrotzGfx()
 }
 
 // Get the width of the picture
-int FrotzGfx::GetWidth(int scale)
+int FrotzGfx::GetWidth(double r)
 {
-  return m_width*scale;
+  return (int)(m_width*r);
 }
 
 // Get the height of the picture
-int FrotzGfx::GetHeight(int scale)
+int FrotzGfx::GetHeight(double r)
 {
-  return m_height*scale;
+  return (int)(m_height*r);
+}
+
+// Calculate the scaling ratio for this picture
+double FrotzGfx::CalcScalingRatio(double erf)
+{
+  double r = erf * m_ratioStd;
+  if ((m_ratioMin != 0.0) && (r < m_ratioMin))
+    r = m_ratioMin;
+  else if ((m_ratioMax != 0.0) && (r > m_ratioMax))
+    r = m_ratioMax;
+  if (r <= 0.0)
+    r = 1.0;
+  return r;
 }
 
 // Draw the picture
-void FrotzGfx::Paint(CDibSection& dib, int x, int y, int scale)
+void FrotzGfx::Paint(CDibSection& dib)
+{
+  CSize size = dib.GetSize();
+  ScaleGfx((COLORREF*)m_pixels,m_width,m_height,dib.GetBits(),size.cx,size.cy);
+}
+
+// Draw the picture
+void FrotzGfx::Paint(CDibSection& dib, int x, int y)
 {
   ::GdiFlush();
   if ((m_pixels != NULL) && (m_header != NULL))
@@ -78,10 +109,10 @@ void FrotzGfx::Paint(CDibSection& dib, int x, int y, int scale)
       x1 = x * -1;
     if (y < 0)
       y1 = y * -1;
-    if (x + x2*scale > size.cx)
-      x2 = (size.cx-x)/scale;
-    if (y + y2*scale > size.cy)
-      y2 = (size.cy-y)/scale;
+    if (x + x2 > size.cx)
+      x2 = (size.cx-x);
+    if (y + y2 > size.cy)
+      y2 = (size.cy-y);
 
     DWORD src, dest;
     int sr, sg, sb, dr, dg, db, a;
@@ -117,7 +148,7 @@ void FrotzGfx::Paint(CDibSection& dib, int x, int y, int scale)
           continue;
 
         // Get the colour of the destination pixel
-        dest = dib.GetPixel(x+(xx*scale),y+(yy*scale));
+        dest = dib.GetPixel(x+xx,y+yy);
 
         // Split it into red, green and blue
         db = dest & 0xFF;
@@ -145,29 +176,24 @@ void FrotzGfx::Paint(CDibSection& dib, int x, int y, int scale)
         }
 
         dest = (dr<<16)|(dg<<8)|db;
-        for (int yy1 = 0; yy1 < scale; yy1++)
-        {
-          for (int xx1 = 0; xx1 < scale; xx1++)
-            dib.SetPixel(x+(xx*scale)+xx1,y+(yy*scale)+yy1,dest);
-        }
+        dib.SetPixel(x+xx,y+yy,dest);
       }
     }
   }
 }
 
-// Draw the picture, scaled to the target
-void FrotzGfx::PaintScaled(CDibSection& dib)
+// Draw the picture
+void FrotzGfx::Paint(CDibSection& dib, CDC& dc, int x, int y, double r)
 {
-  DWORD tick1 = ::GetTickCount();
-
   ::GdiFlush();
-  CSize size = dib.GetSize();
-  ScaleGfx((COLORREF*)m_pixels,m_width,m_height,dib.GetBits(),size.cx,size.cy);
-
-  DWORD tick2 = ::GetTickCount();
-  CString msg;
-  msg.Format("Scaling took %d ms\n",tick2-tick1);
-  ::OutputDebugString(msg);
+  if (r == 1.0)
+    Paint(dib,x,y);
+  else
+  {
+    FrotzGfx* scaledGfx = CreateScaled(r);
+    scaledGfx->Paint(dib,x,y);
+    delete scaledGfx;
+  }
 }
 
 // Get a picture from the cache or the Blorb resource map
@@ -178,7 +204,8 @@ FrotzGfx* FrotzGfx::Get(int picture, bb_map_t* map, bool permissive)
     return gfx;
 
   bb_result_t result;
-  if (bb_load_resource_pict(map,bb_method_Memory,&result,picture,NULL) == bb_err_None)
+  bb_aux_pict_t* ratios = NULL;
+  if (bb_load_resource_pict(map,bb_method_Memory,&result,picture,&ratios) == bb_err_None)
   {
     BYTE* data = (BYTE*)result.data.ptr;
     int length = result.length;
@@ -199,6 +226,16 @@ FrotzGfx* FrotzGfx::Get(int picture, bb_map_t* map, bool permissive)
     }
     else if (id == bb_make_id('R','e','c','t'))
       gfx = LoadRect(data,length);
+
+    // Does this picture have resolution information?
+    if ((gfx != NULL) && (ratios != NULL))
+    {
+      gfx->m_ratioStd = (double)ratios->ratnum / (double)ratios->ratden;
+      if (ratios->minnum != 0)
+        gfx->m_ratioMin = (double)ratios->minnum / (double)ratios->minden;
+      if (ratios->maxnum != 0)
+        gfx->m_ratioMax = (double)ratios->maxnum / (double)ratios->maxden;
+    }
 
     bb_unload_chunk(map,result.chunknum);
 
@@ -273,6 +310,60 @@ int FrotzGfx::m_fromLinear[256];
 CMap<int,int,FrotzGfx*,FrotzGfx*> FrotzGfx::m_cache;
 CMap<int,int,int,int> FrotzGfx::m_adaptive;
 CArray<DWORD,DWORD> FrotzGfx::m_currentPalette;
+
+FrotzGfx* FrotzGfx::CreateScaled(double r)
+{
+  int width = (int)(r * m_width);
+  int height = (int)(r * m_height);
+
+  FrotzGfx* graphic = new FrotzGfx;
+  graphic->m_width = width;
+  graphic->m_height = height;
+
+  graphic->m_adapt = m_adapt;
+  graphic->m_palette.Copy(m_palette);
+  {
+    POSITION p = m_invPalette.GetStartPosition();
+    while (p)
+    {
+      DWORD key;
+      int value;
+      m_invPalette.GetNextAssoc(p,key,value);
+      graphic->m_invPalette.SetAt(key,value);
+    }
+  }
+  graphic->m_header = new BITMAPINFOHEADER;
+  ::ZeroMemory(graphic->m_header,sizeof(BITMAPINFOHEADER));
+  graphic->m_header->biSize = sizeof(BITMAPINFOHEADER);
+  graphic->m_header->biWidth = width;
+  graphic->m_header->biHeight = height*-1;
+  graphic->m_header->biPlanes = 1;
+  graphic->m_header->biBitCount = 32;
+  graphic->m_header->biCompression = BI_RGB;
+
+  int size = width*height*4;
+  graphic->m_pixels = new BYTE[size];
+  ::ZeroMemory(graphic->m_pixels,size);
+
+  if (theApp.IsInfocomV6() || (story_id == BEYOND_ZORK))
+  {
+    // Use simple, 'blocky' scaling for the Infocom games
+    for (int xd = 0; xd < width; xd++)
+    {
+      int xs = (int)((double)xd / r);
+      for (int yd = 0; yd < height; yd++)
+      {
+        int ys = (int)((double)yd / r);
+        DWORD colour = CDibSection::GetPixel((DWORD*)m_pixels,m_width,xs,ys);
+        CDibSection::SetPixel((DWORD*)graphic->m_pixels,width,xd,yd,colour);
+      }
+    }
+  }
+  else
+    ScaleGfx((COLORREF*)m_pixels,m_width,m_height,(COLORREF*)graphic->m_pixels,width,height);
+
+  return graphic;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // Loader for PNG images

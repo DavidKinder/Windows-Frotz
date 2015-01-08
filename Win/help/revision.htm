@@ -8,6 +8,14 @@
 
 <b>1.18</b>
 <ul>
+<li>The Blorb resolution chunk ('Reso') is now supported, allowing graphics in V6 games to be
+scaled appropriately for the interpreter's window size. For Infocom's V6 games this scaling
+is done as a simple, 'blocky' rescale (producing a result that matches the original appearance
+of these games), but for other games this is done with a proper rescaling algorithm that
+produces smooth results.
+<li>The <b>V6 scaling</b> item in the options dialog has been removed: when running an Infocom
+V6 game the interpreter automatically resizes the window to the largest multiple of 320x200
+that fits on the screen.
 <li>A case where the <b>check_unicode</b> opcode would report that a character could not be
 printed, when in fact it could, has been fixed.
 </ul>

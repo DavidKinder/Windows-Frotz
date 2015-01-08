@@ -1193,9 +1193,9 @@ extern "C" int os_picture_data(int picture, int *height, int *width)
       FrotzGfx* gfx = FrotzGfx::Get(picture,theApp.GetBlorbMap(),false);
       if (gfx != NULL)
       {
-        int scale = ((FrotzApp*)AfxGetApp())->GetGfxScaling();
-        *height = gfx->GetHeight(scale);
-        *width = gfx->GetWidth(scale);
+        double r = gfx->CalcScalingRatio(theWnd->CalcScalingERF());
+        *height = gfx->GetHeight(r);
+        *width = gfx->GetWidth(r);
         return 1;
       }
     }
@@ -1222,7 +1222,8 @@ extern "C" void os_draw_picture(int picture, int y, int x)
     {
       signed short x1 = (signed short)x;
       signed short y1 = (signed short)y;
-      theWnd->DrawGraphic(gfx,x1-1,y1-1);
+      double r = gfx->CalcScalingRatio(theWnd->CalcScalingERF());
+      theWnd->DrawGraphic(gfx,x1-1,y1-1,r);
     }
   }
 }

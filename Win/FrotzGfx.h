@@ -19,13 +19,15 @@ public:
   ~FrotzGfx();
 
   // Get the width of the picture
-  int GetWidth(int scale);
+  int GetWidth(double r);
   // Get the height of the picture
-  int GetHeight(int scale);
+  int GetHeight(double r);
+  // Calculate the scaling ratio for this picture
+  double CalcScalingRatio(double erf);
   // Draw the picture
-  void Paint(CDibSection& dib, int x, int y, int scale);
-  // Draw the picture, scaled to the target
-  void PaintScaled(CDibSection& dib);
+  void Paint(CDibSection& dib);
+  void Paint(CDibSection& dib, int x, int y);
+  void Paint(CDibSection& dib, CDC& dc, int x, int y, double r);
 
   // Get a picture from the cache or the Blorb resource map
   static FrotzGfx* Get(int picture, bb_map_t* map, bool permissive);
@@ -40,6 +42,7 @@ protected:
   static FrotzGfx* LoadPNG(BYTE* data, int length);
   static FrotzGfx* LoadJPEG(BYTE* data, int length);
   static FrotzGfx* LoadRect(BYTE* data, int length);
+  FrotzGfx* CreateScaled(double r);
 
 protected:
   BYTE* m_pixels;
@@ -48,9 +51,13 @@ protected:
   int m_width;
   int m_height;
 
+  double m_ratioStd;
+  double m_ratioMin;
+  double m_ratioMax;
+
   bool m_adapt;
   CArray<DWORD,DWORD> m_palette;
-  CMap <DWORD,DWORD,int,int> m_invPalette;
+  CMap<DWORD,DWORD,int,int> m_invPalette;
 
   static double m_gamma;
   static int m_toLinear[256];

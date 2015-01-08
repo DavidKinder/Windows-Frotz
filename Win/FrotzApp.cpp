@@ -12,6 +12,7 @@
 #include "FrotzFrameWnd.h"
 
 #include <MultiMon.h>
+#include <math.h>
 
 extern "C"
 {
@@ -162,7 +163,6 @@ void FrotzApp::ReadSettings(void)
   m_fixedFontName = GetProfileString("Display","Fixed Font Name",
     GetDefaultFixedFont());
   m_fontSize = GetProfileInt("Display","Font Size",10);
-  m_v6scale = GetProfileInt("Display","Infocom V6 Scaling",2);
   m_defaultFore = Make5BitColour(
     GetProfileInt("Display","Foreground",RGB(0xFF,0xFF,0xFF)));
   m_defaultBack = Make5BitColour(
@@ -176,17 +176,7 @@ void FrotzApp::ReadSettings(void)
   int version = GetProfileInt("Version","Number",0);
   if (version < 103)
   {
-    CRect screen = GetScreenSize(true);
-    if ((screen.Width() > 800) && (screen.Height() > 600))
-    {
-      m_fontSize = 10;
-      m_v6scale = 3;
-    }
-    else
-    {
-      m_fontSize = 10;
-      m_v6scale = 2;
-    }
+    m_fontSize = 10;
 
     // Ignore errors by default
     err_report_mode = ERR_REPORT_NEVER;
@@ -243,7 +233,6 @@ void FrotzApp::WriteSettings(void)
   WriteProfileString("Display","Proportional Font Name",m_propFontName);
   WriteProfileString("Display","Fixed Font Name",m_fixedFontName);
   WriteProfileInt("Display","Font Size",m_fontSize);
-  WriteProfileInt("Display","Infocom V6 Scaling",m_v6scale);
   WriteProfileInt("Display","Foreground",m_defaultFore);
   WriteProfileInt("Display","Background",m_defaultBack);
   WriteProfileInt("Display","Fast Scrolling",m_fastScroll);
@@ -488,12 +477,6 @@ void FrotzApp::CreateMainWindow(void)
   // Reset the menus
   wnd->ResetMenus();
 
-  // Set the graphics scaling
-  if (IsInfocomV6() || (story_id == BEYOND_ZORK))
-    m_gfxScale = m_v6scale;
-  else
-    m_gfxScale = 1;
-
   // Get the Frotz output window
   theWnd = wnd->GetClientWnd();
 
@@ -514,10 +497,16 @@ void FrotzApp::CreateMainWindow(void)
     theWnd->GetClientRect(clientSize);
     wnd->GetWindowRect(windowSize);
 
+    // Work out the largest integer scaling that will fit on the screen
     int borderX = windowSize.Width() - clientSize.Width();
     int borderY = windowSize.Height() - clientSize.Height();
-    int width = (320*m_gfxScale)+borderX;
-    int height = (200*m_gfxScale)+borderY;
+    int scaleX = (int)floor((double)(screen.Width() - borderX) / 320.0);
+    int scaleY = (int)floor((double)(screen.Height() - borderY) / 200.0);
+    int scale = (scaleX > scaleY) ? scaleY : scaleX;
+    if (scale < 1)
+      scale = 1;
+    int width = (320*scale)+borderX;
+    int height = (200*scale)+borderY;
 
     WINDOWPLACEMENT place;
     ::ZeroMemory(&place,sizeof(WINDOWPLACEMENT));
@@ -1138,12 +1127,6 @@ bool FrotzApp::IsTandyBitSet(void)
   return m_tandy;
 }
 
-// Get the scaling for graphics
-int FrotzApp::GetGfxScaling(void)
-{
-  return m_gfxScale;
-}
-
 // Copy the user name into the interpreter fields
 void FrotzApp::CopyUsername(void)
 {
@@ -1319,7 +1302,6 @@ void FrotzApp::OnViewOptions()
   display.m_propFontName = m_propFontName;
   display.m_fixedFontName = m_fixedFontName;
   display.m_fontSize.Format("%d",m_fontSize);
-  display.m_v6Scale.Format("%d",m_v6scale);
   display.m_textColour.SetCurrentColour(m_defaultFore);
   display.m_backColour.SetCurrentColour(m_defaultBack);
   display.m_fastScroll = m_fastScroll;
@@ -1380,7 +1362,6 @@ void FrotzApp::OnViewOptions()
       marginUpdate = true;
 
     // Update the display settings
-    sscanf(display.m_v6Scale,"%d",&m_v6scale);
     m_defaultFore = Make5BitColour(display.m_textColour.GetCurrentColour());
     m_defaultBack = Make5BitColour(display.m_backColour.GetCurrentColour());
     hx_fore_colour = TrueToRGB5(GetDefaultColour(true));

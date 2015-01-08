@@ -64,7 +64,6 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Inform 7",                    ID_LINKS_INFORM7
             MENUITEM "Inform 6",                    ID_LINKS_INFORM6
-            MENUITEM "Inform 6 FAQ and Beginner's Guide", ID_LINKS_FAQ
         END
         MENUITEM SEPARATOR
         MENUITEM "A propos de ce je&u",         ID_APP_ABOUT_GAME
@@ -107,9 +106,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "&Taille de la police",IDC_STATIC,6,63,57,8
     COMBOBOX        IDC_FONT_SIZE,66,62,38,64,CBS_DROPDOWN | WS_VSCROLL | 
-                    WS_TABSTOP
-    LTEXT           "Echelle &V6",IDC_STATIC,113,63,41,8
-    COMBOBOX        IDC_V6_SCALE,159,62,38,64,CBS_DROPDOWNLIST | WS_VSCROLL | 
                     WS_TABSTOP
     LTEXT           "&Couleur du texte",IDC_STATIC,6,83,57,8
     PUSHBUTTON      "",IDC_TEXT_COLOUR,66,81,38,13
@@ -309,14 +305,6 @@ BEGIN
 0x3632, "\000" 
     IDC_FONT_SIZE, 0x403, 3, 0
 0x3832, "\000" 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0031, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0032, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0033, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0034, 
     0
 END
 

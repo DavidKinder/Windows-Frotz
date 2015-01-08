@@ -4,8 +4,6 @@ The proportional font used for text in the game.
 The fixed-width font used for text in the game that needs a particular layout.
 .topic 3
 The size, in points, of the fonts used for text in the game.
-.topic 4
-This factor is used to scale the graphics files for Infocom's V6 games (Arthur, Journey, Shogun and Zork Zero).
 .topic 5
 The default colour for text.
 .topic 6

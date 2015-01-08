@@ -64,7 +64,7 @@ BEGIN_MESSAGE_MAP(FrotzFrameWnd, MenuBarFrameWnd)
   ON_COMMAND(ID_EDIT_PASTE, OnEditPaste)
   ON_COMMAND(ID_HELP_FINDER, OnHelpFinder)
   ON_COMMAND(ID_FULLSCREEN, OnFullscreen)
-  ON_COMMAND_RANGE(ID_LINKS_FROTZ, ID_LINKS_FAQ, OnHelpLink)
+  ON_COMMAND_RANGE(ID_LINKS_FROTZ, ID_LINKS_INFORM6, OnHelpLink)
   ON_UPDATE_COMMAND_UI(ID_INDICATOR_TIME, OnUpdateTime)
   ON_UPDATE_COMMAND_UI(ID_INDICATOR_ZCODE, OnUpdateZcode)
   //}}AFX_MSG_MAP
@@ -472,17 +472,16 @@ namespace
   static char* links[] =
   {
     "http://www.davidkinder.co.uk/frotz.html",
-    "http://www.ifarchive.org/",
+    "http://www.ifarchive.org",
     "http://www.ifarchive.org/indexes/if-archiveXgamesXzcode.html",
-    "http://www.ifdb.tads.org/",
-    "http://www.intfiction.org/forum/",
-    "http://www.planet-if.com/",
-    "http://www.ifwiki.org/",
-    "http://www.ifcomp.org/",
-    "http://ifmud.port4000.com/",
-    "http://www.inform7.com/",
-    "http://www.inform-fiction.org/inform6.html",
-    "http://www.firthworks.com/roger/"
+    "http://www.ifdb.tads.org",
+    "http://www.intfiction.org/forum",
+    "http://www.planet-if.com",
+    "http://www.ifwiki.org",
+    "http://www.ifcomp.org",
+    "http://ifmud.port4000.com",
+    "http://inform7.com",
+    "http://inform-fiction.org"
   };
 }
 

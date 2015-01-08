@@ -127,7 +127,6 @@ public:
   CString m_propFontName;
   CString m_fixedFontName;
   CString m_fontSize;
-  CString m_v6Scale;
   ColourButton m_textColour;
   ColourButton m_backColour;
   BOOL m_fastScroll;

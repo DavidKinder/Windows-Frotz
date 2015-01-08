@@ -64,7 +64,6 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Inform 7",                    ID_LINKS_INFORM7
             MENUITEM "Inform 6",                    ID_LINKS_INFORM6
-            MENUITEM "Inform 6 FAQ and Beginner's Guide", ID_LINKS_FAQ
         END
         MENUITEM SEPARATOR
         MENUITEM "Über dieses &Spiel",          ID_APP_ABOUT_GAME
@@ -107,9 +106,6 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "Schrift&grad",IDC_STATIC,6,63,38,8
     COMBOBOX        IDC_FONT_SIZE,53,62,38,64,CBS_DROPDOWN | WS_VSCROLL | 
-                    WS_TABSTOP
-    LTEXT           "&V6 Skalierung",IDC_STATIC,101,63,48,8
-    COMBOBOX        IDC_V6_SCALE,154,62,38,64,CBS_DROPDOWNLIST | WS_VSCROLL | 
                     WS_TABSTOP
     LTEXT           "Text&farbe",IDC_STATIC,6,83,37,8
     PUSHBUTTON      "",IDC_TEXT_COLOUR,53,81,38,13
@@ -252,14 +248,6 @@ BEGIN
 0x3632, "\000" 
     IDC_FONT_SIZE, 0x403, 3, 0
 0x3832, "\000" 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0031, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0032, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0033, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0034, 
     IDC_TERP_NUMBER, 0x403, 7, 0
 0x4544, 0x2043, 0x3032, "\000" 
     IDC_TERP_NUMBER, 0x403, 10, 0
@@ -330,14 +318,6 @@ BEGIN
 0x3632, "\000" 
     IDC_FONT_SIZE, 0x403, 3, 0
 0x3832, "\000" 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0031, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0032, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0033, 
-    IDC_V6_SCALE, 0x403, 2, 0
-0x0034, 
     0
 END
 

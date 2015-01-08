@@ -192,8 +192,6 @@ public:
   bool IsInfocomV6(void);
   // If true, the Tandy header flag should be set
   bool IsTandyBitSet(void);
-  // Get the scaling for graphics
-  int GetGfxScaling(void);
   // Copy the user name into the interpreter fields
   void CopyUsername(void);
 
@@ -224,8 +222,6 @@ protected:
   CString m_propFontName;
   CString m_fixedFontName;
   int m_fontSize;
-  int m_v6scale;
-  int m_gfxScale;
 
   COLORREF m_defaultFore;
   COLORREF m_defaultBack;

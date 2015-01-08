@@ -160,7 +160,7 @@ BOOL AboutGameDialog::OnInitDialog()
   CRect screen = theApp.GetScreenSize(true);
   if (coverGfx != NULL)
   {
-    double aspect = (double)coverGfx->GetWidth(1) / (double)coverGfx->GetHeight(1);
+    double aspect = (double)coverGfx->GetWidth(1.0) / (double)coverGfx->GetHeight(1.0);
     int coverX = screen.Width()/3;
     int coverY = (int)(coverX / aspect);
     m_coverRect = CRect(initRect.TopLeft(),CSize(coverX,coverY));
@@ -178,7 +178,7 @@ BOOL AboutGameDialog::OnInitDialog()
     ReleaseDC(dc);
     if (!create)
       return FALSE;
-    coverGfx->PaintScaled(m_coverBitmap);
+    coverGfx->Paint(m_coverBitmap);
   }
 
   // Resize the rich edit control
@@ -300,7 +300,7 @@ BOOL AboutDialog::OnInitDialog()
   CString aboutText;
   aboutText.LoadString(IDS_ABOUT_INFO);
   aboutText.Replace("%ver%","1.18");
-  aboutText.Replace("%year%","2014");
+  aboutText.Replace("%year%","2015");
   m_info.SetText(SF_RTF,aboutText);
   return TRUE;
 }
@@ -418,7 +418,6 @@ BOOL OptionsDialog::OnHelpInfo(HELPINFO* pHelpInfo)
     IDC_PROP_FONT,1,
     IDC_FIXED_FONT,2,
     IDC_FONT_SIZE,3,
-    IDC_V6_SCALE,4,
     IDC_TEXT_COLOUR,5,
     IDC_BACK_COLOUR,6,
     IDC_TERP_NUMBER,7,
@@ -547,7 +546,6 @@ void OptionsDisplayPage::DoDataExchange(CDataExchange* pDX)
   DDX_Control(pDX, IDC_PROP_FONT, m_propFont);
   DDX_Control(pDX, IDC_FIXED_FONT, m_fixedFont);
   DDX_CBString(pDX, IDC_FONT_SIZE, m_fontSize);
-  DDX_CBString(pDX, IDC_V6_SCALE, m_v6Scale);
   DDX_Check(pDX, IDC_FAST_SCROLL, m_fastScroll);
   DDX_Check(pDX, IDC_MORE_PROMPT, m_morePrompts);
   DDX_Text(pDX, IDC_LEFT_MARGIN, m_leftMargin);

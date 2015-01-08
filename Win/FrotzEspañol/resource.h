@@ -40,7 +40,6 @@
 #define IDC_TEXT_COLOUR                 1003
 #define IDC_BACK_COLOUR                 1004
 #define IDC_TERP_NUMBER                 1005
-#define IDC_V6_SCALE                    1006
 #define IDC_ERRORS                      1007
 #define IDC_IGNORE_RUNTIME              1008
 #define IDC_EXPAND                      1009
@@ -113,7 +112,6 @@
 #define ID_LINKS_IFMUD                  32808
 #define ID_LINKS_INFORM7                32809
 #define ID_LINKS_INFORM6                32810
-#define ID_LINKS_FAQ                    32811
 #define ID_FULLSCREEN                   32900
 #define ID_INDICATOR_TIME               32901
 #define ID_INDICATOR_ZCODE              32902
