@@ -71,6 +71,7 @@ FrotzApp::FrotzApp()
   m_speak = false;
   m_speechRate = 0;
   m_spokenIndex = 0;
+  m_wantRestart = false;
 
   // Standard Z-Machine colours
   m_colours[0]  = RGB5ToTrue(0x0000); // black
@@ -110,16 +111,9 @@ FrotzApp::ExitStatus FrotzApp::RunInterpreter(void)
   try
   {
     // Start the interpreter
+    m_wantRestart = false;
     main(__argc,__argv);
     AfxGetMainWnd()->DestroyWindow();
-  }
-  catch (FrotzApp::AbortFrotz&)
-  {
-    return Aborted;
-  }
-  catch (FrotzApp::ExitFrotz&)
-  {
-    return Exited;
   }
   catch (FrotzApp::RestartFrotz&)
   {
@@ -470,7 +464,7 @@ void FrotzApp::CreateMainWindow(void)
   {
     wnd = new FrotzFrameWnd;
     if (wnd->Create(m_toolBar,m_statusBar) == false)
-      throw AbortFrotz();
+      exit(1);
     m_pMainWnd = wnd;
   }
 
@@ -585,7 +579,10 @@ void FrotzApp::MessagePump(void)
     while (::PeekMessage(&msg,NULL,0,0,PM_NOREMOVE))
     {
       if (PumpMessage() == FALSE)
-        throw ExitFrotz();
+      {
+        WriteSettings();
+        exit(0);
+      }
     }
   }
   else
@@ -598,7 +595,10 @@ void FrotzApp::MessagePump(void)
   }
 
   if (AfxGetMainWnd() == NULL)
-    throw ExitFrotz();
+  {
+    WriteSettings();
+    exit(0);
+  }
 }
 
 // Get the elapsed time for this game
@@ -886,14 +886,14 @@ void FrotzApp::SetBlorbZCode(FILE* file, long* size)
           // Tell the user to use Windows Glulxe instead
           ::MessageBox(AfxGetMainWnd()->GetSafeHwnd(),
             CResString(IDS_BLORB_GLULX),CResString(IDS_FATAL),MB_ICONERROR|MB_OK);
-          throw AbortFrotz();
+          exit(0);
         }
       }
 
       // Tell the user that there was no game in the Blorb file
       ::MessageBox(AfxGetMainWnd()->GetSafeHwnd(),
         CResString(IDS_BLORB_NOEXEC),CResString(IDS_FATAL),MB_ICONERROR|MB_OK);
-      throw AbortFrotz();
+      exit(0);
     }
 
     // This is not a Blorb file, so go back to the start
@@ -1187,6 +1187,13 @@ void FrotzApp::SpeakText(void)
   }
 }
 
+// Check if the interpreter wants to restart
+void FrotzApp::CheckRestart(void)
+{
+  if (m_wantRestart)
+    throw FrotzApp::RestartFrotz();
+}
+
 // Initialize and run the interpreter
 BOOL FrotzApp::InitInstance()
 {
@@ -1228,8 +1235,7 @@ BOOL FrotzApp::InitInstance()
     }
 
     // Write out settings
-    if (status != Aborted)
-      WriteSettings();
+    WriteSettings();
   }
 
   FrotzSound::ShutDown();
@@ -1252,7 +1258,8 @@ void FrotzApp::OnFileNew()
   if (PromptForGame(false))
   {
     StoreWindowSize();
-    throw RestartFrotz();
+    m_wantRestart = true;
+    theWnd->InputType(FrotzWnd::Input::CheckRestart);
   }
 }
 
@@ -1405,7 +1412,7 @@ void FrotzApp::OnViewOptions()
       m_fontSize = fontSize;
 
       if (theWnd->CreateFonts() == false)
-        throw AbortFrotz();
+        exit(1);
 
       FrotzWnd::TextSettings savedText = theWnd->GetTextSettings();
       theWnd->ApplyTextSettings(FrotzWnd::TextSettings(0,FIXED_WIDTH_FONT));

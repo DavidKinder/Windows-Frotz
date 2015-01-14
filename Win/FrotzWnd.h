@@ -65,7 +65,8 @@ public:
       VirtualKey,
       Reset,
       KillLine,
-      RuboutWord
+      RuboutWord,
+      CheckRestart
     };
 
     Input();

@@ -169,7 +169,7 @@ extern "C" void os_fatal(const char *s)
     theWnd->FlushDisplay();
 
   ::MessageBox(AfxGetMainWnd()->GetSafeHwnd(),s,CResString(IDS_FATAL),MB_ICONERROR|MB_OK);
-  throw FrotzApp::AbortFrotz();
+  exit(0);
 }
 
 /*
@@ -452,6 +452,9 @@ extern "C" void os_more_prompt(void)
         case FrotzWnd::Input::Reset:
           point.y = theWnd->GetTextPoint().y;
           break;
+        case FrotzWnd::Input::CheckRestart:
+          theApp.CheckRestart();
+          break;
         }
       }
     }
@@ -485,7 +488,7 @@ extern "C" void os_process_arguments(int argc, char *argv[])
   // Ask the user for a game filename
   story_name = (char*)theApp.GetGameFileName();
   if (story_name == NULL)
-    throw FrotzApp::ExitFrotz();
+    exit(0);
 
   // Set default filenames
   CString filename = story_name;
@@ -762,6 +765,9 @@ extern "C" zword os_read_line(int max, zword *buf, int timeout, int width, int c
           theWnd->DrawInput(buf,pos,point,width,true);
         }
         break;
+      case FrotzWnd::Input::CheckRestart:
+        theApp.CheckRestart();
+        break;
       }
     }
   }
@@ -793,8 +799,9 @@ extern "C" zword os_read_key(int timeout, int cursor)
     theWnd->WaitForInput();
     while (theWnd->GetNextInput(input))
     {
-      if (input.type == FrotzWnd::Input::ZcodeKey)
+      switch (input.type)
       {
+      case FrotzWnd::Input::ZcodeKey:
         theApp.SetExitPause(false);
 
         if ((input.in == ZC_SINGLE_CLICK) || (input.in == ZC_DOUBLE_CLICK))
@@ -806,6 +813,10 @@ extern "C" zword os_read_key(int timeout, int cursor)
         if (cursor)
           theWnd->DrawCursor(false);
         return (zword)(input.in);
+
+      case FrotzWnd::Input::CheckRestart:
+        theApp.CheckRestart();
+        break;
       }
     }
   }
@@ -1379,6 +1390,9 @@ extern "C" void os_tick (void)
     count = 0;
     FrotzSound::Timer();
   }
+
+  // Check for restart
+  theApp.CheckRestart();
 }
 
 /*

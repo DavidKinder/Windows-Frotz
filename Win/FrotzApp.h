@@ -50,16 +50,6 @@ public:
   DECLARE_MESSAGE_MAP()
 
 public:
-  // Exception thrown to exit the interpreter
-  class ExitFrotz
-  {
-  };
-
-  // Exception thrown to abort the interpreter
-  class AbortFrotz
-  {
-  };
-
   // Exception thrown to restart the interpreter
   class RestartFrotz
   {
@@ -68,7 +58,6 @@ public:
   // Enumeration for return values from RunInterpreter()
   enum ExitStatus
   {
-    Aborted,
     Exited,
     Restarting
   };
@@ -202,6 +191,9 @@ public:
   // Speak text added to the scrollback buffer
   void SpeakText(void);
 
+  // Check if the interpreter wants to restart
+  void CheckRestart(void);
+
 protected:
   // Get a string from an XML node
   CString StrFromXML(IXMLDOMDocument* doc, LPCWSTR path);
@@ -253,6 +245,8 @@ protected:
   CString m_speechVoice;
   int m_speechRate;
   int m_spokenIndex;
+
+  bool m_wantRestart;
 };
 
 class CResString : public CString
