@@ -213,13 +213,14 @@ extern "C" int os_font_data(int font, int *height, int *width)
  *
  * Return the name of a file. Flag can be one of:
  *
- *    FILE_SAVE     - Save game file
- *    FILE_RESTORE  - Restore game file
- *    FILE_SCRIPT   - Transcript file
- *    FILE_RECORD   - Command file for recording
- *    FILE_PLAYBACK - Command file for playback
- *    FILE_SAVE_AUX - Save auxiliary ("preferred settings") file
- *    FILE_LOAD_AUX - Load auxiliary ("preferred settings") file
+ *    FILE_SAVE      - Save game file
+ *    FILE_RESTORE   - Restore game file
+ *    FILE_SCRIPT    - Transcript file
+ *    FILE_RECORD    - Command file for recording
+ *    FILE_PLAYBACK  - Command file for playback
+ *    FILE_SAVE_AUX  - Save auxiliary ("preferred settings") file
+ *    FILE_LOAD_AUX  - Load auxiliary ("preferred settings") file
+ *    FILE_NO_PROMPT - Return file without prompting the user
  *
  * The length of the file name is limited by MAX_FILE_NAME. Ideally
  * an interpreter should open a file requester to ask for the file
@@ -229,6 +230,25 @@ extern "C" int os_font_data(int font, int *height, int *width)
  */
 extern "C" int os_read_file_name(char *file_name, const char *default_name, int flag)
 {
+  if (flag == FILE_NO_PROMPT)
+  {
+    CString path = theApp.GetGameFileName();
+    int pos = path.ReverseFind(L'\\');
+    if (pos >= 0)
+      path.Truncate(pos+1);
+
+    static const char* illegal = "/\\<>:\"|?*";
+    while (*default_name != 0)
+    {
+      if (strchr(illegal,*default_name) == NULL)
+        path.AppendChar(*default_name);
+      default_name++;
+    }
+
+    strncpy(file_name,path,MAX_FILE_NAME);
+    return 1;
+  }
+
   theWnd->FlushDisplay();
   theWnd->ResetOverhang();
 

@@ -627,9 +627,6 @@ static void get_default_name (char *default_name, zword addr)
 	    LOW_BYTE (addr, c)
 	    addr++;
 
-	    if (c >= 'A' && c <= 'Z')
-		c += 'a' - 'A';
-
 	    default_name[i] = c;
 
 	}
@@ -637,7 +634,7 @@ static void get_default_name (char *default_name, zword addr)
 	default_name[i] = 0;
 
 	if (strchr (default_name, '.') == NULL)
-	    strcpy (default_name + i, ".AUX");
+	    strcpy (default_name + i, ".aux");
 
     } else strcpy (default_name, auxilary_name);
 
@@ -674,7 +671,12 @@ void z_restore (void)
 
 	    strcpy (auxilary_name, new_name);
 
-	} else strcpy (new_name, default_name);
+	} else {
+
+	    if (os_read_file_name (new_name, default_name, FILE_NO_PROMPT) == 0)
+		goto finished;
+
+	}
 
 	/* Open auxilary file */
 
@@ -980,7 +982,12 @@ void z_save (void)
 
 	    strcpy (auxilary_name, new_name);
 
-	} else strcpy (new_name, default_name);
+	} else {
+
+	    if (os_read_file_name (new_name, default_name, FILE_NO_PROMPT) == 0)
+		goto finished;
+
+	}
 
 	/* Open auxilary file */
 

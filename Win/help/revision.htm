@@ -16,8 +16,13 @@ produces smooth results.
 <li>The <b>V6 scaling</b> item in the options dialog has been removed: when running an Infocom
 V6 game the interpreter automatically resizes the window to the largest multiple of 320x200
 that fits on the screen.
+<li>If the game calls the <b>restore</b> or <b>save</b> opcodes in the form that does not
+bring up a file dialog, the interpreter now takes care to remove any characters which would
+change the directory in which the file is written.
 <li>A case where the <b>check_unicode</b> opcode would report that a character could not be
 printed, when in fact it could, has been fixed.
+<li>The <b>output_stream</b> opcode did not correctly handle its width argument in V6: this
+has been corrected by a patch from David Griffith.
 </ul>
 
 <b>1.17</b>
