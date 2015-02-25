@@ -1342,13 +1342,20 @@ void z_print_table (void)
 
 	if (i != 0) {
 
-	    flush_buffer ();
+	    if (h_version != V6 && cwin == 0) {
 
-	    cwp->y_cursor += font_height;
-	    cwp->x_cursor = x;
+		new_line ();
 
-	    update_cursor ();
+	    } else {
 
+		flush_buffer ();
+
+		cwp->y_cursor += font_height;
+		cwp->x_cursor = x;
+
+		update_cursor ();
+
+	    }
 	}
 
 	for (j = 0; j < zargs[1]; j++) {
