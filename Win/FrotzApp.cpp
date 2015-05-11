@@ -1348,9 +1348,9 @@ void FrotzApp::OnViewOptions()
     int fontSize = 0;
     sscanf(display.m_fontSize,"%d",&fontSize);
     if (fontSize < 8)
-      fontSize = 8;
-    if (fontSize > 28)
-      fontSize = 28;
+      fontSize = 6;
+    if (fontSize > 100)
+      fontSize = 100;
 
     // Check if the font settings have changed
     bool fontUpdate = false;
