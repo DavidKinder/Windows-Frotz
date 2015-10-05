@@ -162,13 +162,15 @@ public:
   void SetTextPoint(POINT point);
 
   // Scroll the bitmap
-  void Scroll(int left, int top, int width, int height, int units);
+  void Scroll(LPCRECT rect, int units);
   // Fill a rectangle with the background colour
   void FillBackground(LPCRECT rect);
   // Fill a rectangle with the given colour
   void FillSolid(LPCRECT rect, COLORREF colour);
   // Draw a bitmap graphic
-  void DrawGraphic(FrotzGfx* gfx, int x, int y, double r);
+  void DrawGraphic(FrotzGfx* gfx, CPoint point);
+  // Get the size of the bitmap graphic after scaling
+  CSize GetGraphicSize(FrotzGfx* gfx);
   // Get the colour of a pixel
   COLORREF GetPixel(POINT p);
 
@@ -209,8 +211,6 @@ public:
   void SetAllowResize(bool allow);
   // Resize the display and redraw
   void ResizeDisplay(void);
-  // Calculate the ERF for scaling pictures
-  double CalcScalingERF(void);
 
   // Wrapper for showing and removing the cursor
   class DrawCursor
@@ -246,6 +246,13 @@ protected:
   void SelectFont(CFont& font);
   // Get the current background colour
   COLORREF GetBackColour(void);
+  // Calculate the ERF for scaling pictures
+  double CalcScalingERF(void);
+
+  // Redraw 'color changer' pictures
+  void RedrawColorChangers(double erf);
+  // Remove 'color changer' pictures contained in the rectangle
+  void PurgeColorChangers(LPCRECT rect);
 
 protected:
   CDC m_dc;
@@ -273,6 +280,8 @@ protected:
   CBitmap m_gfxBitmap;
   CBitmap m_charBitmap;
   CDibSection m_cursorBitmap;
+
+  CMap<FrotzGfx*,FrotzGfx*,CPoint,CPoint> m_mapColorChanger;
 
   TextSettings m_current;
   UnicodeString m_pendingText;

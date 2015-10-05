@@ -35,37 +35,24 @@ extern FrotzWnd* theWnd;
 FrotzGfx::FrotzGfx()
 {
   m_pixels = NULL;
-  m_header = NULL;
   m_width = 0;
   m_height = 0;
+  m_transparentColor = -1;
   m_ratioStd = 1.0;
   m_ratioMin = 0.0;
   m_ratioMax = 0.0;
-  m_adapt = false;
+  m_usesPalette = false;
+  m_colorChanger = false;
 }
 
 FrotzGfx::~FrotzGfx()
 {
   if (m_pixels)
     delete[] m_pixels;
-  if (m_header)
-    delete m_header;
 }
 
-// Get the width of the picture
-int FrotzGfx::GetWidth(double r)
-{
-  return (int)(m_width*r);
-}
-
-// Get the height of the picture
-int FrotzGfx::GetHeight(double r)
-{
-  return (int)(m_height*r);
-}
-
-// Calculate the scaling ratio for this picture
-double FrotzGfx::CalcScalingRatio(double erf)
+// Get the size of the picture
+CSize FrotzGfx::GetSize(double erf)
 {
   double r = erf * m_ratioStd;
   if ((m_ratioMin != 0.0) && (r < m_ratioMin))
@@ -74,126 +61,143 @@ double FrotzGfx::CalcScalingRatio(double erf)
     r = m_ratioMax;
   if (r <= 0.0)
     r = 1.0;
-  return r;
+
+  return CSize((int)(m_width*r), (int)(m_height*r));
 }
 
-// Draw the picture
-void FrotzGfx::Paint(CDibSection& dib)
+// Apply the picture's palette to the screen palette
+bool FrotzGfx::ApplyPalette()
 {
-  CSize size = dib.GetSize();
-  ScaleGfx((COLORREF*)m_pixels,m_width,m_height,dib.GetBits(),size.cx,size.cy);
-}
+  bool changed = false;
 
-// Draw the picture
-void FrotzGfx::Paint(CDibSection& dib, int x, int y)
-{
-  ::GdiFlush();
-  if ((m_pixels != NULL) && (m_header != NULL))
+  if (m_usesPalette)
   {
-    // If this graphic does not have an adaptive palette, set
-    // its palette (if any) to be the current palette
-    if (m_adapt == false)
+    int colors = (int) m_palette.GetSize();
+    if (colors > 16)
+      colors = 16;
+
+    for (int i = 0; i < colors; i++)
     {
-      m_currentPalette.RemoveAll();
-      for (int i = 0; i < m_palette.GetSize(); i++)
-        m_currentPalette.Add(m_palette[i]);
-    }
-
-    CSize size = dib.GetSize();
-
-    // Work out clipping values for graphics which are partially
-    // out of the bitmap
-    int x1 = 0, x2 = m_width;
-    int y1 = 0, y2 = m_height;
-    if (x < 0)
-      x1 = x * -1;
-    if (y < 0)
-      y1 = y * -1;
-    if (x + x2 > size.cx)
-      x2 = (size.cx-x);
-    if (y + y2 > size.cy)
-      y2 = (size.cy-y);
-
-    DWORD src, dest;
-    int sr, sg, sb, dr, dg, db, a;
-
-    // Alpha blend each pixel of the graphic into the bitmap
-    for (int yy = y1; yy < y2; yy++)
-    {
-      for (int xx = x1; xx < x2; xx++)
+      if (m_screenPalette[i] != m_palette[i])
       {
-        // Get the colour of the pixel
-        src = CDibSection::GetPixel((DWORD*)m_pixels,m_width,xx,yy);
-
-        // If the palette is adaptive, convert to a colour
-        // in the current palette
-        if (m_adapt)
-        {
-          a = src & 0xFF000000;
-
-          int index;
-          if (m_invPalette.Lookup(src & 0xFFFFFF,index))
-            src = m_currentPalette[index] | a;
-        }
-
-        // Split it into red, green, blue and alpha
-        sb = src & 0xFF;
-        src >>= 8;
-        sg = src & 0xFF;
-        src >>= 8;
-        sr = src & 0xFF;
-        src >>= 8;
-        a = src & 0xFF;
-        if (a == 0)
-          continue;
-
-        // Get the colour of the destination pixel
-        dest = dib.GetPixel(x+xx,y+yy);
-
-        // Split it into red, green and blue
-        db = dest & 0xFF;
-        dest >>= 8;
-        dg = dest & 0xFF;
-        dest >>= 8;
-        dr = dest & 0xFF;
-
-        // Perform alpha blending
-        if (a == 255)
-        {
-          dr = sr;
-          dg = sg;
-          db = sb;
-        }
-        else
-        {
-          // Rescale from 0..255 to 0..256
-          a += a>>7;
-
-          // Alpha blend in the linear colour space
-          dr = m_fromLinear[(m_toLinear[sr]*a + m_toLinear[dr]*(256-a))>>8];
-          dg = m_fromLinear[(m_toLinear[sg]*a + m_toLinear[dg]*(256-a))>>8];
-          db = m_fromLinear[(m_toLinear[sb]*a + m_toLinear[db]*(256-a))>>8];
-        }
-
-        dest = (dr<<16)|(dg<<8)|db;
-        dib.SetPixel(x+xx,y+yy,dest);
+        changed = true;
+        m_screenPalette[i] = m_palette[i];
       }
     }
   }
+
+  return changed;
 }
 
 // Draw the picture
-void FrotzGfx::Paint(CDibSection& dib, CDC& dc, int x, int y, double r)
+void FrotzGfx::Paint(CDibSection& dib, CPoint point, double erf)
 {
   ::GdiFlush();
-  if (r == 1.0)
-    Paint(dib,x,y);
-  else
+
+  if (m_pixels != NULL)
   {
-    FrotzGfx* scaledGfx = CreateScaled(r);
-    scaledGfx->Paint(dib,x,y);
-    delete scaledGfx;
+    CSize size = GetSize(erf);
+
+    // Clip graphic to the DIB boundary
+    CRect clip(point, size);
+
+    clip &= CRect(CPoint(0, 0), dib.GetSize());
+
+    if (m_usesPalette)
+    {
+      // Use simple scaling without interpolation in palette mode
+      for (int yy = clip.top; yy < clip.bottom; yy++)
+      {
+        int ys = (yy-point.y)*m_height/size.cy;
+
+        for (int xx = clip.left; xx < clip.right; xx++)
+        {
+          int xs = (xx-point.x)*m_width/size.cx;
+
+          int index = m_pixels[ys * m_width + xs];
+
+          if (index != m_transparentColor)
+            dib.SetPixel(xx,yy,m_screenPalette[index]);
+        }
+      }
+    }
+    else
+    {
+      DWORD* p = (DWORD*)m_pixels;
+
+      // Scale the image if necessary
+      if (size.cx != m_width || size.cy != m_height)
+      {
+        p = new DWORD[size.cx*size.cy];
+
+        ScaleGfx((COLORREF*)m_pixels,m_width,m_height,(COLORREF*)p,size.cx,size.cy);
+      }
+
+      DWORD src, dest;
+      int sr, sg, sb, dr, dg, db, a;
+
+      // Alpha blend each pixel of the graphic into the bitmap
+      for (int yy = clip.top; yy < clip.bottom; yy++)
+      {
+        for (int xx = clip.left; xx < clip.right; xx++)
+        {
+          // Get the colour of the pixel
+          src = CDibSection::GetPixel(p,size.cx,xx-point.x,yy-point.y);
+
+          // Split it into red, green, blue and alpha
+          sb = src & 0xFF;
+          src >>= 8;
+          sg = src & 0xFF;
+          src >>= 8;
+          sr = src & 0xFF;
+          src >>= 8;
+          a = src & 0xFF;
+          if (a == 0)
+            continue;
+
+          // Perform alpha blending
+          if (a == 255)
+          {
+            dr = sr;
+            dg = sg;
+            db = sb;
+          }
+          else
+          {
+            // Get the colour of the destination pixel
+            dest = dib.GetPixel(xx,yy);
+
+            // Split it into red, green and blue
+            db = dest & 0xFF;
+            dest >>= 8;
+            dg = dest & 0xFF;
+            dest >>= 8;
+            dr = dest & 0xFF;
+
+            // Rescale from 0..255 to 0..256
+            a += a>>7;
+
+            // Alpha blend in the linear colour space
+            dr = m_fromLinear[(m_toLinear[sr]*a + m_toLinear[dr]*(256-a))>>8];
+            dg = m_fromLinear[(m_toLinear[sg]*a + m_toLinear[dg]*(256-a))>>8];
+            db = m_fromLinear[(m_toLinear[sb]*a + m_toLinear[db]*(256-a))>>8];
+          }
+
+          dest = (dr<<16)|(dg<<8)|db;
+          dib.SetPixel(xx,yy,dest);
+        }
+      }
+
+      if (p != (DWORD*)m_pixels)
+        delete [] p;
+    }
   }
+}
+
+// Does this picture need to be redrawn after screen palette changes?
+bool FrotzGfx::IsColorChanger()
+{
+  return m_colorChanger;
 }
 
 // Get a picture from the cache or the Blorb resource map
@@ -239,12 +243,24 @@ FrotzGfx* FrotzGfx::Get(int picture, bb_map_t* map, bool permissive)
 
     bb_unload_chunk(map,result.chunknum);
 
-    // Does this picture have an adaptive palette?
-    if (gfx != NULL)
+    if (gfx != NULL && m_adaptiveMode)
     {
+      // 'Adaptive' pictures have no palette of their own
       int i;
       if (m_adaptive.Lookup(picture,i))
-        gfx->m_adapt = true;
+        gfx->m_palette.RemoveAll();
+
+      if (story_id == ARTHUR)
+        if (picture == 54 || picture == 170 || picture == 171)
+          gfx->m_colorChanger = true;
+
+      if (story_id == SHOGUN)
+        if (picture == 3 || picture == 59)
+          gfx->m_colorChanger = true;
+
+      if (story_id == ZORK_ZERO)
+        if (picture == 440)
+          gfx->m_colorChanger = true;
     }
   }
 
@@ -258,16 +274,18 @@ void FrotzGfx::LoadPaletteInfo(bb_map_t* map)
 {
   bb_result_t result;
   unsigned int id = bb_make_id('A','P','a','l');
+  m_adaptive.RemoveAll();
+  m_adaptiveMode = false;
   if (bb_load_chunk_by_type(map,bb_method_Memory,&result,id,0) == bb_err_None)
   {
-    m_adaptive.RemoveAll();
-
     for (int i = 0; i < (int)result.length; i += 4)
     {
       unsigned char* data = ((unsigned char*)result.data.ptr)+i;
       int picture = (data[0]<<24)|(data[1]<<16)|(data[2]<<8)|data[3];
       m_adaptive[picture] = 0;
     }
+
+    m_adaptiveMode = true;
 
     bb_unload_chunk(map,result.chunknum);
   }
@@ -287,7 +305,8 @@ void FrotzGfx::ClearCache(void)
   }
   m_cache.RemoveAll();
   m_adaptive.RemoveAll();
-  m_currentPalette.RemoveAll();
+  m_adaptiveMode = false;
+  ::ZeroMemory(m_screenPalette,sizeof m_screenPalette);
 }
 
 // Set the screen gamma and build gamma correction tables
@@ -309,61 +328,8 @@ int FrotzGfx::m_fromLinear[256];
 
 CMap<int,int,FrotzGfx*,FrotzGfx*> FrotzGfx::m_cache;
 CMap<int,int,int,int> FrotzGfx::m_adaptive;
-CArray<DWORD,DWORD> FrotzGfx::m_currentPalette;
-
-FrotzGfx* FrotzGfx::CreateScaled(double r)
-{
-  int width = (int)(r * m_width);
-  int height = (int)(r * m_height);
-
-  FrotzGfx* graphic = new FrotzGfx;
-  graphic->m_width = width;
-  graphic->m_height = height;
-
-  graphic->m_adapt = m_adapt;
-  graphic->m_palette.Copy(m_palette);
-  {
-    POSITION p = m_invPalette.GetStartPosition();
-    while (p)
-    {
-      DWORD key;
-      int value;
-      m_invPalette.GetNextAssoc(p,key,value);
-      graphic->m_invPalette.SetAt(key,value);
-    }
-  }
-  graphic->m_header = new BITMAPINFOHEADER;
-  ::ZeroMemory(graphic->m_header,sizeof(BITMAPINFOHEADER));
-  graphic->m_header->biSize = sizeof(BITMAPINFOHEADER);
-  graphic->m_header->biWidth = width;
-  graphic->m_header->biHeight = height*-1;
-  graphic->m_header->biPlanes = 1;
-  graphic->m_header->biBitCount = 32;
-  graphic->m_header->biCompression = BI_RGB;
-
-  int size = width*height*4;
-  graphic->m_pixels = new BYTE[size];
-  ::ZeroMemory(graphic->m_pixels,size);
-
-  if (theApp.IsInfocomV6() || (story_id == BEYOND_ZORK))
-  {
-    // Use simple, 'blocky' scaling for the Infocom games
-    for (int xd = 0; xd < width; xd++)
-    {
-      int xs = (int)((double)xd / r);
-      for (int yd = 0; yd < height; yd++)
-      {
-        int ys = (int)((double)yd / r);
-        DWORD colour = CDibSection::GetPixel((DWORD*)m_pixels,m_width,xs,ys);
-        CDibSection::SetPixel((DWORD*)graphic->m_pixels,width,xd,yd,colour);
-      }
-    }
-  }
-  else
-    ScaleGfx((COLORREF*)m_pixels,m_width,m_height,(COLORREF*)graphic->m_pixels,width,height);
-
-  return graphic;
-}
+bool FrotzGfx::m_adaptiveMode;
+DWORD FrotzGfx::m_screenPalette[16];
 
 /////////////////////////////////////////////////////////////////////////////
 // Loader for PNG images
@@ -439,61 +405,76 @@ FrotzGfx* FrotzGfx::LoadPNG(BYTE* data, int)
   int bit_depth = png_get_bit_depth(png_ptr,info_ptr);
   int color_type = png_get_color_type(png_ptr,info_ptr);
 
-  graphic = new FrotzGfx;
-  graphic->m_width = width;
-  graphic->m_height = height;
-
-  if (color_type == PNG_COLOR_TYPE_PALETTE && bit_depth <= 8)
-    png_set_palette_to_rgb(png_ptr);
-  if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
-    png_set_expand_gray_1_2_4_to_8(png_ptr);
-  if (png_get_valid(png_ptr,info_ptr,PNG_INFO_tRNS))
-    png_set_tRNS_to_alpha(png_ptr);
-
   double gamma;
   if (png_get_gAMA(png_ptr,info_ptr,&gamma))
     png_set_gamma(png_ptr,m_gamma,gamma);
 
-  if (bit_depth == 16)
-    png_set_strip_16(png_ptr);
-  if (bit_depth < 8)
-    png_set_packing(png_ptr);
-  if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-    png_set_gray_to_rgb(png_ptr);
+  graphic = new FrotzGfx;
+  graphic->m_width = width;
+  graphic->m_height = height;
 
-  png_set_bgr(png_ptr);
-  png_set_filler(png_ptr,0xFF,PNG_FILLER_AFTER);
-
-  graphic->m_header = new BITMAPINFOHEADER;
-  ::ZeroMemory(graphic->m_header,sizeof(BITMAPINFOHEADER));
-  graphic->m_header->biSize = sizeof(BITMAPINFOHEADER);
-  graphic->m_header->biWidth = width;
-  graphic->m_header->biHeight = height*-1;
-  graphic->m_header->biPlanes = 1;
-  graphic->m_header->biBitCount = 32;
-  graphic->m_header->biCompression = BI_RGB;
-
-  int size = width*height*4;
-  graphic->m_pixels = new BYTE[size];
-
-  rowPointers = new png_bytep[height];
-  for (int i = 0; i < (int)height; i++)
-    rowPointers[i] = graphic->m_pixels+(width*i*4);
-  png_read_image(png_ptr,rowPointers);
-
-  // Get the palette after reading the image, so that the gamma
-  // correction is applied
-  png_colorp palette;
-  int num_palette;
-  if (png_get_PLTE(png_ptr,info_ptr,&palette,&num_palette))
+  if (m_adaptiveMode && color_type == PNG_COLOR_TYPE_PALETTE && bit_depth <= 4)
   {
-    for (int i = 0; i < num_palette; i++)
+    graphic->m_usesPalette = true;
+
+    png_set_packing(png_ptr);
+
+    // Check for transparency. In practice, the transparent
+    // color will always be color 0.
+    png_bytep trans;
+    int num_trans;
+    png_color_16p trans_values;
+    if (png_get_tRNS(png_ptr,info_ptr,&trans,&num_trans,&trans_values) && num_trans >= 1)
+      graphic->m_transparentColor = trans[0];
+
+    int size = width*height;
+    graphic->m_pixels = new BYTE[size];
+
+    rowPointers = new png_bytep[height];
+    for (int i = 0; i < (int)height; i++)
+      rowPointers[i] = graphic->m_pixels+(width*i);
+    png_read_image(png_ptr,rowPointers);
+
+    // Get the palette after reading the image, so that the gamma
+    // correction is applied
+    png_colorp palette;
+    int num_palette;
+    if (png_get_PLTE(png_ptr,info_ptr,&palette,&num_palette))
     {
-      DWORD colour =
-        (palette[i].red<<16)|(palette[i].green<<8)|palette[i].blue;
-      graphic->m_palette.Add(colour);
-      graphic->m_invPalette[colour] = i;
+      for (int i = 0; i < num_palette; i++)
+      {
+        DWORD colour =
+          (palette[i].red<<16)|(palette[i].green<<8)|palette[i].blue;
+        graphic->m_palette.Add(colour);
+      }
     }
+  }
+  else
+  {
+    if (color_type == PNG_COLOR_TYPE_PALETTE && bit_depth <= 8)
+      png_set_palette_to_rgb(png_ptr);
+    if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
+      png_set_expand_gray_1_2_4_to_8(png_ptr);
+    if (png_get_valid(png_ptr,info_ptr,PNG_INFO_tRNS))
+      png_set_tRNS_to_alpha(png_ptr);
+
+    if (bit_depth == 16)
+      png_set_strip_16(png_ptr);
+    if (bit_depth < 8)
+      png_set_packing(png_ptr);
+    if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+      png_set_gray_to_rgb(png_ptr);
+
+    png_set_bgr(png_ptr);
+    png_set_filler(png_ptr,0xFF,PNG_FILLER_AFTER);
+
+    int size = width*height*4;
+    graphic->m_pixels = new BYTE[size];
+
+    rowPointers = new png_bytep[height];
+    for (int i = 0; i < (int)height; i++)
+      rowPointers[i] = graphic->m_pixels+(width*i*4);
+    png_read_image(png_ptr,rowPointers);
   }
 
   png_read_end(png_ptr,end_info);
@@ -599,17 +580,8 @@ FrotzGfx* FrotzGfx::LoadJPEG(BYTE* data, int length)
   graphic = new FrotzGfx;
   graphic->m_width = width;
   graphic->m_height = height;
-    
-  graphic->m_header = new BITMAPINFOHEADER;
-  ::ZeroMemory(graphic->m_header,sizeof(BITMAPINFOHEADER));
-  graphic->m_header->biSize = sizeof(BITMAPINFOHEADER);
-  graphic->m_header->biWidth = width;
-  graphic->m_header->biHeight = height*-1;
-  graphic->m_header->biPlanes = 1;
-  graphic->m_header->biBitCount = 32;
-  graphic->m_header->biCompression = BI_RGB;
   graphic->m_pixels = new BYTE[width*height*4];
-
+    
   // Force RGB output
   info.out_color_space = JCS_RGB;
 

@@ -55,6 +55,7 @@ END_MESSAGE_MAP()
 void FrotzWnd::Initialize(void)
 {
   m_allowResize = true;
+  m_mapColorChanger.RemoveAll();
   m_pendingText.RemoveAll();
   m_input.RemoveAll();
   m_mouseClick = 0;
@@ -594,15 +595,20 @@ void FrotzWnd::SetTextPoint(POINT point)
 }
 
 // Scroll the bitmap
-void FrotzWnd::Scroll(int left, int top, int width, int height, int units)
+void FrotzWnd::Scroll(LPCRECT rect, int units)
 {
-  m_dc.BitBlt(left,top,width,height,&m_dc,left,top+units,SRCCOPY);
+  m_dc.BitBlt(rect->left,rect->top,rect->right-rect->left,rect->bottom-rect->top,
+    &m_dc,rect->left,rect->top+units,SRCCOPY);
+
+  PurgeColorChangers(rect);
 }
 
 // Fill a rectangle with the background colour
 void FrotzWnd::FillBackground(LPCRECT rect)
 {
   m_dc.ExtTextOut(0,0,ETO_OPAQUE,rect,NULL,0,NULL);
+
+  PurgeColorChangers(rect);
 }
 
 // Fill a rectangle with the given colour
@@ -614,9 +620,24 @@ void FrotzWnd::FillSolid(LPCRECT rect, COLORREF colour)
 }
 
 // Draw a bitmap graphic
-void FrotzWnd::DrawGraphic(FrotzGfx* gfx, int x, int y, double r)
+void FrotzWnd::DrawGraphic(FrotzGfx* gfx, CPoint point)
 {
-  gfx->Paint(m_bitmap,m_dc,x,y,r);
+  double erf = CalcScalingERF();
+
+  if (gfx->ApplyPalette())
+    RedrawColorChangers(erf);
+
+  gfx->Paint(m_bitmap,point,erf);
+
+  if (gfx->IsColorChanger())
+    m_mapColorChanger[gfx] = point;
+}
+
+// Get the size of the bitmap graphic after scaling
+CSize FrotzWnd::GetGraphicSize(FrotzGfx* gfx)
+{
+  double erf = CalcScalingERF();
+  return gfx->GetSize(erf);
 }
 
 // Get the colour of a pixel
@@ -915,6 +936,35 @@ COLORREF FrotzWnd::GetBackColour(void)
   if (back == 1)
     return app->GetDefaultColour(false);
   return app->GetColour(back);
+}
+
+// Redraw 'color changer' pictures
+void FrotzWnd::RedrawColorChangers(double erf)
+{
+  POSITION pos = m_mapColorChanger.GetStartPosition();
+  while (pos != NULL)
+  {
+    FrotzGfx* gfx;
+    CPoint point;
+    m_mapColorChanger.GetNextAssoc(pos,gfx,point);
+
+    gfx->Paint(m_bitmap,point,erf);
+  }
+}
+
+// Remove 'color changer' pictures contained in the rectangle
+void FrotzWnd::PurgeColorChangers(LPCRECT rect)
+{
+  POSITION pos = m_mapColorChanger.GetStartPosition();
+  while (pos != NULL)
+  {
+    FrotzGfx* gfx;
+    CPoint point;
+    m_mapColorChanger.GetNextAssoc(pos,gfx,point);
+
+    if (PtInRect(rect, point))
+      m_mapColorChanger.RemoveKey(gfx);
+  }
 }
 
 // Constructor for text settings
