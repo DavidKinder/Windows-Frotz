@@ -937,7 +937,7 @@ extern "C" void os_scroll_area(int top, int left, int bottom, int right, int uni
   theWnd->FlushText();
   theWnd->ResetOverhang();
 
-  theWnd->Scroll(left-1,top-1,right-left+1,bottom-top+1,units);
+  theWnd->Scroll(CRect(left-1,top-1,right,bottom),units);
   if (units > 0)
     theWnd->FillBackground(CRect(left-1,bottom-units,right,bottom));
   else
@@ -1224,9 +1224,9 @@ extern "C" int os_picture_data(int picture, int *height, int *width)
       FrotzGfx* gfx = FrotzGfx::Get(picture,theApp.GetBlorbMap(),false);
       if (gfx != NULL)
       {
-        double r = gfx->CalcScalingRatio(theWnd->CalcScalingERF());
-        *height = gfx->GetHeight(r);
-        *width = gfx->GetWidth(r);
+        CSize size = theWnd->GetGraphicSize(gfx);
+        *height = size.cy;
+        *width = size.cx;
         return 1;
       }
     }
@@ -1251,10 +1251,8 @@ extern "C" void os_draw_picture(int picture, int y, int x)
     FrotzGfx* gfx = FrotzGfx::Get(picture,theApp.GetBlorbMap(),false);
     if (gfx != NULL)
     {
-      signed short x1 = (signed short)x;
-      signed short y1 = (signed short)y;
-      double r = gfx->CalcScalingRatio(theWnd->CalcScalingERF());
-      theWnd->DrawGraphic(gfx,x1-1,y1-1,r);
+      CPoint point((short)x-1,(short)y-1);
+      theWnd->DrawGraphic(gfx,point);
     }
   }
 }

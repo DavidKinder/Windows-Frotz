@@ -15,19 +15,14 @@ extern "C"
 class FrotzGfx
 {
 public:
-  FrotzGfx();
-  ~FrotzGfx();
-
-  // Get the width of the picture
-  int GetWidth(double r);
-  // Get the height of the picture
-  int GetHeight(double r);
-  // Calculate the scaling ratio for this picture
-  double CalcScalingRatio(double erf);
+  // Get the size of the picture
+  CSize GetSize(double erf);
   // Draw the picture
-  void Paint(CDibSection& dib);
-  void Paint(CDibSection& dib, int x, int y);
-  void Paint(CDibSection& dib, CDC& dc, int x, int y, double r);
+  void Paint(CDibSection& dib, CPoint point, double erf);
+  // Apply the picture's palette to the screen palette
+  bool ApplyPalette();
+  // Does this picture need to be redrawn after screen palette changes?
+  bool IsColorChanger();
 
   // Get a picture from the cache or the Blorb resource map
   static FrotzGfx* Get(int picture, bb_map_t* map, bool permissive);
@@ -39,25 +34,29 @@ public:
   static void SetGamma(double gamma);
 
 protected:
+  FrotzGfx();
+  ~FrotzGfx();
+
   static FrotzGfx* LoadPNG(BYTE* data, int length);
   static FrotzGfx* LoadJPEG(BYTE* data, int length);
   static FrotzGfx* LoadRect(BYTE* data, int length);
-  FrotzGfx* CreateScaled(double r);
 
 protected:
   BYTE* m_pixels;
-  BITMAPINFOHEADER *m_header;
 
   int m_width;
   int m_height;
+
+  int m_transparentColor;
 
   double m_ratioStd;
   double m_ratioMin;
   double m_ratioMax;
 
-  bool m_adapt;
   CArray<DWORD,DWORD> m_palette;
-  CMap<DWORD,DWORD,int,int> m_invPalette;
+
+  bool m_usesPalette;
+  bool m_colorChanger;
 
   static double m_gamma;
   static int m_toLinear[256];
@@ -65,5 +64,6 @@ protected:
 
   static CMap<int,int,FrotzGfx*,FrotzGfx*> m_cache;
   static CMap<int,int,int,int> m_adaptive;
-  static CArray<DWORD,DWORD> m_currentPalette;
+  static bool m_adaptiveMode;
+  static DWORD m_screenPalette[16];
 };

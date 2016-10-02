@@ -156,30 +156,26 @@ BOOL AboutGameDialog::OnInitDialog()
   if (gameInfo.cover != -1)
     coverGfx = FrotzGfx::Get(gameInfo.cover,theApp.GetBlorbMap(),gameInfo.coverFormatWrong);
 
-  // Choose a size for the cover art
   CRect screen = theApp.GetScreenSize(true);
   if (coverGfx != NULL)
   {
-    double aspect = (double)coverGfx->GetWidth(1.0) / (double)coverGfx->GetHeight(1.0);
-    int coverX = screen.Width()/3;
-    int coverY = (int)(coverX / aspect);
-    m_coverRect = CRect(initRect.TopLeft(),CSize(coverX,coverY));
+    // Choose a size for the cover art
+    CSize size = coverGfx->GetSize(1.0);
+
+    double r = (double) screen.Width() / ((double) size.cx * 3.0);
+
+    size = coverGfx->GetSize(r);
+
+    // Resize the cover art
+    CWindowDC dc(this);
+    if (!m_coverBitmap.CreateBitmap(dc,size.cx,size.cy))
+      return FALSE;
+    coverGfx->Paint(m_coverBitmap,CPoint(0,0),r);
+
+    m_coverRect = CRect(initRect.TopLeft(),size);
   }
   else
     m_coverRect = CRect(initRect.TopLeft(),CSize(screen.Width()/3,screen.Width()/3));
-  m_coverRect.top = (int)(initRect.top*0.6);
-
-  // Resize the cover art
-  if (coverGfx != NULL)
-  {
-    CDC* dc = GetDC();
-    BOOL create = m_coverBitmap.CreateBitmap(dc->GetSafeHdc(),
-      m_coverRect.Width(),m_coverRect.Height());
-    ReleaseDC(dc);
-    if (!create)
-      return FALSE;
-    coverGfx->Paint(m_coverBitmap);
-  }
 
   // Resize the rich edit control
   CRect infoRect = m_coverRect;
