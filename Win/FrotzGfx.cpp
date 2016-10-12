@@ -488,7 +488,9 @@ FrotzGfx* FrotzGfx::LoadPNG(BYTE* data, int)
 // Loader for JPEG images
 /////////////////////////////////////////////////////////////////////////////
 
+extern "C" {
 #include "jpeglib.h"
+}
 
 namespace {
 

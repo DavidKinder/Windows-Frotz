@@ -1269,23 +1269,6 @@
 				Name="jpeg"
 				Filter="">
 				<File
-					RelativePath="..\..\..\Libraries\jpeg\jaricom.c">
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							WarningLevel="0"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							WarningLevel="0"/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\..\Libraries\jpeg\jcomapi.c">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -1321,23 +1304,6 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Libraries\jpeg\jdapistd.c">
-					<FileConfiguration
-						Name="Debug|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							WarningLevel="0"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							WarningLevel="0"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\..\Libraries\jpeg\jdarith.c">
 					<FileConfiguration
 						Name="Debug|Win32">
 						<Tool
@@ -1541,6 +1507,23 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Libraries\jpeg\jdphuff.c">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							WarningLevel="0"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							WarningLevel="0"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Libraries\jpeg\jdpostct.c">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -1644,6 +1627,23 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Libraries\jpeg\jidctint.c">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							WarningLevel="0"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							WarningLevel="0"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Libraries\jpeg\jidctred.c">
 					<FileConfiguration
 						Name="Debug|Win32">
 						<Tool
