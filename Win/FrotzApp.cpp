@@ -479,8 +479,7 @@ void FrotzApp::CreateMainWindow(void)
   theWnd->SetAllowResize(false);
   if (IsInfocomV6())
   {
-    CRect screen;
-    ::SystemParametersInfo(SPI_GETWORKAREA,0,(LPRECT)screen,0);
+    CRect screen= DPI::getMonitorWorkRect(wnd);
 
     // Resize the window large enough that the non-client
     // area can be measured
