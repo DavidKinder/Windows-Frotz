@@ -185,7 +185,7 @@ int FrotzFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
   LoadAccelTable(MAKEINTRESOURCE(IDR_FROTZ));
 
   // Set up the menus and toolbar
-  if (!CreateBar(IDR_FROTZ,IDB_TOOLBAR32))
+  if (!CreateNewBar(IDR_FROTZ,IDR_TOOLBAR))
     return -1;
   if (m_menuBar.GetSafeHwnd() == 0)
   {

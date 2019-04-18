@@ -164,7 +164,6 @@ END
 
 IDB_GFXFONT             BITMAP                  "res\\GfxFont.bmp"
 IDR_FROTZ               BITMAP                  "res\\Toolbar.bmp"
-IDB_TOOLBAR32           BITMAP                  "res\\Toolbar32.bmp"
 IDB_FROTZ               BITMAP                  "res\\Frotz.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
