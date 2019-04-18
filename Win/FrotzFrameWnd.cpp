@@ -473,9 +473,9 @@ namespace
   {
     "http://www.davidkinder.co.uk/frotz.html",
     "http://www.ifarchive.org",
-    "http://www.ifarchive.org/indexes/if-archiveXgamesXzcode.html",
+    "http://www.ifarchive.org/indexes/if-archive/games/zcode/",
     "http://www.ifdb.tads.org",
-    "http://www.intfiction.org/forum",
+    "http://www.intfiction.org",
     "http://www.planet-if.com",
     "http://www.ifwiki.org",
     "http://www.ifcomp.org",
