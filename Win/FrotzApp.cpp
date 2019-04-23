@@ -189,13 +189,21 @@ void FrotzApp::ReadSettings(void)
     if (option_right_margin < 4)
       option_right_margin = 4;
   }
+  if (version < 121)
+  {
+    double dpiScale = 96.0 / DPI::getSystemDPI();
+    m_wndSize.left = (int)(m_wndSize.left * dpiScale);
+    m_wndSize.top = (int)(m_wndSize.top * dpiScale);
+    m_wndSize.bottom = (int)(m_wndSize.bottom * dpiScale);
+    m_wndSize.right = (int)(m_wndSize.right * dpiScale);
+  }
 }
 
 // Write out settings
 void FrotzApp::WriteSettings(void)
 {
   // The current version number
-  WriteProfileInt("Version","Number",112);
+  WriteProfileInt("Version","Number",121);
 
   WriteProfileInt("Interpreter","Number",h_interpreter_number);
   WriteProfileInt("Interpreter","Error Reporting",err_report_mode);
@@ -479,7 +487,7 @@ void FrotzApp::CreateMainWindow(void)
   theWnd->SetAllowResize(false);
   if (IsInfocomV6())
   {
-    CRect screen= DPI::getMonitorWorkRect(wnd);
+    CRect screen = DPI::getMonitorWorkRect(wnd);
 
     // Resize the window large enough that the non-client
     // area can be measured
@@ -506,7 +514,15 @@ void FrotzApp::CreateMainWindow(void)
     place.length = sizeof(WINDOWPLACEMENT);
     wnd->GetWindowPlacement(&place);
     if (m_wndSize.Width() > 0)
-      place.rcNormalPosition = m_wndSize;
+    {
+      CRect wndSize;
+      double dpiScale = DPI::getWindowDPI(wnd) / 96.0;
+      wndSize.left = (int)(m_wndSize.left * dpiScale);
+      wndSize.top = (int)(m_wndSize.top * dpiScale);
+      wndSize.bottom = (int)(m_wndSize.bottom * dpiScale);
+      wndSize.right = (int)(m_wndSize.right * dpiScale);
+      place.rcNormalPosition = wndSize;
+    }
 
     int x = place.rcNormalPosition.left;
     int y = place.rcNormalPosition.top;
@@ -528,6 +544,8 @@ void FrotzApp::CreateMainWindow(void)
   }
   else
   {
+    DPI::ContextUnaware dpiUnaware;
+
     WINDOWPLACEMENT place;
     ::ZeroMemory(&place,sizeof(WINDOWPLACEMENT));
     place.length = sizeof(WINDOWPLACEMENT);
@@ -551,6 +569,8 @@ void FrotzApp::StoreWindowSize(void)
   {
     if (m_pMainWnd != NULL)
     {
+      DPI::ContextUnaware dpiUnaware;
+
       WINDOWPLACEMENT place;
       ::ZeroMemory(&place,sizeof(WINDOWPLACEMENT));
       place.length = sizeof(WINDOWPLACEMENT);
