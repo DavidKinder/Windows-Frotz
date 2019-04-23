@@ -295,8 +295,8 @@ BOOL AboutDialog::OnInitDialog()
   // Load the text into the rich edit text control
   CString aboutText;
   aboutText.LoadString(IDS_ABOUT_INFO);
-  aboutText.Replace("%ver%","1.20");
-  aboutText.Replace("%year%","2016");
+  aboutText.Replace("%ver%","1.21");
+  aboutText.Replace("%year%","2019");
   m_info.SetText(SF_RTF,aboutText);
   return TRUE;
 }
