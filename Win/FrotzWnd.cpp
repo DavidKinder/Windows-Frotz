@@ -68,7 +68,7 @@ void FrotzWnd::Initialize(void)
   m_buildMenus = false;
 }
 
-bool FrotzWnd::Create(FrotzFrameWnd* parent)
+bool FrotzWnd::Create(FrotzFrameWnd* parent, int dpi)
 {
   CRect size;
   parent->GetClientRect(size);
@@ -83,7 +83,7 @@ bool FrotzWnd::Create(FrotzFrameWnd* parent)
   // Create the display bitmap and fonts
   if (CreateBitmap() == false)
     return false;
-  if (CreateFonts() == false)
+  if (CreateFonts(dpi) == false)
     return false;
   return true;
 }
@@ -120,7 +120,7 @@ bool FrotzWnd::CreateBitmap(void)
 }
 
 // Create the display fonts
-bool FrotzWnd::CreateFonts(void)
+bool FrotzWnd::CreateFonts(int dpi)
 {
   // Set up a LOGFONT structure
   LOGFONT font;
@@ -151,7 +151,7 @@ bool FrotzWnd::CreateFonts(void)
 
   // Create the proportional fonts
   strncpy(font.lfFaceName,propFont,LF_FACESIZE);
-  font.lfHeight = -MulDiv(fontSize,m_dc.GetDeviceCaps(LOGPIXELSY),72);
+  font.lfHeight = -MulDiv(fontSize,dpi,72);
   CreateFont(m_fontText,font,FW_NORMAL,FALSE);
   CreateFont(m_fontTextBold,font,FW_BOLD,FALSE);
   CreateFont(m_fontTextItalic,font,FW_NORMAL,TRUE);
@@ -444,8 +444,8 @@ void FrotzWnd::DrawInput(unsigned short* buffer, int pos, const CPoint& point, i
   int height = GetFontHeight();
 
   // Remove any previous input
-  FillBackground(CRect(
-    point.x,point.y,point.x+width,point.y+height));
+  m_lastInputSize = CSize(width,height);
+  FillBackground(CRect(point.x,point.y,point.x+width,point.y+height));
 
   // Display the input
   SetTextPoint(point);
@@ -478,6 +478,12 @@ void FrotzWnd::DrawInput(unsigned short* buffer, int pos, const CPoint& point, i
 
   // Update the window
   Invalidate();
+}
+
+// Erase the last input rectangle
+void FrotzWnd::EraseLastInputRect(const CPoint& point)
+{
+  FillBackground(CRect(point,m_lastInputSize));
 }
 
 // Store an input line in the history
@@ -854,16 +860,17 @@ void FrotzWnd::ResizeDisplay(void)
   if (m_allowResize == false)
     return;
 
-  CRect wndSize;
-  GetClientRect(wndSize);
+  CRect wndRect;
+  GetClientRect(wndRect);
+  CSize newSize = wndRect.Size();
 
   // Notify the game that the display needs refreshing
   if (h_version == V6)
     h_flags |= REFRESH_FLAG;
 
   // Update the game's header
-  h_screen_width = (zword)wndSize.Width();
-  h_screen_height = (zword)wndSize.Height();
+  h_screen_width = (zword)newSize.cx;
+  h_screen_height = (zword)newSize.cy;
   h_screen_cols = (zbyte)(h_screen_width / h_font_width);
   h_screen_rows = (zbyte)(h_screen_height / h_font_height);
   if (zmp != NULL)
@@ -872,17 +879,17 @@ void FrotzWnd::ResizeDisplay(void)
     restart_header();
   }
 
-  // Is the window bigger than the bitmap?
+  // Is the window now bigger than the bitmap?
   CSize bmapSize = m_bitmap.GetSize();
-  if ((wndSize.Width() > bmapSize.cx) || (wndSize.Height() > bmapSize.cy))
+  if ((newSize.cx > bmapSize.cx) || (newSize.cy > bmapSize.cy))
   {
     CreateBitmap();
     bmapSize = m_bitmap.GetSize();
   }
 
   // Erase the bitmap that is outside of the window
-  int x = (wndSize.Width() < m_wndSize.cx) ? wndSize.Width() : m_wndSize.cx;
-  int y = (wndSize.Height() < m_wndSize.cy) ? wndSize.Height() : m_wndSize.cy;
+  int x = (newSize.cx < m_wndSize.cx) ? newSize.cx : m_wndSize.cx;
+  int y = (newSize.cy < m_wndSize.cy) ? newSize.cy : m_wndSize.cy;
   COLORREF background = GetBackColour();
   FillSolid(CRect(x,0,bmapSize.cx,bmapSize.cy),background);
   FillSolid(CRect(0,y,bmapSize.cx,bmapSize.cy),background);

@@ -97,11 +97,11 @@ public:
   // Initialize the window
   void Initialize(void);
   // Create the window
-  bool Create(FrotzFrameWnd* parent);
+  bool Create(FrotzFrameWnd* parent, int dpi);
   // If necessary, create the display bitmap
   bool CreateBitmap(void);
   // Create the display fonts
-  bool CreateFonts(void);
+  bool CreateFonts(int dpi);
   // Create a font
   void CreateFont(CFont& font, LOGFONT& logfont, LONG weight, BYTE italic);
 
@@ -140,6 +140,8 @@ public:
   // Draw the current input line
   void DrawInput(unsigned short* buffer, int pos,
     const CPoint& point, int width, bool cursor);
+  // Erase the last input rectangle
+  void EraseLastInputRect(const CPoint& point);
   // Store an input line in the history
   void AddToInputHistory(unsigned short* buffer);
   // Store the last input line
@@ -296,6 +298,7 @@ protected:
   UnicodeString m_lastOutput;
   UnicodeString m_lastInput;
   int m_lastOver;
+  CSize m_lastInputSize;
 
   CArray<CStringArray,CStringArray&> m_menus;
   bool m_buildMenus;

@@ -7,6 +7,7 @@
 #include "FrotzApp.h"
 #include "FrotzWnd.h"
 #include "FrotzFrameWnd.h"
+#include "DpiFunctions.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -28,7 +29,7 @@ bool FilterHotkeys(char c)
   return (strchr("DHNPRSUX",c) == NULL);
 }
 
-FrotzFrameWnd::FrotzFrameWnd() : m_clientWnd(NULL), m_codePage(CP_ACP)
+FrotzFrameWnd::FrotzFrameWnd() : m_clientWnd(NULL), m_codePage(CP_ACP), m_dpi(96)
 {
   m_menuBar.SetUseF10(false);
   m_menuBar.SetFilterAltX(FilterHotkeys);
@@ -68,6 +69,7 @@ BEGIN_MESSAGE_MAP(FrotzFrameWnd, MenuBarFrameWnd)
   ON_UPDATE_COMMAND_UI(ID_INDICATOR_TIME, OnUpdateTime)
   ON_UPDATE_COMMAND_UI(ID_INDICATOR_ZCODE, OnUpdateZcode)
   //}}AFX_MSG_MAP
+  ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
 END_MESSAGE_MAP()
 
 // Create the frame
@@ -89,7 +91,7 @@ bool FrotzFrameWnd::Create(bool toolbar, bool statusbar)
 
   // Create the child client window
   m_clientWnd = new FrotzWnd;
-  return m_clientWnd->Create(this);
+  return m_clientWnd->Create(this,m_dpi);
 }
 
 // Get the client window
@@ -178,6 +180,7 @@ BOOL FrotzFrameWnd::PreTranslateMessage(MSG* pMsg)
 
 int FrotzFrameWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
+  m_dpi = DPI::getWindowDPI(this);
   if (MenuBarFrameWnd::OnCreate(lpCreateStruct) == -1)
     return -1;
 
@@ -502,4 +505,28 @@ void FrotzFrameWnd::GetMessageString(UINT nID, CString& rMessage) const
   }
 
   MenuBarFrameWnd::GetMessageString(nID,rMessage);
+}
+
+LRESULT FrotzFrameWnd::OnDpiChanged(WPARAM wparam, LPARAM lparam)
+{
+  int newDpi = (int)HIWORD(wparam);
+  MoveWindow((LPRECT)lparam,TRUE);
+
+  if (m_dpi != newDpi)
+  {
+    m_dpi = newDpi;
+
+    m_clientWnd->CreateFonts(m_dpi);
+    FrotzWnd::TextSettings savedText = m_clientWnd->GetTextSettings();
+    m_clientWnd->ApplyTextSettings(FrotzWnd::TextSettings(0,FIXED_WIDTH_FONT));
+    h_font_width = (zbyte)m_clientWnd->GetCharWidth('0');
+    h_font_height = (zbyte)m_clientWnd->GetFontHeight();
+    m_clientWnd->ApplyTextSettings(savedText);
+    m_clientWnd->InputType(FrotzWnd::Input::Reset);
+  }
+
+  // Force the menu and status bars to update
+  UpdateDPI(newDpi);
+  m_statusBar.SetIndicators(Indicators,sizeof(Indicators)/sizeof(UINT));
+  return 0;
 }

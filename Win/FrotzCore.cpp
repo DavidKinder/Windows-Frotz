@@ -753,6 +753,7 @@ extern "C" zword os_read_line(int max, zword *buf, int timeout, int width, int c
         break;
       case FrotzWnd::Input::Reset:
         point.y = theWnd->GetTextPoint().y;
+        theWnd->EraseLastInputRect(point);
         theWnd->DrawInput(buf,pos,point,width,true);
         break;
       case FrotzWnd::Input::KillLine:

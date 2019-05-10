@@ -67,6 +67,8 @@ protected:
   afx_msg void OnReadLineKill();
   afx_msg void OnHelpLink(UINT nID);
   //}}AFX_MSG
+  afx_msg LRESULT OnDpiChanged(WPARAM, LPARAM);
+
   DECLARE_MESSAGE_MAP()
 
 protected:
@@ -77,4 +79,5 @@ protected:
   CStatusBar m_statusBar;
   CRect m_normalSize;
   UINT m_codePage;
+  int m_dpi;
 };

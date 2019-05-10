@@ -1423,7 +1423,7 @@ void FrotzApp::OnViewOptions()
       m_fixedFontName = display.m_fixedFontName;
       m_fontSize = fontSize;
 
-      if (theWnd->CreateFonts() == false)
+      if (theWnd->CreateFonts(DPI::getWindowDPI(AfxGetMainWnd())) == false)
         exit(1);
 
       FrotzWnd::TextSettings savedText = theWnd->GetTextSettings();
