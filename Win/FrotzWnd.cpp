@@ -81,7 +81,7 @@ bool FrotzWnd::Create(FrotzFrameWnd* parent, int dpi)
     return false;
 
   // Create the display bitmap and fonts
-  if (CreateBitmap() == false)
+  if (CreateBitmap(CSize(0,0)) == false)
     return false;
   if (CreateFonts(dpi) == false)
     return false;
@@ -89,7 +89,7 @@ bool FrotzWnd::Create(FrotzFrameWnd* parent, int dpi)
 }
 
 // Create the display bitmap
-bool FrotzWnd::CreateBitmap(void)
+bool FrotzWnd::CreateBitmap(CSize size)
 {
   if (m_dc.GetSafeHdc() == 0)
   {
@@ -103,19 +103,22 @@ bool FrotzWnd::CreateBitmap(void)
     m_dc.SetTextAlign(TA_TOP|TA_UPDATECP);
   }
 
-  // Get the size of the display
+  // Make the size at least as big as the screen, plus a bit
   FrotzApp* app = (FrotzApp*)AfxGetApp();
   CRect screen = app->GetScreenSize(true);
+  if (screen.Width()+8 > size.cx)
+    size.cx = screen.Width()+8;
+  if (screen.Height()+8 > size.cy)
+    size.cy = screen.Height()+8;
 
   // Make the bitmap slightly larger than the display
   m_bitmap.DeleteBitmap();
-  if (!m_bitmap.CreateBitmap(m_dc,screen.Width()+8,screen.Height()+8))
+  if (!m_bitmap.CreateBitmap(m_dc,size.cx,size.cy))
     return false;
 
   // Initialize the bitmap
   CDibSection::SelectDibSection(m_dc,&m_bitmap);
-  m_dc.FillSolidRect(0,0,screen.Width(),screen.Height(),
-    app->GetDefaultColour(false));
+  m_dc.FillSolidRect(0,0,size.cx,size.cy,app->GetDefaultColour(false));
   return true;
 }
 
@@ -883,7 +886,7 @@ void FrotzWnd::ResizeDisplay(void)
   CSize bmapSize = m_bitmap.GetSize();
   if ((newSize.cx > bmapSize.cx) || (newSize.cy > bmapSize.cy))
   {
-    CreateBitmap();
+    CreateBitmap(newSize);
     bmapSize = m_bitmap.GetSize();
   }
 

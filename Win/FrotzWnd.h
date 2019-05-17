@@ -98,12 +98,8 @@ public:
   void Initialize(void);
   // Create the window
   bool Create(FrotzFrameWnd* parent, int dpi);
-  // If necessary, create the display bitmap
-  bool CreateBitmap(void);
   // Create the display fonts
   bool CreateFonts(int dpi);
-  // Create a font
-  void CreateFont(CFont& font, LOGFONT& logfont, LONG weight, BYTE italic);
 
   // Get the current settings
   TextSettings& GetTextSettings(void);
@@ -244,6 +240,10 @@ protected:
   // Compare two Unicode strings
   bool CompareUnicode(unsigned short* s1, unsigned short* s2, int len);
 
+  // If necessary, create the display bitmap
+  bool CreateBitmap(CSize size);
+  // Create a font
+  void CreateFont(CFont& font, LOGFONT& logfont, LONG weight, BYTE italic);
   // Select a font into the device context
   void SelectFont(CFont& font);
   // Get the current background colour
