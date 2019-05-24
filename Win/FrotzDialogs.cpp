@@ -8,6 +8,7 @@
 #include "FrotzDialogs.h"
 #include "FrotzGfx.h"
 #include "FrotzSound.h"
+#include "DpiFunctions.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -80,7 +81,8 @@ void CRichInfo::SetText(int format, const CString& text)
 
 IMPLEMENT_DYNAMIC(AboutGameDialog, BaseDialog)
 
-AboutGameDialog::AboutGameDialog(CWnd* pParent) : BaseDialog(AboutGameDialog::IDD, pParent)
+AboutGameDialog::AboutGameDialog(CWnd* pParent)
+  : BaseDialog(AboutGameDialog::IDD, pParent), m_dpi(96), m_headingEnd(0)
 {
 }
 
@@ -96,11 +98,13 @@ void AboutGameDialog::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(AboutGameDialog, BaseDialog)
   ON_WM_PAINT()
+  ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
 END_MESSAGE_MAP()
 
 BOOL AboutGameDialog::OnInitDialog()
 {
   BaseDialog::OnInitDialog();
+  m_dpi = DPI::getWindowDPI(this);
 
   CWaitCursor wc;
   const FrotzApp::GameInfo& gameInfo = theApp.GetGameInfo();
@@ -142,6 +146,9 @@ BOOL AboutGameDialog::OnInitDialog()
   format.dwEffects = CFE_BOLD;
   m_info.SetSelectionCharFormat(format);
   m_info.ReplaceSel(heading);
+  CHARRANGE headingSel;
+  m_info.GetSel(headingSel);
+  m_headingEnd = headingSel.cpMax;
 
   // Set the dialog title
   SetWindowText(gameInfo.title);
@@ -161,16 +168,14 @@ BOOL AboutGameDialog::OnInitDialog()
   {
     // Choose a size for the cover art
     CSize size = coverGfx->GetSize(1.0);
-
-    double r = (double) screen.Width() / ((double) size.cx * 3.0);
-
-    size = coverGfx->GetSize(r);
+    double ratio = (double) screen.Width() / ((double) size.cx * 3.0);
+    size = coverGfx->GetSize(ratio);
 
     // Resize the cover art
     CWindowDC dc(this);
     if (!m_coverBitmap.CreateBitmap(dc,size.cx,size.cy))
       return FALSE;
-    coverGfx->Paint(m_coverBitmap,CPoint(0,0),r);
+    coverGfx->Paint(m_coverBitmap,CPoint(0,0),ratio);
 
     m_coverRect = CRect(initRect.TopLeft(),size);
   }
@@ -226,13 +231,69 @@ void AboutGameDialog::OnPaint()
     Default();
 }
 
+LRESULT AboutGameDialog::OnDpiChanged(WPARAM wparam, LPARAM)
+{
+  Default();
+
+  int newDpi = (int)HIWORD(wparam);
+  if (m_dpi != newDpi)
+  {
+    // Rescale the cover art
+    if (m_coverBitmap.GetBits() != NULL)
+    {
+      m_info.GetWindowRect(m_coverRect);
+      ScreenToClient(m_coverRect);
+      m_coverRect.OffsetRect(-m_coverRect.Width(),0);
+      m_coverRect.OffsetRect(-(m_coverRect.left/2),0);
+
+      const FrotzApp::GameInfo& gameInfo = theApp.GetGameInfo();
+      if (gameInfo.cover != -1)
+      {
+        FrotzGfx* coverGfx = FrotzGfx::Get(gameInfo.cover,theApp.GetBlorbMap(),gameInfo.coverFormatWrong);
+        if (coverGfx != NULL)
+        {
+          m_coverBitmap.DeleteBitmap();
+
+          CSize size = coverGfx->GetSize(1.0);
+          double ratioX = (double)m_coverRect.Width() / (double)size.cx;
+          double ratioY = (double)m_coverRect.Height() / (double)size.cy;
+          double ratio = (ratioX > ratioY) ? ratioY : ratioX;
+
+          CWindowDC dc(this);
+          if (m_coverBitmap.CreateBitmap(dc,m_coverRect.Width(),m_coverRect.Height()))
+          {
+            m_coverBitmap.FillSolid(::GetSysColor(COLOR_3DFACE));
+            coverGfx->Paint(m_coverBitmap,CPoint(0,0),ratio);
+          }
+        }
+      }
+    }
+
+    // Apply formatting
+    if (m_info.GetSafeHwnd())
+    {
+      m_info.SetSel(0,m_headingEnd);
+      CHARFORMAT format;
+      format.cbSize = sizeof format;
+      format.dwMask = CFM_BOLD;
+      format.dwEffects = CFE_BOLD;
+      m_info.SetSelectionCharFormat(format);
+      m_info.SetSel(0,0);
+    }
+
+    m_dpi = newDpi;
+  }
+  return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // About dialog
 /////////////////////////////////////////////////////////////////////////////
 
 IMPLEMENT_DYNAMIC(AboutDialog, BaseDialog)
 
-AboutDialog::AboutDialog(CWnd* pParent) : BaseDialog(AboutDialog::IDD, pParent)
+AboutDialog::AboutDialog(CWnd* pParent)
+  : BaseDialog(AboutDialog::IDD, pParent), m_dpi(96)
 {
 }
 
@@ -250,11 +311,13 @@ void AboutDialog::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(AboutDialog, BaseDialog)
   ON_NOTIFY(EN_REQUESTRESIZE, IDC_INFO, OnResizeInfo)
+  ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
 END_MESSAGE_MAP()
 
 BOOL AboutDialog::OnInitDialog()
 {
   BaseDialog::OnInitDialog();
+  m_dpi = DPI::getWindowDPI(this);
 
   // Subclass the rich edit text control
   if (m_info.SubclassDlgItem(IDC_INFO,this) == FALSE)
@@ -293,11 +356,7 @@ BOOL AboutDialog::OnInitDialog()
   MoveWindow(dlgRect,FALSE);
 
   // Load the text into the rich edit text control
-  CString aboutText;
-  aboutText.LoadString(IDS_ABOUT_INFO);
-  aboutText.Replace("%ver%","1.21");
-  aboutText.Replace("%year%","2019");
-  m_info.SetText(SF_RTF,aboutText);
+  SetInfoText();
   return TRUE;
 }
 
@@ -333,6 +392,30 @@ void AboutDialog::OnResizeInfo(NMHDR *pNMHDR, LRESULT *pResult)
   MoveWindow(rect,FALSE);
 
   *pResult = 0;
+}
+
+LRESULT AboutDialog::OnDpiChanged(WPARAM wparam, LPARAM)
+{
+  Default();
+
+  int newDpi = (int)HIWORD(wparam);
+  if (m_dpi != newDpi)
+  {
+    if (m_info.GetSafeHwnd())
+      SetInfoText();
+
+    m_dpi = newDpi;
+  }
+  return 0;
+}
+
+void AboutDialog::SetInfoText(void)
+{
+  CString aboutText;
+  aboutText.LoadString(IDS_ABOUT_INFO);
+  aboutText.Replace("%ver%","1.21");
+  aboutText.Replace("%year%","2019");
+  m_info.SetText(SF_RTF,aboutText);
 }
 
 /////////////////////////////////////////////////////////////////////////////

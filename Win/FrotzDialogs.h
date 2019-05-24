@@ -42,12 +42,15 @@ protected:
   //}}AFX_MSG
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
   virtual BOOL OnInitDialog();
+  afx_msg LRESULT OnDpiChanged(WPARAM, LPARAM);
   DECLARE_MESSAGE_MAP()
 
 protected:
   CRichInfo m_info;
   CButton m_ok;
 
+  int m_dpi;
+  int m_headingEnd;
   CRect m_coverRect;
   CDibSection m_coverBitmap;
 };
@@ -65,6 +68,7 @@ public:
 
 protected:
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+  afx_msg LRESULT OnDpiChanged(WPARAM, LPARAM);
   DECLARE_MESSAGE_MAP()
 
 public:
@@ -72,6 +76,9 @@ public:
   afx_msg void OnResizeInfo(NMHDR *pNMHDR, LRESULT *pResult);
 
 protected:
+  void SetInfoText(void);
+
+  int m_dpi;
   CStatic m_logo;
   CRichInfo m_info;
   CStatic m_border;
