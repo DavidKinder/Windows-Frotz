@@ -785,6 +785,8 @@ BOOL OptionsSpeechPage::OnInitDialog()
 // Scrollback dialog
 /////////////////////////////////////////////////////////////////////////////
 
+#define WM_SAMESIZEASMAIN (WM_APP+1)
+
 IMPLEMENT_DYNAMIC(ScrollbackDialog, BaseDialog)
 
 ScrollbackDialog::ScrollbackDialog(LPCWSTR text, int textLen, CWnd* pParent)
@@ -793,6 +795,7 @@ ScrollbackDialog::ScrollbackDialog(LPCWSTR text, int textLen, CWnd* pParent)
   m_text = text;
   m_textLen = textLen;
   m_textTop = 0;
+  m_dpi = 96;
 }
 
 ScrollbackDialog::~ScrollbackDialog()
@@ -807,11 +810,14 @@ void ScrollbackDialog::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(ScrollbackDialog, BaseDialog)
   ON_WM_SIZE()
   ON_BN_CLICKED(IDC_COPY, OnCopy)
+  ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
+  ON_MESSAGE(WM_SAMESIZEASMAIN, OnSameSizeAsMain)
 END_MESSAGE_MAP()
 
 BOOL ScrollbackDialog::OnInitDialog()
 {
   BaseDialog::OnInitDialog();
+  m_dpi = DPI::getWindowDPI(this);
 
   // Subclass the rich edit text control
   if (m_edit.SubclassDlgItem(IDC_TEXT,this) == FALSE)
@@ -876,6 +882,32 @@ void ScrollbackDialog::OnSize(UINT nType, int cx, int cy)
 void ScrollbackDialog::OnCopy()
 {
   m_edit.Copy();
+}
+
+LRESULT ScrollbackDialog::OnDpiChanged(WPARAM wparam, LPARAM)
+{
+  int newDpi = (int)HIWORD(wparam);
+  if (m_dpi != newDpi)
+  {
+    m_textTop = MulDiv(m_textTop,newDpi,m_dpi);
+    m_dpi = newDpi;
+  }
+
+  Default();
+
+  // Same monitor?
+  if (DPI::getMonitorRect(this) == DPI::getMonitorRect(AfxGetMainWnd()))
+    PostMessage(WM_SAMESIZEASMAIN);
+  return 0;
+}
+
+LRESULT ScrollbackDialog::OnSameSizeAsMain(WPARAM, LPARAM)
+{
+  // Resize the dialog to be the same as the main window
+  CRect DialogRect;
+  AfxGetMainWnd()->GetWindowRect(DialogRect);
+  MoveWindow(DialogRect);
+  return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////

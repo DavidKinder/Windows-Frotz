@@ -220,6 +220,8 @@ public:
 
 protected:
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+  afx_msg LRESULT OnDpiChanged(WPARAM, LPARAM);
+  afx_msg LRESULT OnSameSizeAsMain(WPARAM, LPARAM);
   DECLARE_MESSAGE_MAP()
 
 public:
@@ -231,6 +233,7 @@ protected:
   LPCWSTR m_text;
   int m_textLen;
   int m_textTop;
+  int m_dpi;
   CRichEditCtrl m_edit;
 };
 
