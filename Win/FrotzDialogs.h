@@ -93,11 +93,14 @@ public:
 protected:
   DECLARE_MESSAGE_MAP()
 
-  void ChangeDialogFont(CWnd* wnd, CFont* font);
+  void ChangeDialogFont(CWnd* wnd, CFont* font, double scale);
 
   RECT m_page;
   LOGFONT m_logFont;
   CFont m_font;
+
+  int m_dpi;
+  double m_fontHeightPerDpi;
 
 public:
   virtual BOOL OnInitDialog();
@@ -105,6 +108,7 @@ public:
   virtual BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 
   afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
+  afx_msg LRESULT OnDpiChanged(WPARAM, LPARAM);
   afx_msg LONG OnResizePage(UINT, LONG);
 };
 
