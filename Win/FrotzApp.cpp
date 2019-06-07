@@ -434,7 +434,7 @@ bool FrotzApp::PromptForGame(bool initial)
     // Look for a Z-code file with the same name as the
     // interpreter executable
     char filename[_MAX_PATH];
-    char* extensions[] = { "z5","z6","z8","zlb",NULL };
+    char* extensions[] = { "z5","z6","z8","zlb","zblorb",NULL };
     if (::GetModuleFileName(0,filename,_MAX_PATH) != 0)
     {
       strlwr(filename);
