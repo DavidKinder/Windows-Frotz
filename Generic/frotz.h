@@ -512,7 +512,8 @@ extern int err_report_mode;
 
 void	init_err (void);
 void	runtime_error (int);
- 
+int	will_print_error (int);
+
 /* Error codes */
 #define ERR_TEXT_BUF_OVF 1	/* Text buffer overflow */
 #define ERR_STORE_RANGE 2	/* Store out of dynamic memory */

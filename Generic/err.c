@@ -133,6 +133,39 @@ void runtime_error (int errnum)
 } /* report_error */
 
 /*
+ * will_print_error
+ *
+ * Return whether or not a call to runtime_error() will print
+ * anything for the given error number.
+ *
+ * errnum : Numeric code for error (1 to ERR_NUM_ERRORS)
+ *
+ */
+
+int will_print_error (int errnum)
+{
+    int wasfirst;
+
+    if (errnum <= 0 || errnum > ERR_NUM_ERRORS)
+	return FALSE;
+
+    if (err_report_mode == ERR_REPORT_FATAL
+	|| (!option_ignore_errors && errnum <= ERR_MAX_FATAL)) {
+	return TRUE;
+    }
+
+    wasfirst = (error_count[errnum - 1] == 0);
+
+    if ((err_report_mode == ERR_REPORT_ALWAYS)
+	|| (err_report_mode == ERR_REPORT_ONCE && wasfirst)) {
+	return TRUE;
+    }
+
+    return FALSE;
+
+} /* will_print_error */
+
+/*
  * print_long
  *
  * Print an unsigned 32bit number in decimal or hex.
