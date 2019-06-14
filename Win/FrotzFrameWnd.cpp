@@ -33,6 +33,13 @@ FrotzFrameWnd::FrotzFrameWnd() : m_clientWnd(NULL), m_codePage(CP_ACP), m_dpi(96
 {
   m_menuBar.SetUseF10(false);
   m_menuBar.SetFilterAltX(FilterHotkeys);
+
+  DWORD codePage = 0;
+  if (::GetLocaleInfo(LOWORD(::GetKeyboardLayout(0)),
+    LOCALE_IDEFAULTANSICODEPAGE|LOCALE_RETURN_NUMBER,(LPSTR)&codePage,sizeof codePage))
+  {
+    m_codePage = codePage;
+  }
 }
 
 FrotzFrameWnd::~FrotzFrameWnd()
@@ -272,7 +279,7 @@ void FrotzFrameWnd::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 LRESULT FrotzFrameWnd::OnInputLangChange(WPARAM wParam, LPARAM lParam)
 {
-  CHARSETINFO charSet;
+  CHARSETINFO charSet = { 0 };
   if (::TranslateCharsetInfo((DWORD*)wParam,&charSet,TCI_SRCCHARSET))
     m_codePage = charSet.ciACP;
   return DefWindowProc(WM_INPUTLANGCHANGE,wParam,lParam);
