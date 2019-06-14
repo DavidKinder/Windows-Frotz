@@ -125,6 +125,7 @@ void FrotzFrameWnd::UpdateMenus(CArray<CStringArray,CStringArray&>& menus)
 
     // Make the new menus visible
     m_menuBar.Update();
+    SetBarSizes();
   }
 }
 
@@ -137,6 +138,7 @@ void FrotzFrameWnd::ResetMenus(void)
     menu->DestroyMenu();
     menu->LoadMenu(IDR_FROTZ);
     m_menuBar.Update();
+    SetBarSizes();
   }
 }
 
