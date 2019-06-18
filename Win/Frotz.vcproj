@@ -184,6 +184,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\..\Libraries\mfc\DpiFunctions.cpp">
+			</File>
+			<File
 				RelativePath=".\FrotzApp.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -309,6 +312,25 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\..\Libraries\mfc\ImagePNG.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories="../../../Libraries/libpng,../../../Libraries/zlib;$(NoInherit)"
+						WarningLevel="3"
+						CompileAs="0"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories="../../../Libraries/libpng,../../../Libraries/zlib;$(NoInherit)"
+						WarningLevel="3"
+						CompileAs="0"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\..\Libraries\mfc\MenuBar.cpp">
 			</File>
 			<File
@@ -355,6 +377,9 @@
 				RelativePath="..\..\..\Libraries\mfc\Dib.h">
 			</File>
 			<File
+				RelativePath="..\..\..\Libraries\mfc\DpiFunctions.h">
+			</File>
+			<File
 				RelativePath=".\FrotzApp.h">
 			</File>
 			<File
@@ -371,6 +396,9 @@
 			</File>
 			<File
 				RelativePath=".\FrotzWnd.h">
+			</File>
+			<File
+				RelativePath="..\..\..\Libraries\mfc\ImagePNG.h">
 			</File>
 			<File
 				RelativePath="..\..\..\Libraries\mfc\MenuBar.h">
