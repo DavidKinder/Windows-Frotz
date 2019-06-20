@@ -34,11 +34,13 @@ FrotzFrameWnd::FrotzFrameWnd() : m_clientWnd(NULL), m_codePage(CP_ACP), m_dpi(96
   m_menuBar.SetUseF10(false);
   m_menuBar.SetFilterAltX(FilterHotkeys);
 
-  DWORD codePage = 0;
+  char codePageText[8];
   if (::GetLocaleInfo(LOWORD(::GetKeyboardLayout(0)),
-    LOCALE_IDEFAULTANSICODEPAGE|LOCALE_RETURN_NUMBER,(LPSTR)&codePage,sizeof codePage))
+    LOCALE_IDEFAULTANSICODEPAGE,codePageText,sizeof codePageText))
   {
-    m_codePage = codePage;
+    int codePage = atoi(codePageText);
+    if (codePage > 0)
+      m_codePage = codePage;
   }
 }
 
