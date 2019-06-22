@@ -215,29 +215,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
-//
-
-IDR_FROTZ               BITMAP                  "..\\res\\Toolbar.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Toolbar
-//
-
-IDR_FROTZ TOOLBAR  16, 15
-BEGIN
-    BUTTON      ID_FILE_NEW
-    BUTTON      ID_FILE_OPEN
-    BUTTON      ID_FILE_SAVE
-    BUTTON      ID_VIEW_OPTIONS
-    BUTTON      ID_VIEW_SCROLLBACK
-    BUTTON      ID_HELP_FINDER
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Accelerator
 //
 

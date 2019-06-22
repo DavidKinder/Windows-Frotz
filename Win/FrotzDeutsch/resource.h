@@ -4,6 +4,7 @@
 //
 #define IDR_MANIFEST                    1
 #define IDR_FROTZ                       100
+#define IDR_TOOLBAR                     101
 #define IDI_INFOCOM                     200
 #define IDI_Z1                          201
 #define IDI_Z2                          202
@@ -25,7 +26,6 @@
 #define IDI_TZ8                         228
 #define IDB_GFXFONT                     300
 #define IDB_FROTZ                       301
-#define IDB_TOOLBAR32                   302
 #define IDD_ABOUT                       400
 #define IDD_SCROLLBACK                  401
 #define IDD_LOADGAME                    402

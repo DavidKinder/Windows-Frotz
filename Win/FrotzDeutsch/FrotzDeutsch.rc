@@ -373,13 +373,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
-//
-
-IDR_FROTZ               BITMAP                  "..\\res\\Toolbar.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Accelerator
 //
 
@@ -408,22 +401,6 @@ BEGIN
     "L",            ID_VIEW_SCROLLBACK,     VIRTKEY, CONTROL, NOINVERT
     "T",            ID_FILE_STOP,           VIRTKEY, CONTROL, NOINVERT
     VK_RETURN,      ID_FULLSCREEN,          VIRTKEY, ALT, NOINVERT
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Toolbar
-//
-
-IDR_FROTZ TOOLBAR  16, 15
-BEGIN
-    BUTTON      ID_FILE_NEW
-    BUTTON      ID_FILE_OPEN
-    BUTTON      ID_FILE_SAVE
-    BUTTON      ID_VIEW_OPTIONS
-    BUTTON      ID_VIEW_SCROLLBACK
-    BUTTON      ID_HELP_FINDER
 END
 
 

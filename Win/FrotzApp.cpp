@@ -399,6 +399,9 @@ void FrotzApp::LoadInternationalResources(void)
   case LANG_ITALIAN:
     resDllName = "FrotzItaliano.dll";
     break;
+  case LANG_RUSSIAN:
+    resDllName = "FrotzRussian.dll";
+    break;
   case LANG_SPANISH:
     resDllName = "FrotzEspañol.dll";
     break;
@@ -476,11 +479,11 @@ void FrotzApp::CreateMainWindow(void)
     m_pMainWnd = wnd;
   }
 
-  // Reset the menus
-  wnd->ResetMenus();
-
   // Get the Frotz output window
   theWnd = wnd->GetClientWnd();
+
+  // Reset the menus
+  wnd->ResetMenus();
 
   // Resize the window. For Infocom's V6 games, a fixed
   // window size is always used

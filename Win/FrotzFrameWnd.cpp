@@ -223,10 +223,12 @@ void FrotzFrameWnd::OnDestroy()
   FrotzApp* app = (FrotzApp*)AfxGetApp();
 
   app->StoreWindowSize();
-  app->StoreBarState(
-    (m_toolBar.GetStyle() & WS_VISIBLE) ? true : false,
-    (m_statusBar.GetStyle() & WS_VISIBLE) ? true : false);
-
+  if (m_toolBar.GetSafeHwnd() && m_statusBar.GetSafeHwnd())
+  {
+    app->StoreBarState(
+      (m_toolBar.GetStyle() & WS_VISIBLE) ? true : false,
+      (m_statusBar.GetStyle() & WS_VISIBLE) ? true : false);
+  }
   MenuBarFrameWnd::OnDestroy();
 }
 
