@@ -122,9 +122,6 @@
 			<File
 				RelativePath="FrotzItaliano.rc">
 			</File>
-			<File
-				RelativePath="..\res\Toolbar.bmp">
-			</File>
 		</Filter>
 	</Files>
 	<Globals>
