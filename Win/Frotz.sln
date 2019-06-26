@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrotzFrançais", "FrotzFranç
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrotzItaliano", "FrotzItaliano\FrotzItaliano.vcproj", "{384DAB77-AAEF-4885-B971-E84872C56675}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrotzRussian", "FrotzRussian\FrotzRussian.vcproj", "{30FB133B-C909-4272-A32C-115BD444358B}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -33,6 +35,9 @@ Global
 		{384DAB77-AAEF-4885-B971-E84872C56675}.Debug.ActiveCfg = Debug|Win32
 		{384DAB77-AAEF-4885-B971-E84872C56675}.Release.ActiveCfg = Release|Win32
 		{384DAB77-AAEF-4885-B971-E84872C56675}.Release.Build.0 = Release|Win32
+		{30FB133B-C909-4272-A32C-115BD444358B}.Debug.ActiveCfg = Debug|Win32
+		{30FB133B-C909-4272-A32C-115BD444358B}.Release.ActiveCfg = Release|Win32
+		{30FB133B-C909-4272-A32C-115BD444358B}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
