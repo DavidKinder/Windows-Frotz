@@ -1407,7 +1407,7 @@ extern "C" void os_tick (void)
   if (++count > 1000)
   {
     count = 0;
-    FrotzSound::Timer();
+    FrotzSound::OnNotify();
   }
 
   // Check for restart

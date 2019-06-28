@@ -13,6 +13,8 @@ extern "C"
 #include "blorb.h"
 }
 
+#define WM_SOUND_NOTIFY WM_APP+1
+
 class FrotzWnd;
 
 class FrotzSound
@@ -44,7 +46,7 @@ public:
   // Stop playing a sound
   static void Stop(int sound);
   // Called to check if a sound has finished
-  static void Timer(void);
+  static void OnNotify(void);
 
 protected:
   int m_sound;

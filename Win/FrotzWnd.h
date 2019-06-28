@@ -36,8 +36,8 @@ protected:
   afx_msg void OnTimer(UINT nIDEvent);
   afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
   afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-  afx_msg void OnDestroy();
   //}}AFX_MSG
+  afx_msg LRESULT OnSoundNotify(WPARAM, LPARAM);
   DECLARE_MESSAGE_MAP()
 
 public:
@@ -82,7 +82,6 @@ public:
   enum Timers
   {
     InputTimer = 1,
-    SoundTimer,
     StatusTimer
   };
 

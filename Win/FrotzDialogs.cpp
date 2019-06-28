@@ -422,7 +422,7 @@ void AboutDialog::SetInfoText(void)
 // Options dialog
 /////////////////////////////////////////////////////////////////////////////
 
-#define WM_RESIZEPAGE WM_APP+1
+#define WM_RESIZEPAGE WM_APP+100
 
 OptionsDialog::OptionsDialog(UINT caption, CWnd* parentWnd) : CPropertySheet(caption,parentWnd)
 {
@@ -848,7 +848,7 @@ BOOL OptionsSpeechPage::OnInitDialog()
 // Scrollback dialog
 /////////////////////////////////////////////////////////////////////////////
 
-#define WM_SAMESIZEASMAIN (WM_APP+1)
+#define WM_SAMESIZEASMAIN WM_APP+101
 
 IMPLEMENT_DYNAMIC(ScrollbackDialog, BaseDialog)
 

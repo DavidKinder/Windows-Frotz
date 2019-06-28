@@ -70,11 +70,8 @@ int FrotzSound::GetDecibelVolume(int volume)
 // Initialize the sound engine
 bool FrotzSound::Init(FrotzWnd* wnd)
 {
-  if (CDSoundEngine::GetSoundEngine().Initialize())
-  {
-    wnd->SetTimer(FrotzWnd::SoundTimer,100,NULL);
+  if (CDSoundEngine::GetSoundEngine().Initialize(NULL,wnd,WM_SOUND_NOTIFY))
     return true;
-  }
 
   ::MessageBox(AfxGetMainWnd()->GetSafeHwnd(),
     CResString(IDS_FAIL_DIRECTSOUND),CResString(IDS_FROTZ),MB_ICONWARNING|MB_OK);
@@ -155,7 +152,7 @@ void FrotzSound::Stop(int sound)
 }
 
 // Called to check if a sound has finished
-void FrotzSound::Timer(void)
+void FrotzSound::OnNotify(void)
 {
   if (m_soundEffect != NULL)
   {

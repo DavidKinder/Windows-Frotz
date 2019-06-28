@@ -47,8 +47,8 @@ BEGIN_MESSAGE_MAP(FrotzWnd, CWnd)
   ON_WM_LBUTTONDOWN()
   ON_WM_MBUTTONDOWN()
   ON_WM_RBUTTONDOWN()
-  ON_WM_DESTROY()
   //}}AFX_MSG_MAP
+  ON_MESSAGE(WM_SOUND_NOTIFY, OnSoundNotify)
 END_MESSAGE_MAP()
 
 // Initialize the window
@@ -1089,17 +1089,8 @@ void FrotzWnd::OnTimer(UINT nIDEvent)
   case InputTimer:
     m_input.AddTail(Input(Input::ZcodeKey,ZC_TIME_OUT));
     break;
-  case SoundTimer:
-    FrotzSound::Timer();
-    break;
   }
   CWnd::OnTimer(nIDEvent);
-}
-
-void FrotzWnd::OnDestroy() 
-{
-  CWnd::OnDestroy();
-  KillTimer(SoundTimer);
 }
 
 void FrotzWnd::OnLButtonDown(UINT nFlags, CPoint point) 
@@ -1118,4 +1109,10 @@ void FrotzWnd::OnRButtonDown(UINT nFlags, CPoint point)
 {
   MouseClick(point);
   CWnd::OnRButtonDown(nFlags,point);
+}
+
+LRESULT FrotzWnd::OnSoundNotify(WPARAM, LPARAM)
+{
+  FrotzSound::OnNotify();
+  return 0;
 }
