@@ -411,7 +411,14 @@ void FrotzApp::LoadInternationalResources(void)
   {
     HINSTANCE dll = ::LoadLibrary(resDllName);
     if (dll != NULL)
-      AfxSetResourceHandle(dll);
+    {
+      typedef BOOL(*TRANSLATE_ISENABLED)(VOID);
+
+      TRANSLATE_ISENABLED isEnabled =
+        (TRANSLATE_ISENABLED)::GetProcAddress(dll,"IsEnabled");
+      if (isEnabled && (*isEnabled)())
+        AfxSetResourceHandle(dll);
+    }
   }
 }
 
