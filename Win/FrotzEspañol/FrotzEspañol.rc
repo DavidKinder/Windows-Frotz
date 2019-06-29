@@ -563,6 +563,7 @@ BEGIN
     IDS_QUETZAL             "Guardar y recuperar en formato Quetzal"
     IDS_OPTIONS             "Opciones"
     IDS_LINK                "Ir a la página %s"
+    IDS_HELP_FAILED         "Error al iniciar la Ayuda."
 END
 
 #endif    // Spanish resources

@@ -501,6 +501,7 @@ BEGIN
     IDS_QUETZAL             "Spielstände im Quetzal-Format speichern und laden"
     IDS_OPTIONS             "Einstellungen"
     IDS_LINK                "Gehe zu der Webseite %s"
+    IDS_HELP_FAILED         "Die Hilfe konnte nicht aufgerufen werden."
 END
 
 #endif    // German (Germany) resources

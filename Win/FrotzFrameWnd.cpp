@@ -151,6 +151,17 @@ void FrotzFrameWnd::ResetMenus(void)
   }
 }
 
+HWND WINAPI AfxHtmlHelp(HWND hWnd, LPCTSTR szHelpFilePath, UINT nCmd, DWORD_PTR dwData);
+
+// Show the HTMLHelp format help file
+void FrotzFrameWnd::HtmlHelp(DWORD_PTR dwData, UINT nCmd)
+{
+  CWaitCursor wait;
+  PrepareForHelp();
+  if (!AfxHtmlHelp(GetSafeHwnd(), AfxGetApp()->m_pszHelpFilePath, nCmd, dwData))
+    AfxMessageBox(IDS_HELP_FAILED);
+}
+
 // Get a default size for the window
 CRect FrotzFrameWnd::GetDefaultSize(void)
 {

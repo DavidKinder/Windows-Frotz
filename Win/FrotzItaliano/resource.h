@@ -89,6 +89,7 @@
 #define IDS_QUETZAL                     10024
 #define IDS_OPTIONS                     10025
 #define IDS_LINK                        10026
+#define IDS_HELP_FAILED                 10027
 #define ID_HOT_PLAYBACK                 32771
 #define ID_HOT_RECORD                   32772
 #define ID_HOT_SEED                     32773

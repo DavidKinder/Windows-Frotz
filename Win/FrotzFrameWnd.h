@@ -38,6 +38,9 @@ public:
   // Remove any game defined menus
   void ResetMenus(void);
 
+  // Show the HTMLHelp format help file
+  virtual void HtmlHelp(DWORD_PTR dwData, UINT nCmd = 0x000F);
+
 // Generated message map functions
 protected:
   //{{AFX_MSG(FrotzFrameWnd)

@@ -209,13 +209,13 @@ BEGIN
     EDITTEXT        IDC_USERNAME,108,42,96,12,ES_AUTOHSCROLL
     CONTROL         "И&гнорировать ошибки во время выполнения",
                     IDC_IGNORE_RUNTIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    6,61,169,9
+                    6,61,192,9
     CONTROL         "&Разворачивать сокращения",IDC_EXPAND,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,6,73,171,9
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,73,194,9
     CONTROL         "Установить флаг заголовка &Tandy",IDC_TANDY,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,6,85,179,9
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,85,192,9
     CONTROL         "&Перенос строк скрипта",IDC_WRAP_SCRIPT,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,6,97,179,9
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,97,194,9
 END
 
 IDD_OPTIONS_STARTUP DIALOGEX 0, 0, 211, 79
@@ -242,7 +242,7 @@ CAPTION "Речь"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "&Произносить текст при выводе на экран",IDC_SPEAK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,7,156,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,7,193,8
     LTEXT           "&Голос",IDC_STATIC,7,24,33,9
     COMBOBOX        IDC_VOICE,47,22,153,95,CBS_DROPDOWNLIST | CBS_SORT | 
                     WS_VSCROLL | WS_TABSTOP
@@ -414,25 +414,25 @@ BEGIN
 0x7041, 0x6c70, 0x2065, 0x4949, 0x7367, "\000" 
     IDC_TERP_NUMBER, 0x403, 6, 0
 0x6154, 0x646e, 0x0079, 
-    IDC_ERRORS, 0x403, 6, 0
-0x654e, 0x6576, 0x0072, 
+    IDC_ERRORS, 0x403, 8, 0
+0xe8cd, 0xeeea, 0xe4e3, 0x00e0, 
     IDC_ERRORS, 0x403, 11, 0
-0x6946, 0x7372, 0x2074, 0x6974, 0x656d, "\000" 
+0xe5cf, 0xe2f0, 0xe9fb, 0xf020, 0xe7e0, "\000" 
     IDC_ERRORS, 0x403, 7, 0
-0x6c41, 0x6177, 0x7379, "\000" 
-    IDC_ERRORS, 0x403, 12, 0
-0x6146, 0x6174, 0x206c, 0x7265, 0x6f72, 0x0072, 
+0xf1c2, 0xe3e5, 0xe0e4, "\000" 
+    IDC_ERRORS, 0x403, 17, 0
+0xe0d4, 0xe0f2, 0xfceb, 0xe0ed, 0x20ff, 0xf8ee, 0xe1e8, 0xe0ea, "\000" 
     0
 END
 
 IDD_OPTIONS_STARTUP DLGINIT
 BEGIN
-    IDC_SHOW_IFICTION, 0x403, 6, 0
-0x654e, 0x6576, 0x0072, 
+    IDC_SHOW_IFICTION, 0x403, 8, 0
+0xe8cd, 0xeeea, 0xe4e3, 0x00e0, 
     IDC_SHOW_IFICTION, 0x403, 11, 0
-0x6946, 0x7372, 0x2074, 0x6974, 0x656d, "\000" 
+0xe5cf, 0xe2f0, 0xe9fb, 0xf020, 0xe7e0, "\000" 
     IDC_SHOW_IFICTION, 0x403, 7, 0
-0x6c41, 0x6177, 0x7379, "\000" 
+0xf1c2, 0xe3e5, 0xe0e4, "\000" 
     0
 END
 
@@ -560,6 +560,7 @@ BEGIN
     IDS_QUETZAL             "Сохранение и восстановление игры в формате Quetzal"
     IDS_OPTIONS             "Настройки"
     IDS_LINK                "Перейти на страницу %s"
+    IDS_HELP_FAILED         "Не удалось запустить справку."
 END
 
 #endif    // Russian resources

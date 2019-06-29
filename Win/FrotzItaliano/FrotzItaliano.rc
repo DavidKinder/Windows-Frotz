@@ -426,6 +426,7 @@ BEGIN
     IDS_QUETZAL             "Salva e ripristina in formato Quetzal"
     IDS_OPTIONS             "Opzioni"
     IDS_LINK                "Vai alla pagina %s"
+    IDS_HELP_FAILED         "Impossibile avviare la Guida."
 END
 
 #endif    // Italian (Italy) resources

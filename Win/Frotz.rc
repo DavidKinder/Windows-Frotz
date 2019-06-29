@@ -649,6 +649,7 @@ BEGIN
     IDS_QUETZAL             "Save and restore games in Quetzal format"
     IDS_OPTIONS             "Options"
     IDS_LINK                "Go to the web page %s"
+    IDS_HELP_FAILED         "Failed to launch help."
 END
 
 #endif    // English (U.K.) resources
