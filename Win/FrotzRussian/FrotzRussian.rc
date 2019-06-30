@@ -174,21 +174,21 @@ BEGIN
     LTEXT           "Шрифт &фиксированной ширины",IDC_STATIC,6,32,148,8
     COMBOBOX        IDC_FIXED_FONT,6,42,198,64,CBS_DROPDOWNLIST | CBS_SORT | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Размер шрифта",IDC_STATIC,6,61,41,15
-    COMBOBOX        IDC_FONT_SIZE,55,62,38,64,CBS_DROPDOWN | WS_VSCROLL | 
+    LTEXT           "&Размер шрифта",IDC_STATIC,6,61,54,9
+    COMBOBOX        IDC_FONT_SIZE,63,59,38,64,CBS_DROPDOWN | WS_VSCROLL | 
                     WS_TABSTOP
-    LTEXT           "Цвет т&екста",IDC_STATIC,6,83,43,8
-    PUSHBUTTON      "",IDC_TEXT_COLOUR,55,81,38,13
-    LTEXT           "&Цвет ф&она",IDC_STATIC,103,83,39,8
-    PUSHBUTTON      "",IDC_BACK_COLOUR,153,81,38,13
-    LTEXT           "&Левое поле",IDC_STATIC,6,104,44,9
-    EDITTEXT        IDC_LEFT_MARGIN,55,101,38,13,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "&Правое поле",IDC_STATIC,103,104,48,8
-    EDITTEXT        IDC_RIGHT_MARGIN,153,101,38,13,ES_AUTOHSCROLL | 
+    LTEXT           "Цвет т&екста",IDC_STATIC,6,83,54,8
+    PUSHBUTTON      "",IDC_TEXT_COLOUR,63,81,38,13
+    LTEXT           "Цвет ф&она",IDC_STATIC,111,83,47,8
+    PUSHBUTTON      "",IDC_BACK_COLOUR,161,81,38,13
+    LTEXT           "&Левое поле",IDC_STATIC,6,104,55,9
+    EDITTEXT        IDC_LEFT_MARGIN,63,101,38,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "&Правое поле",IDC_STATIC,111,104,48,8
+    EDITTEXT        IDC_RIGHT_MARGIN,161,101,38,13,ES_AUTOHSCROLL | 
                     ES_NUMBER
     CONTROL         "&Быстрая прокрутка",IDC_FAST_SCROLL,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,6,120,116,9
-    CONTROL         "&Показывать подсказки [Далее]",IDC_MORE_PROMPT,"Button",
+    CONTROL         "Показывать по&дсказки [Далее]",IDC_MORE_PROMPT,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,6,132,144,9
 END
 
