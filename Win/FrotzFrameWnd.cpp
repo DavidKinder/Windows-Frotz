@@ -499,16 +499,16 @@ namespace
   static char* links[] =
   {
     "http://www.davidkinder.co.uk/frotz.html",
-    "http://www.ifarchive.org",
-    "http://www.ifarchive.org/indexes/if-archive/games/zcode/",
-    "http://www.ifdb.tads.org",
-    "http://www.intfiction.org",
-    "http://www.planet-if.com",
+    "https://www.ifarchive.org",
+    "https://www.ifarchive.org/indexes/if-archive/games/zcode/",
+    "https://ifdb.tads.org",
+    "https://intfiction.org",
+    "https://planet-if.com",
     "http://www.ifwiki.org",
-    "http://www.ifcomp.org",
+    "https://ifcomp.org",
     "http://ifmud.port4000.com",
     "http://inform7.com",
-    "http://inform-fiction.org"
+    "https://inform-fiction.org"
   };
 }
 
