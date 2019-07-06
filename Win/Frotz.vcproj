@@ -420,9 +420,6 @@
 				RelativePath=".\res\Frotz.bmp">
 			</File>
 			<File
-				RelativePath=".\res\Frotz.ico">
-			</File>
-			<File
 				RelativePath="res\Frotz.manifest">
 			</File>
 			<File
