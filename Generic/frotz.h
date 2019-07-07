@@ -24,6 +24,8 @@ typedef int bool;
 typedef unsigned char zbyte;
 typedef unsigned short zword;
 
+typedef unsigned short zchar;
+
 enum story {
     BEYOND_ZORK,
     SHERLOCK,
@@ -572,12 +574,12 @@ int	will_print_error (int);
 
 /*** Various global functions ***/
 
-zword	translate_from_zscii (zbyte);
-zbyte	translate_to_zscii (zword);
+zchar	translate_from_zscii (zbyte);
+zbyte	translate_to_zscii (zchar);
 
 void 	flush_buffer (void);
 void	new_line (void);
-void	print_char (zword);
+void	print_char (zchar);
 void	print_num (zword);
 void	print_object (zword);
 void 	print_string (const char *);
@@ -596,10 +598,10 @@ void	storew (zword, zword);
 
 void 	os_beep (int);
 int 	os_buffer_screen (int);
-int  	os_char_width (zword);
-int  	os_check_unicode (int, zword);
-void 	os_display_char (zword);
-void 	os_display_string (const zword *);
+int  	os_char_width (zchar);
+int  	os_check_unicode (int, zchar);
+void 	os_display_char (zchar);
+void 	os_display_string (const zchar *);
 void 	os_draw_picture (int, int, int);
 void 	os_erase_area (int, int, int, int, int);
 void 	os_fatal (const char *);
@@ -615,13 +617,13 @@ void 	os_prepare_sample (int);
 void 	os_process_arguments (int, char *[]);
 int	os_random_seed (void);
 int  	os_read_file_name (char *, const char *, int);
-zword	os_read_key (int, int);
-zword	os_read_line (int, zword *, int, int, int);
+zchar	os_read_key (int, int);
+zchar	os_read_line (int, zchar *, int, int, int);
 zword	os_read_mouse (void);
 void 	os_reset_screen (void);
 void 	os_restart_game (int);
 void 	os_scroll_area (int, int, int, int, int);
-void 	os_scrollback_char (zword);
+void 	os_scrollback_char (zchar);
 void 	os_scrollback_erase (int);
 void 	os_set_colour (int, int);
 void 	os_set_cursor (int, int);
@@ -629,7 +631,7 @@ void 	os_set_font (int);
 void 	os_set_text_style (int);
 void 	os_start_sample (int, int, int, zword);
 void 	os_stop_sample (int);
-int  	os_string_width (const zword *);
+int  	os_string_width (const zchar *);
 void 	os_tick (void);
 zword 	os_to_true_colour (int);
 int	os_wrap_window (int);

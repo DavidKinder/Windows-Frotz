@@ -107,11 +107,11 @@ void memory_new_line (void)
  *
  */
 
-void memory_word (const zword *s)
+void memory_word (const zchar *s)
 {
     zword size;
     zword addr;
-    zword c;
+    zchar c;
 
     if (h_version == V6) {
 

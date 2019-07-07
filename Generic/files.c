@@ -30,7 +30,7 @@
 
 extern void set_more_prompts (bool);
 
-extern bool is_terminator (zword);
+extern bool is_terminator (zchar);
 
 extern bool read_yes_or_no (const char *);
 
@@ -140,7 +140,7 @@ void script_new_line (void)
  *
  */
 
-void script_char (zword c)
+void script_char (zchar c)
 {
 
     if (c == ZC_INDENT && script_width != 0)
@@ -195,7 +195,7 @@ void script_char (zword c)
  *
  */
 
-void script_word (const zword *s)
+void script_word (const zchar *s)
 {
     int width;
     int i;
@@ -239,7 +239,7 @@ void script_word (const zword *s)
  *
  */
 
-void script_write_input (const zword *buf, zword key)
+void script_write_input (const zchar *buf, zword key)
 {
     int width;
     int i;
@@ -265,7 +265,7 @@ void script_write_input (const zword *buf, zword key)
  *
  */
 
-void script_erase_input (const zword *buf)
+void script_erase_input (const zchar *buf)
 {
     int width;
     int i;
@@ -379,7 +379,7 @@ static void record_code (int c, bool force_encoding)
  *
  */
 
-static void record_char (zword c)
+static void record_char (zchar c)
 {
 
     if (c != ZC_RETURN) {
@@ -404,7 +404,7 @@ static void record_char (zword c)
  *
  */
 
-void record_write_key (zword key)
+void record_write_key (zchar key)
 {
 
     record_char (key);
@@ -421,9 +421,9 @@ void record_write_key (zword key)
  *
  */
 
-void record_write_input (const zword *buf, zword key)
+void record_write_input (const zchar *buf, zchar key)
 {
-    zword c;
+    zchar c;
 
     while ((c = *buf++) != 0)
 	record_char (c);
@@ -511,7 +511,7 @@ static int replay_code (void)
  *
  */
 
-static zword replay_char (void)
+static zchar replay_char (void)
 {
     int c;
 
@@ -548,9 +548,9 @@ static zword replay_char (void)
  *
  */
 
-zword replay_read_key (void)
+zchar replay_read_key (void)
 {
-    zword key;
+    zchar key;
 
     key = replay_char ();
 
@@ -570,9 +570,9 @@ zword replay_read_key (void)
  *
  */
 
-zword replay_read_input (zword *buf)
+zchar replay_read_input (zchar *buf)
 {
-    zword c;
+    zchar c;
 
     for (;;) {
 
