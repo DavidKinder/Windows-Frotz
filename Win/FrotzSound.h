@@ -48,6 +48,9 @@ public:
   // Called to check if a sound has finished
   static void OnNotify(void);
 
+  // Show message about missing Infocom Blorb file, if appropriate
+  static void MsgInfocomBlorb(void);
+
 protected:
   int m_sound;
   unsigned short m_eos;

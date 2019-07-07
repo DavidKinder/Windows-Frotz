@@ -23,6 +23,9 @@ void end_of_sound(zword routine);
 static char THIS_FILE[] = __FILE__;
 #endif
 
+// The single application instance
+extern FrotzApp theApp;
+
 FrotzSound::FrotzSound(int sound, unsigned short eos, BYTE* data, int length, bool del)
 {
   m_sound = sound;
@@ -174,6 +177,79 @@ void FrotzSound::OnNotify(void)
       end_of_sound(routine);
     }
   }
+}
+
+enum BlorbTaskState
+{
+  BlorbTaskNotInit,
+  BlorbTaskNeverShow,
+  BlorbTaskCanShow,
+  BlorbTaskShowed
+};
+
+static HRESULT CALLBACK BlorbTaskCallback(HWND dlg, UINT msg, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData)
+{
+  switch (msg)
+  {
+  case TDN_BUTTON_CLICKED:
+    return S_OK;
+  case TDN_HYPERLINK_CLICKED:
+    ::ShellExecute(0,NULL,CString(CStringW((LPCWSTR)lParam)),NULL,NULL,SW_SHOWNORMAL);
+    ::EndDialog(dlg,IDOK);
+    return S_FALSE;
+  case TDN_VERIFICATION_CLICKED:
+    {
+      BlorbTaskState* state = (BlorbTaskState*)lpRefData;
+      *state = wParam ? BlorbTaskNeverShow : BlorbTaskCanShow;
+      theApp.WriteProfileInt("Files","Show Infocom Blorb Message",(*state == BlorbTaskNeverShow) ? 0 : 1);
+    }
+    return S_FALSE;
+  }
+  return S_FALSE;
+}
+
+// Show message about missing Infocom Blorb file, if appropriate
+void FrotzSound::MsgInfocomBlorb(void)
+{
+  static BlorbTaskState state = BlorbTaskNotInit;
+  static HMODULE comctl32 = 0;
+
+  if (state == BlorbTaskNotInit)
+    state = theApp.GetProfileInt("Files","Show Infocom Blorb Message",1) ? BlorbTaskCanShow : BlorbTaskNeverShow;
+  if (state != BlorbTaskCanShow)
+    return;
+
+  if (comctl32 == 0)
+    comctl32 = ::LoadLibrary("comctl32.dll");
+  if (comctl32 == 0)
+    return;
+
+  typedef HRESULT(__stdcall *TASKDIALOGINDIRECT)(const TASKDIALOGCONFIG*, int*, int*, BOOL*);
+  TASKDIALOGINDIRECT taskDialogIndirect = (TASKDIALOGINDIRECT)::GetProcAddress(comctl32,"TaskDialogIndirect");
+  if (taskDialogIndirect == NULL)
+    return;
+
+  TASKDIALOGCONFIG task = { sizeof(TASKDIALOGCONFIG), 0 };
+  task.hwndParent = AfxGetMainWnd()->GetSafeHwnd();
+  task.hInstance = AfxGetResourceHandle();
+  task.dwFlags = TDF_ENABLE_HYPERLINKS|TDF_ALLOW_DIALOG_CANCELLATION|TDF_POSITION_RELATIVE_TO_WINDOW|TDF_SIZE_TO_CONTENT;
+  task.dwCommonButtons = TDCBF_OK_BUTTON;
+  task.pszMainIcon = TD_INFORMATION_ICON;
+  task.pszWindowTitle = MAKEINTRESOURCEW(IDS_TITLE);
+  task.pszMainIcon = MAKEINTRESOURCEW(IDI_INFOCOM);
+  task.pszMainInstruction = MAKEINTRESOURCEW(IDS_INFOCOM_BLORB1);
+  CStringW contentFormat;
+  contentFormat.LoadString(IDS_INFOCOM_BLORB2);
+  CStringW content;
+  LPCSTR url = "https://ifarchive.org/indexes/if-archive/infocom/media/blorb/";
+  content.Format(contentFormat,url,url);
+  task.pszContent = content;
+  task.pszVerificationText = MAKEINTRESOURCEW(IDS_INFOCOM_BLORB3);
+  task.pfCallback = BlorbTaskCallback;
+  task.lpCallbackData = (LONG_PTR)&state;
+  BOOL dontShowAgain = FALSE;
+  (*taskDialogIndirect)(&task,NULL,NULL,&dontShowAgain);
+  state = BlorbTaskShowed;
 }
 
 FrotzSound* FrotzSound::m_soundEffect = NULL;

@@ -429,6 +429,13 @@ BEGIN
     IDS_HELP_FAILED         "Impossibile avviare la Guida."
 END
 
+STRINGTABLE 
+BEGIN
+    IDS_INFOCOM_BLORB1      "This Infocom game is trying to use sound effects, but no sound file (in Blorb format) was found."
+    IDS_INFOCOM_BLORB2      "You can download these sound files from the IF-Archive, at\n<a href=""%S"">%S</a>"
+    IDS_INFOCOM_BLORB3      "Do not show this message again."
+END
+
 #endif    // Italian (Italy) resources
 /////////////////////////////////////////////////////////////////////////////
 

@@ -1358,6 +1358,8 @@ extern "C" void os_start_sample(int number, int volume, int repeats, zword eos)
 
     FrotzSound::Play(number,theApp.GetBlorbMap(),repeats,volume,eos);
   }
+  else if ((story_id == SHERLOCK) || (story_id == LURKING_HORROR))
+    FrotzSound::MsgInfocomBlorb();
 }
 
 /*

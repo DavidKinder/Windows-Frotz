@@ -90,6 +90,9 @@
 #define IDS_OPTIONS                     10025
 #define IDS_LINK                        10026
 #define IDS_HELP_FAILED                 10027
+#define IDS_INFOCOM_BLORB1              10028
+#define IDS_INFOCOM_BLORB2              10029
+#define IDS_INFOCOM_BLORB3              10030
 #define ID_HOT_PLAYBACK                 32771
 #define ID_HOT_RECORD                   32772
 #define ID_HOT_SEED                     32773
