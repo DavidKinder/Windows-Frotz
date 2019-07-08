@@ -865,7 +865,7 @@ void restart_screen (void)
 /*
  * validate_click
  *
- * Return false if the last mouse click occured outside the current
+ * Return false if the last mouse click occurred outside the current
  * mouse window; otherwise write the mouse arrow coordinates to the
  * memory of the header extension table and return true.
  *
