@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #include "frotz.h"
@@ -312,9 +312,7 @@ void z_input_stream (void)
  * Read a single keystroke from the current input stream.
  *
  */
-
-zchar stream_read_key ( zword timeout, zword routine,
-			bool hot_keys )
+zchar stream_read_key ( zword timeout, zword routine, bool hot_keys )
 {
     zchar key = ZC_BAD;
 
@@ -389,7 +387,7 @@ zchar stream_read_input ( int max, zchar *buf,
 
     flush_buffer ();
 
-    /* Remove initial input from the transscript file or from the screen */
+    /* Remove initial input from the transcript file or from the screen */
 
     if (ostream_script && enable_scripting && !no_scripting)
 	script_erase_input (buf);
@@ -439,7 +437,7 @@ continue_input:
 
     }
 
-    /* Copy input line to transscript file or to the screen */
+    /* Copy input line to transcript file or to the screen */
 
     if (ostream_script && enable_scripting && !no_scripting)
 	script_write_input (buf, key);

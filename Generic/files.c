@@ -1,4 +1,4 @@
-/* files.c - Transscription, recording and playback
+/* files.c - Transcription, recording and playback
  *	Copyright (c) 1995-1997 Stefan Jokisch
  *
  * This file is part of Frotz.
@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #include <stdio.h>
@@ -50,13 +50,13 @@ static FILE *pfp = NULL;
 /*
  * script_open
  *
- * Open the transscript file. 'AMFV' makes this more complicated as it
- * turns transscription on/off several times to exclude some text from
- * the transscription file. This wasn't a problem for the original V4
- * interpreters which always sent transscription to the printer, but it
+ * Open the transcript file. 'AMFV' makes this more complicated as it
+ * turns transcription on/off several times to exclude some text from
+ * the transcription file. This wasn't a problem for the original V4
+ * interpreters which always sent transcription to the printer, but it
  * means a problem to modern interpreters that offer to open a new file
- * every time transscription is turned on. Our solution is to append to
- * the old transscription file in V1 to V4, and to ask for a new file
+ * every time transcription is turned on. Our solution is to append to
+ * the old transcription file in V1 to V4, and to ask for a new file
  * name in V5+.
  *
  */
@@ -102,7 +102,7 @@ done:
 /*
  * script_close
  *
- * Stop transscription.
+ * Stop transcription.
  *
  */
 
@@ -119,7 +119,7 @@ void script_close (void)
 /*
  * script_new_line
  *
- * Write a newline to the transscript file.
+ * Write a newline to the transcript file.
  *
  */
 
@@ -136,7 +136,7 @@ void script_new_line (void)
 /*
  * script_char
  *
- * Write a single character to the transscript file.
+ * Write a single character to the transcript file.
  *
  */
 
@@ -191,7 +191,7 @@ void script_char (zchar c)
 /*
  * script_word
  *
- * Write a string to the transscript file.
+ * Write a string to the transcript file.
  *
  */
 
@@ -235,11 +235,11 @@ void script_word (const zchar *s)
 /*
  * script_write_input
  *
- * Send an input line to the transscript file.
+ * Send an input line to the transcript file.
  *
  */
 
-void script_write_input (const zchar *buf, zword key)
+void script_write_input (const zchar *buf, zchar key)
 {
     int width;
     int i;
@@ -261,7 +261,7 @@ void script_write_input (const zchar *buf, zword key)
 /*
  * script_erase_input
  *
- * Remove an input line from the transscript file.
+ * Remove an input line from the transcript file.
  *
  */
 
@@ -280,7 +280,7 @@ void script_erase_input (const zchar *buf)
 /*
  * script_mssg_on
  *
- * Start sending a "debugging" message to the transscript file.
+ * Start sending a "debugging" message to the transcript file.
  *
  */
 

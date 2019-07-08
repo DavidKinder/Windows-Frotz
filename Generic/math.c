@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #include "frotz.h"
@@ -230,8 +230,9 @@ void z_or (void)
 
 }/* z_or */
 
+
 /*
- * z_sub, 16bit substraction.
+ * z_sub, 16bit subtraction.
  *
  *	zargs[0] = first value
  *	zargs[1] = second value
