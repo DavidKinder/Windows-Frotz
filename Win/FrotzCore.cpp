@@ -96,7 +96,7 @@ extern "C" void os_beep(int number)
  * be scrolled after printing to the bottom right corner.
  *
  */
-extern "C" void os_display_char(zword c)
+extern "C" void os_display_char(zchar c)
 {
   if (c == ZC_INDENT)
   {
@@ -122,7 +122,7 @@ extern "C" void os_display_char(zword c)
  * Pass a string of characters to os_display_char.
  *
  */
-extern "C" void os_display_string(const zword *s)
+extern "C" void os_display_string(const zchar *s)
 {
   zword c;
   while ((c = *s++) != 0)
@@ -573,7 +573,7 @@ extern "C" void os_process_arguments(int argc, char *argv[])
  * to implement word completion (similar to tcsh under Unix).
  *
  */
-extern "C" zword os_read_line(int max, zword *buf, int timeout, int width, int continued)
+extern "C" zchar os_read_line(int max, zchar *buf, int timeout, int width, int continued)
 {
   static int prev_pos = 0;
   static int prev_history = 0;
@@ -802,7 +802,7 @@ extern "C" zword os_read_line(int max, zword *buf, int timeout, int width, int c
  * return it. Input aborts after timeout/10 seconds.
  *
  */
-extern "C" zword os_read_key(int timeout, int cursor)
+extern "C" zchar os_read_key(int timeout, int cursor)
 {
   theWnd->FlushText();
   theWnd->ResetOverhang();
@@ -1072,7 +1072,7 @@ extern "C" void os_set_text_style(int new_style)
  *    ZC_NEW_FONT  - next character is a new font
  *
  */
-extern "C" int os_string_width(const zword *s)
+extern "C" int os_string_width(const zchar *s)
 {
   // Look for style or font changes, or indents
   bool changes = false;
@@ -1160,7 +1160,7 @@ extern "C" int os_string_width(const zword *s)
  * Return the length of the character in screen units.
  *
  */
-extern "C" int os_char_width(zword c)
+extern "C" int os_char_width(zchar c)
 {
   return theWnd->GetCharWidth(c);
 }
@@ -1173,7 +1173,7 @@ extern "C" int os_char_width(zword c)
  * 
  *
  */
-extern "C" int os_check_unicode(int font, zword c)
+extern "C" int os_check_unicode(int font, zchar c)
 {
   return theWnd->HasGlyph(font,c) ? 3 : 2;
 }

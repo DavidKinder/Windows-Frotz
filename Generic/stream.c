@@ -20,7 +20,7 @@
 
 #include "frotz.h"
 
-extern bool handle_hot_key (zword);
+extern bool handle_hot_key (zchar);
 
 extern bool validate_click (void);
 
@@ -33,29 +33,29 @@ extern void record_close (void);
 extern void script_open (void);
 extern void script_close (void);
 
-extern void memory_word (const zword *);
+extern void memory_word (const zchar *);
 extern void memory_new_line (void);
-extern void record_write_key (zword);
-extern void record_write_input (const zword *, zword);
-extern void script_char (zword);
-extern void script_word (const zword *);
+extern void record_write_key (zchar);
+extern void record_write_input (const zchar *, zchar);
+extern void script_char (zchar);
+extern void script_word (const zchar *);
 extern void script_new_line (void);
-extern void script_write_input (const zword *, zword);
-extern void script_erase_input (const zword *);
+extern void script_write_input (const zchar *, zchar);
+extern void script_erase_input (const zchar *);
 extern void script_mssg_on (void);
 extern void script_mssg_off (void);
-extern void screen_char (zword);
-extern void screen_word (const zword *);
+extern void screen_char (zchar);
+extern void screen_word (const zchar *);
 extern void screen_new_line (void);
-extern void screen_write_input (const zword *, zword);
-extern void screen_erase_input (const zword *);
+extern void screen_write_input (const zchar *, zchar);
+extern void screen_erase_input (const zchar *);
 extern void screen_mssg_on (void);
 extern void screen_mssg_off (void);
 
-extern zword replay_read_key (void);
-extern zword replay_read_input (zword *);
-extern zword console_read_key (zword);
-extern zword console_read_input (int, zword *, zword, bool);
+extern zchar replay_read_key (void);
+extern zchar replay_read_input (zchar *);
+extern zchar console_read_key (zchar);
+extern zchar console_read_input (int, zchar *, zword, bool);
 
 extern int direct_call (zword);
 
@@ -66,7 +66,7 @@ extern int direct_call (zword);
  *
  */
 
-void scrollback_char (zword c)
+void scrollback_char (zchar c)
 {
 
     if (c == ZC_INDENT)
@@ -85,7 +85,7 @@ void scrollback_char (zword c)
  *
  */
 
-void scrollback_word (const zword *s)
+void scrollback_word (const zchar *s)
 {
     int i;
 
@@ -105,7 +105,7 @@ void scrollback_word (const zword *s)
  *
  */
 
-void scrollback_write_input (const zword *buf, zword key)
+void scrollback_write_input (const zchar *buf, zchar key)
 {
     int i;
 
@@ -124,7 +124,7 @@ void scrollback_write_input (const zword *buf, zword key)
  *
  */
 
-void scrollback_erase_input (const zword *buf)
+void scrollback_erase_input (const zchar *buf)
 {
     int width;
     int i;
@@ -222,7 +222,7 @@ void z_output_stream (void)
  *
  */
 
-void stream_char (zword c)
+void stream_char (zchar c)
 {
 
     if (ostream_screen)
@@ -241,7 +241,7 @@ void stream_char (zword c)
  *
  */
 
-void stream_word (const zword *s)
+void stream_word (const zchar *s)
 {
 
     if (ostream_memory && !message)
@@ -313,10 +313,10 @@ void z_input_stream (void)
  *
  */
 
-zword stream_read_key ( zword timeout, zword routine,
+zchar stream_read_key ( zword timeout, zword routine,
 			bool hot_keys )
 {
-    zword key = ZC_BAD;
+    zchar key = ZC_BAD;
 
     flush_buffer ();
 
@@ -376,12 +376,12 @@ continue_input:
  *
  */
 
-zword stream_read_input ( int max, zword *buf,
+zchar stream_read_input ( int max, zchar *buf,
 			  zword timeout, zword routine,
 			  bool hot_keys,
 			  bool no_scripting )
 {
-    zword key = ZC_BAD;
+    zchar key = ZC_BAD;
     bool no_scrollback = no_scripting;
 
     if (h_version == V6 && story_id == UNKNOWN && !ostream_script)

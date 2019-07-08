@@ -20,15 +20,15 @@
 
 #include "frotz.h"
 
-extern void stream_char (zword);
-extern void stream_word (const zword *);
+extern void stream_char (zchar);
+extern void stream_word (const zchar *);
 extern void stream_new_line (void);
 
-static zword buffer[TEXT_BUFFER_SIZE];
+static zchar buffer[TEXT_BUFFER_SIZE];
 static int bufpos = 0;
 static bool locked = FALSE;
 
-static zword prev_c = 0;
+static zchar prev_c = 0;
 
 /*
  * init_buffer
@@ -39,7 +39,7 @@ static zword prev_c = 0;
 
 void init_buffer(void)
 {
-    memset(buffer, 0, sizeof (zword) * TEXT_BUFFER_SIZE);
+    memset(buffer, 0, sizeof (zchar) * TEXT_BUFFER_SIZE);
     bufpos = 0;
     prev_c = 0;
     locked = FALSE;
@@ -82,7 +82,7 @@ void flush_buffer (void)
  *
  */
 
-void print_char (zword c)
+void print_char (zchar c)
 {
     static bool flag = FALSE;
 

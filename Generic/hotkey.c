@@ -223,7 +223,7 @@ static bool hot_key_quit (void)
  *
  */
 
-bool handle_hot_key (zword key)
+bool handle_hot_key (zchar key)
 {
 
     if (cwin == 0) {

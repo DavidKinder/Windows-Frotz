@@ -335,7 +335,7 @@ void screen_new_line (void)
  *
  */
 
-void screen_char (zword c)
+void screen_char (zchar c)
 {
     int width;
 
@@ -366,7 +366,7 @@ void screen_char (zword c)
  *
  */
 
-void screen_word (const zword *s)
+void screen_word (const zchar *s)
 {
     int width;
 
@@ -379,7 +379,7 @@ void screen_word (const zword *s)
 
 	if (!enable_wrapping) {
 
-	    zword c;
+	    zchar c;
 
 	    while ((c = *s++) != 0)
 
@@ -420,7 +420,7 @@ void screen_word (const zword *s)
  *
  */
 
-void screen_write_input (const zword *buf, zword key)
+void screen_write_input (const zchar *buf, zchar key)
 {
     int width;
 
@@ -443,7 +443,7 @@ void screen_write_input (const zword *buf, zword key)
  *
  */
 
-void screen_erase_input (const zword *buf)
+void screen_erase_input (const zchar *buf)
 {
 
     if (buf[0] != 0) {
@@ -472,9 +472,9 @@ void screen_erase_input (const zword *buf)
  *
  */
 
-zword console_read_input (int max, zword *buf, zword timeout, bool continued)
+zchar console_read_input (int max, zchar *buf, zword timeout, bool continued)
 {
-    zword key;
+    zchar key;
     int i;
 
     /* Make sure there is some space for input */
@@ -516,9 +516,9 @@ zword console_read_input (int max, zword *buf, zword timeout, bool continued)
  *
  */
 
-zword console_read_key (zword timeout)
+zchar console_read_key (zword timeout)
 {
-    zword key;
+    zchar key;
     int i;
 
     key = os_read_key (timeout, cursor);
