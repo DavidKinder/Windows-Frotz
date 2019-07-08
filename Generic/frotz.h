@@ -24,6 +24,7 @@ typedef int bool;
 typedef unsigned char zbyte;
 typedef unsigned short zword;
 
+/* Characters passed to and from the interface, encoded as UCS-2 values. */
 typedef unsigned short zchar;
 
 enum story {
