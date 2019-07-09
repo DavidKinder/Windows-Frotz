@@ -54,7 +54,7 @@ extern void screen_mssg_off (void);
 
 extern zchar replay_read_key (void);
 extern zchar replay_read_input (zchar *);
-extern zchar console_read_key (zchar);
+extern zchar console_read_key (zword);
 extern zchar console_read_input (int, zchar *, zword, bool);
 
 extern int direct_call (zword);
