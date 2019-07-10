@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #include "frotz.h"
@@ -123,7 +123,7 @@ void runtime_error (int errnum)
 	if (err_report_mode == ERR_REPORT_ONCE) {
 	    print_string (" (will ignore further occurrences)");
 	} else {
-	    print_string (" (occurence ");
+	    print_string (" (occurrence ");
 	    print_long (error_count[errnum - 1], 10);
 	    print_char (')');
 	}
