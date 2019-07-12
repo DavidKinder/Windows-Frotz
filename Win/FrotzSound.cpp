@@ -229,22 +229,24 @@ void FrotzSound::MsgInfocomBlorb(void)
   if (taskDialogIndirect == NULL)
     return;
 
+  CStringW title, instruction, contentFmt, content, verify;
+  title.LoadString(IDS_TITLE);
+  instruction.LoadString(IDS_INFOCOM_BLORB1);
+  contentFmt.LoadString(IDS_INFOCOM_BLORB2);
+  LPCSTR url = "https://ifarchive.org/indexes/if-archive/infocom/media/blorb/";
+  content.Format(contentFmt,url,url);
+  verify.LoadString(IDS_INFOCOM_BLORB3);
+
   TASKDIALOGCONFIG task = { sizeof(TASKDIALOGCONFIG), 0 };
   task.hwndParent = AfxGetMainWnd()->GetSafeHwnd();
-  task.hInstance = AfxGetResourceHandle();
+  task.hInstance = ::GetModuleHandle(NULL);
   task.dwFlags = TDF_ENABLE_HYPERLINKS|TDF_ALLOW_DIALOG_CANCELLATION|TDF_POSITION_RELATIVE_TO_WINDOW|TDF_SIZE_TO_CONTENT;
   task.dwCommonButtons = TDCBF_OK_BUTTON;
-  task.pszMainIcon = TD_INFORMATION_ICON;
-  task.pszWindowTitle = MAKEINTRESOURCEW(IDS_TITLE);
+  task.pszWindowTitle = title;
   task.pszMainIcon = MAKEINTRESOURCEW(IDI_INFOCOM);
-  task.pszMainInstruction = MAKEINTRESOURCEW(IDS_INFOCOM_BLORB1);
-  CStringW contentFormat;
-  contentFormat.LoadString(IDS_INFOCOM_BLORB2);
-  CStringW content;
-  LPCSTR url = "https://ifarchive.org/indexes/if-archive/infocom/media/blorb/";
-  content.Format(contentFormat,url,url);
+  task.pszMainInstruction = instruction;
   task.pszContent = content;
-  task.pszVerificationText = MAKEINTRESOURCEW(IDS_INFOCOM_BLORB3);
+  task.pszVerificationText = verify;
   task.pfCallback = BlorbTaskCallback;
   task.lpCallbackData = (LONG_PTR)&state;
   BOOL dontShowAgain = FALSE;
