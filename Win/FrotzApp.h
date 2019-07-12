@@ -81,6 +81,8 @@ public:
   void RegisterFileTypes(void);
   // Load an international version of resources
   void LoadInternationalResources(void);
+  // Get a link URL from the international resources
+  LPCSTR GetInternationalLink(UINT id);
 
   // Open a file dialog to prompt the user for a game
   bool PromptForGame(bool initial);
@@ -197,6 +199,8 @@ public:
 protected:
   // Get a string from an XML node
   CString StrFromXML(IXMLDOMDocument* doc, LPCWSTR path);
+
+  HINSTANCE m_translate;
 
   CString m_filename;
   bool m_register;

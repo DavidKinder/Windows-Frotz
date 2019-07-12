@@ -116,6 +116,14 @@
 #define ID_LINKS_IFMUD                  32808
 #define ID_LINKS_INFORM7                32809
 #define ID_LINKS_INFORM6                32810
+#define ID_LINKS_TRANSLATION_1          32850
+#define ID_LINKS_TRANSLATION_2          32851
+#define ID_LINKS_TRANSLATION_3          32852
+#define ID_LINKS_TRANSLATION_4          32853
+#define ID_LINKS_TRANSLATION_5          32854
+#define ID_LINKS_TRANSLATION_6          32855
+#define ID_LINKS_TRANSLATION_7          32856
+#define ID_LINKS_TRANSLATION_8          32857
 #define ID_FULLSCREEN                   32900
 #define ID_INDICATOR_TIME               32901
 #define ID_INDICATOR_ZCODE              32902

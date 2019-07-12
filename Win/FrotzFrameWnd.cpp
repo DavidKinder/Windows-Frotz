@@ -75,6 +75,7 @@ BEGIN_MESSAGE_MAP(FrotzFrameWnd, MenuBarFrameWnd)
   ON_COMMAND(ID_HELP_FINDER, OnHelpFinder)
   ON_COMMAND(ID_FULLSCREEN, OnFullscreen)
   ON_COMMAND_RANGE(ID_LINKS_FROTZ, ID_LINKS_INFORM6, OnHelpLink)
+  ON_COMMAND_RANGE(ID_LINKS_TRANSLATION_1, ID_LINKS_TRANSLATION_8, OnHelpTranslateLink)
   ON_UPDATE_COMMAND_UI(ID_INDICATOR_TIME, OnUpdateTime)
   ON_UPDATE_COMMAND_UI(ID_INDICATOR_ZCODE, OnUpdateZcode)
   //}}AFX_MSG_MAP
@@ -515,20 +516,33 @@ namespace
 void FrotzFrameWnd::OnHelpLink(UINT nID)
 {
   int i = nID - ID_LINKS_FROTZ;
-  if (( i >= 0) && (i < sizeof links / sizeof links[0]))
+  if ((i >= 0) && (i < sizeof links / sizeof links[0]))
     ::ShellExecute(0,NULL,links[i],NULL,NULL,SW_SHOWNORMAL);
+}
+
+void FrotzFrameWnd::OnHelpTranslateLink(UINT nID)
+{
+  if (nID >= ID_LINKS_TRANSLATION_1)
+  {
+    FrotzApp* app = (FrotzApp*)AfxGetApp();
+    LPCSTR link = app->GetInternationalLink(nID - ID_LINKS_TRANSLATION_1);
+    if (link)
+      ::ShellExecute(0,NULL,link,NULL,NULL,SW_SHOWNORMAL);
+  }
 }
 
 void FrotzFrameWnd::GetMessageString(UINT nID, CString& rMessage) const
 {
-  int i = nID - ID_LINKS_FROTZ;
-  if (( i >= 0) && (i < sizeof links / sizeof links[0]))
+  if ((nID >= ID_LINKS_FROTZ) && (nID <= ID_LINKS_INFORM6))
+    rMessage.Format(IDS_LINK,links[nID - ID_LINKS_FROTZ]);
+  else if ((nID >= ID_LINKS_TRANSLATION_1) && (nID <= ID_LINKS_TRANSLATION_8))
   {
-    rMessage.Format(IDS_LINK,links[i]);
-    return;
+    FrotzApp* app = (FrotzApp*)AfxGetApp();
+    LPCSTR link = app->GetInternationalLink(nID - ID_LINKS_TRANSLATION_1);
+    rMessage.Format(IDS_LINK,link ? link : "?");
   }
-
-  MenuBarFrameWnd::GetMessageString(nID,rMessage);
+  else
+    MenuBarFrameWnd::GetMessageString(nID,rMessage);
 }
 
 LRESULT FrotzFrameWnd::OnDpiChanged(WPARAM wparam, LPARAM lparam)

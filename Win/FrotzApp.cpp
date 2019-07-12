@@ -417,9 +417,27 @@ void FrotzApp::LoadInternationalResources(void)
       TRANSLATE_ISENABLED isEnabled =
         (TRANSLATE_ISENABLED)::GetProcAddress(dll,"IsEnabled");
       if (isEnabled && (*isEnabled)())
+      {
         AfxSetResourceHandle(dll);
+        m_translate = dll;
+      }
     }
   }
+}
+
+// Get a link URL from the international resources
+LPCSTR FrotzApp::GetInternationalLink(UINT id)
+{
+  if (m_translate != NULL)
+  {
+    typedef LPCSTR(*TRANSLATE_GETLINK)(UINT);
+
+    TRANSLATE_GETLINK getLink =
+      (TRANSLATE_GETLINK)::GetProcAddress(m_translate,"GetLink");
+    if (getLink)
+      return (*getLink)(id);
+  }
+  return NULL;
 }
 
 // Open a file dialog to prompt the user for a game

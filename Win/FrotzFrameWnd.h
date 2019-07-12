@@ -69,6 +69,7 @@ protected:
   afx_msg void OnReadLineRubout();
   afx_msg void OnReadLineKill();
   afx_msg void OnHelpLink(UINT nID);
+  afx_msg void OnHelpTranslateLink(UINT nID);
   //}}AFX_MSG
   afx_msg LRESULT OnDpiChanged(WPARAM, LPARAM);
 
