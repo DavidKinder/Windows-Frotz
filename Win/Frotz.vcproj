@@ -438,12 +438,6 @@
 				RelativePath=".\res\Toolbar.bmp">
 			</File>
 			<File
-				RelativePath="res\Toolbar32.bmp">
-			</File>
-			<File
-				RelativePath="res\Z.ico">
-			</File>
-			<File
 				RelativePath=".\res\Z1.ico">
 			</File>
 			<File
