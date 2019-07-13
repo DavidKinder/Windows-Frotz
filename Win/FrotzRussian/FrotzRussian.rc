@@ -565,9 +565,9 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_INFOCOM_BLORB1      "This Infocom game is trying to use sound effects, but no sound file (in Blorb format) was found."
-    IDS_INFOCOM_BLORB2      "You can download these sound files from the IF-Archive, at\n<a href=""%S"">%S</a>"
-    IDS_INFOCOM_BLORB3      "Do not show this message again."
+    IDS_INFOCOM_BLORB1      "Эта игра Infocom пытается использовать звуковые эффекты, но звуковой файл (в формате Blorb) не найден."
+    IDS_INFOCOM_BLORB2      "Вы можете скачать эти звуковые файлы из IF-Archive по адресу\n<a href=""%S"">%S</a>"
+    IDS_INFOCOM_BLORB3      "Больше не показывать это сообщение."
 END
 
 #endif    // Russian resources
