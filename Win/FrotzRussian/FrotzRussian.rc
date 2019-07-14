@@ -134,7 +134,14 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Inform 7",                    ID_LINKS_INFORM7
             MENUITEM "Inform 6",                    ID_LINKS_INFORM6
-        END
+            MENUITEM SEPARATOR
+            MENUITEM "iFiction.Ru",                 ID_LINKS_TRANSLATION_1
+            MENUITEM "IFВики",                      ID_LINKS_TRANSLATION_2
+            MENUITEM "IFHub",                       ID_LINKS_TRANSLATION_3
+            MENUITEM "Парсерфест",                  ID_LINKS_TRANSLATION_4
+            MENUITEM "КРИЛ",                        ID_LINKS_TRANSLATION_5
+            MENUITEM "Русский Inform",              ID_LINKS_TRANSLATION_6
+    END
         MENUITEM SEPARATOR
         MENUITEM "Об этой &игре",               ID_APP_ABOUT_GAME
         MENUITEM "&О Windows Frotz",            ID_APP_ABOUT
