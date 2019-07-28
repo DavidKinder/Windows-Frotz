@@ -47,8 +47,6 @@ Section "DoInstall"
   File "..\Win\Release\Frotz.chm"
   File "..\COPYING"
   SetOutPath "$INSTDIR\Examples"
-  File "..\Examples\Parrot.zlb"
-  File "..\Examples\Parrot.inf"
   File "..\Examples\Unicode.inf"
   File "..\Examples\Unicode.z5"
   File "..\Examples\ZSpec11.inf"
@@ -71,57 +69,57 @@ Section "DoInstall"
 
   WriteRegStr HKCR ".z1" "" "ZMachine.V1"
   WriteRegStr HKCR "ZMachine.V1" "" "Z-code V1 Adventure"
+  WriteRegStr HKCR "ZMachine.V1\DefaultIcon" "" "$INSTDIR\Frotz.exe,1"
   WriteRegStr HKCR "ZMachine.V1\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.V1\DefaultIcon" "" '"$INSTDIR\Frotz.exe",1'
   WriteRegStr HKCR "ZMachine.V1\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
   WriteRegStr HKCR ".z2" "" "ZMachine.V2"
   WriteRegStr HKCR "ZMachine.V2" "" "Z-code V2 Adventure"
+  WriteRegStr HKCR "ZMachine.V2\DefaultIcon" "" "$INSTDIR\Frotz.exe,2"
   WriteRegStr HKCR "ZMachine.V2\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.V2\DefaultIcon" "" '"$INSTDIR\Frotz.exe",2'
   WriteRegStr HKCR "ZMachine.V2\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
   WriteRegStr HKCR ".z3" "" "ZMachine.V3"
   WriteRegStr HKCR "ZMachine.V3" "" "Z-code V3 Adventure"
+  WriteRegStr HKCR "ZMachine.V3\DefaultIcon" "" "$INSTDIR\Frotz.exe,3"
   WriteRegStr HKCR "ZMachine.V3\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.V3\DefaultIcon" "" '"$INSTDIR\Frotz.exe",3'
   WriteRegStr HKCR "ZMachine.V3\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
   WriteRegStr HKCR ".z4" "" "ZMachine.V4"
   WriteRegStr HKCR "ZMachine.V4" "" "Z-code V4 Adventure"
+  WriteRegStr HKCR "ZMachine.V4\DefaultIcon" "" "$INSTDIR\Frotz.exe,4"
   WriteRegStr HKCR "ZMachine.V4\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.V4\DefaultIcon" "" '"$INSTDIR\Frotz.exe",4'
   WriteRegStr HKCR "ZMachine.V4\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
   WriteRegStr HKCR ".z5" "" "ZMachine.V5"
   WriteRegStr HKCR "ZMachine.V5" "" "Z-code V5 Adventure"
+  WriteRegStr HKCR "ZMachine.V5\DefaultIcon" "" "$INSTDIR\Frotz.exe,5"
   WriteRegStr HKCR "ZMachine.V5\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.V5\DefaultIcon" "" '"$INSTDIR\Frotz.exe",5'
   WriteRegStr HKCR "ZMachine.V5\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
   WriteRegStr HKCR ".z6" "" "ZMachine.V6"
   WriteRegStr HKCR "ZMachine.V6" "" "Z-code V6 Adventure"
+  WriteRegStr HKCR "ZMachine.V6\DefaultIcon" "" "$INSTDIR\Frotz.exe,6"
   WriteRegStr HKCR "ZMachine.V6\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.V6\DefaultIcon" "" '"$INSTDIR\Frotz.exe",6'
   WriteRegStr HKCR "ZMachine.V6\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
   WriteRegStr HKCR ".z7" "" "ZMachine.V7"
   WriteRegStr HKCR "ZMachine.V7" "" "Z-code V7 Adventure"
+  WriteRegStr HKCR "ZMachine.V7\DefaultIcon" "" "$INSTDIR\Frotz.exe,7"
   WriteRegStr HKCR "ZMachine.V7\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.V7\DefaultIcon" "" '"$INSTDIR\Frotz.exe",7'
   WriteRegStr HKCR "ZMachine.V7\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
   WriteRegStr HKCR ".z8" "" "ZMachine.V8"
   WriteRegStr HKCR "ZMachine.V8" "" "Z-code V8 Adventure"
+  WriteRegStr HKCR "ZMachine.V8\DefaultIcon" "" "$INSTDIR\Frotz.exe,8"
   WriteRegStr HKCR "ZMachine.V8\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.V8\DefaultIcon" "" '"$INSTDIR\Frotz.exe",8'
   WriteRegStr HKCR "ZMachine.V8\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
   WriteRegStr HKCR ".zlb" "" "ZMachine.Blorb"
   WriteRegStr HKCR ".zblorb" "" "ZMachine.Blorb"
+  WriteRegStr HKCR "ZMachine.Blorb\DefaultIcon" "" "$INSTDIR\Frotz.exe,9"
   WriteRegStr HKCR "ZMachine.Blorb" "" "Blorbed Z-code Adventure"
   WriteRegStr HKCR "ZMachine.Blorb\shell" "" "open"
-  WriteRegStr HKCR "ZMachine.Blorb\DefaultIcon" "" '"$INSTDIR\Frotz.exe",9'
   WriteRegStr HKCR "ZMachine.Blorb\shell\open\command" "" '"$INSTDIR\Frotz.exe" "%1"'
 
 SectionEnd
