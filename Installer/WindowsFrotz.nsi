@@ -20,7 +20,6 @@ InstallDirRegKey HKLM "SOFTWARE\David Kinder\Frotz\Install" "Directory"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
 !define MUI_HEADERIMAGE_BITMAP "Back.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "Side.bmp"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_DIRECTORY
