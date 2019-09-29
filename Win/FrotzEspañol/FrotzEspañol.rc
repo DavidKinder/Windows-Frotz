@@ -568,9 +568,9 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_INFOCOM_BLORB1      "This Infocom game is trying to use sound effects, but no sound file (in Blorb format) was found."
-    IDS_INFOCOM_BLORB2      "You can download these sound files from the IF-Archive, at\n<a href=""%S"">%S</a>"
-    IDS_INFOCOM_BLORB3      "Do not show this message again."
+    IDS_INFOCOM_BLORB1      "Este juego de Infocom está intentando usar efectos de sonido, pero no se ha encontrado el fichero de sonidos (en formato Blorb)."
+    IDS_INFOCOM_BLORB2      "Puedes descargar estos ficheros de sonidos desde el IF-Archive, en\n<a href=""%S"">%S</a>"
+    IDS_INFOCOM_BLORB3      "No mostrar este mensaje de nuevo."
 END
 
 #endif    // Spanish resources
