@@ -64,7 +64,14 @@ Section "DoInstall"
   
   WriteRegStr HKLM "SOFTWARE\David Kinder\Frotz\Install" "Directory" "$INSTDIR"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsFrotz" "DisplayName" "Windows Frotz"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsFrotz" "DisplayIcon" "$INSTDIR\Frotz.exe,0"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsFrotz" "DisplayVersion" ${FROTZ_VERSION}
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsFrotz" "Publisher" "David Kinder"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsFrotz" "UninstallString" '"$INSTDIR\Uninstall.exe"'
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsFrotz" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsFrotz" "NoRepair" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsFrotz" "EstimatedSize" 1665
+
 
   WriteRegStr HKCR ".z1" "" "ZMachine.V1"
   WriteRegStr HKCR "ZMachine.V1" "" "Z-code V1 Adventure"
