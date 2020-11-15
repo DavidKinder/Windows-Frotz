@@ -18,7 +18,12 @@ extern "C"
 #include "blorblow.h"
 }
 
+#ifdef INCLUDE_2PASS_SCALE
+#include <memory>
+#include "2PassScale.h"
+#else
 extern "C" __declspec(dllimport) void ScaleGfx(COLORREF*, UINT, UINT, COLORREF*, UINT, UINT);
+#endif
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -130,7 +135,12 @@ void FrotzGfx::Paint(CDibSection& dib, CPoint point, double erf)
       {
         p = new DWORD[size.cx*size.cy];
 
+#ifdef INCLUDE_2PASS_SCALE
+        TwoPassScale<BilinearFilter> scaler;
+        scaler.Scale((COLORREF*)m_pixels,m_width,m_height,(COLORREF*)p,size.cx,size.cy);
+#else
         ScaleGfx((COLORREF*)m_pixels,m_width,m_height,(COLORREF*)p,size.cx,size.cy);
+#endif
       }
 
       DWORD src, dest;

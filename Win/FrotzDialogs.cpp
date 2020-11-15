@@ -9,6 +9,7 @@
 #include "FrotzGfx.h"
 #include "FrotzSound.h"
 #include "DpiFunctions.h"
+#pragma warning(disable : 4996) // Ignore deprecation warning
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

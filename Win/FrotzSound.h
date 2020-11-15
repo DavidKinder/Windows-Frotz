@@ -6,7 +6,10 @@
 #pragma once
 
 #include "DSoundEngine.h"
+
+#pragma warning(disable : 4244) // Ignore argument conversion warning
 #include "vorbis/vorbisfile.h"
+#pragma warning(default : 4244)
 
 extern "C"
 {

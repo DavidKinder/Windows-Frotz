@@ -1,0 +1,643 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Windows Sources">
+      <UniqueIdentifier>{3616e445-2dd1-4629-8d66-087f45528b50}</UniqueIdentifier>
+      <Extensions>*.cpp</Extensions>
+    </Filter>
+    <Filter Include="Windows Headers">
+      <UniqueIdentifier>{80c7a9b6-6a26-432d-b769-e96b24727cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows Resources">
+      <UniqueIdentifier>{924aa025-1e0d-4a9e-9ef8-ec413dcefc55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frotz Sources">
+      <UniqueIdentifier>{9d307b88-a478-4266-8d6b-5d04cba2be55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frotz Headers">
+      <UniqueIdentifier>{e630edb0-b810-45e3-8adf-6ec985c094ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blorb Sources">
+      <UniqueIdentifier>{563f1f88-4d5b-498c-bb1b-d8bac34b4f48}</UniqueIdentifier>
+      <Extensions>*.c</Extensions>
+    </Filter>
+    <Filter Include="Blorb Headers">
+      <UniqueIdentifier>{2bf1c492-514e-40c4-a29a-139d11445226}</UniqueIdentifier>
+      <Extensions>*.h</Extensions>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{d75bd857-a771-45ba-8c1d-12ab5d8f9823}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\libpng">
+      <UniqueIdentifier>{55bee16d-b6bf-434b-8a4e-e11337627d80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\zlib">
+      <UniqueIdentifier>{25090e9e-c370-442f-b023-b63cb6d8e3f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\jpeg">
+      <UniqueIdentifier>{d48e500b-0b4a-45ba-ae30-b5e4c2b0ee33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\libogg">
+      <UniqueIdentifier>{3362cd09-ef58-4df6-b77b-62b63ed2b7a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\libvorbis">
+      <UniqueIdentifier>{d6676652-4208-4a04-b954-623b110214f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\libmodplug">
+      <UniqueIdentifier>{238bc542-b150-4fa1-bb71-5b7f63cd60bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HTML Help Files">
+      <UniqueIdentifier>{deeb8acc-5701-46f2-8c66-b0670a681828}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Libraries\mfc\ColourButton.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\mfc\DSoundEngine.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\mfc\Dialogs.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\mfc\Dib.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\mfc\DpiFunctions.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FrotzApp.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FrotzCore.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FrotzDialogs.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FrotzFrameWnd.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FrotzGfx.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FrotzSound.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FrotzWnd.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\mfc\ImagePNG.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\mfc\MenuBar.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\mfc\TextOutput.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\buffer.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\err.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\fastmem.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\files.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\hotkey.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\input.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\main.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\math.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\object.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\process.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\quetzal.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\random.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\redirect.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\screen.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\sound.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\stream.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\table.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\text.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generic\variable.c">
+      <Filter>Frotz Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Blorb\blorblib.c">
+      <Filter>Blorb Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\png.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngerror.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngget.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngmem.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngpread.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngread.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngrio.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngrtran.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngrutil.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngset.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libpng\pngtrans.c">
+      <Filter>Libraries\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\zlib\adler32.c">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\zlib\crc32.c">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\zlib\inffast.c">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\zlib\inflate.c">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\zlib\inftrees.c">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\zlib\trees.c">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\zlib\uncompr.c">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\zlib\zutil.c">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jcomapi.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdapimin.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdapistd.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdatadst.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdatasrc.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdcoefct.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdcolor.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jddctmgr.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdhuff.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdinput.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdmainct.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdmarker.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdmaster.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdmerge.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdphuff.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdpostct.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdsample.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jdtrans.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jerror.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jidctflt.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jidctfst.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jidctint.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jidctred.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jmemmgr.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jmemnobs.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jquant1.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jquant2.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\jpeg\jutils.c">
+      <Filter>Libraries\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libogg\src\bitwise.c">
+      <Filter>Libraries\libogg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libogg\src\framing.c">
+      <Filter>Libraries\libogg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\analysis.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\bitrate.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\block.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\codebook.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\envelope.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\floor0.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\floor1.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\info.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\lpc.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\lsp.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\mapping0.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\mdct.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\psy.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\registry.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\res0.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\sharedbook.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\smallft.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\synthesis.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\vorbisfile.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libvorbis\lib\window.c">
+      <Filter>Libraries\libvorbis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\fastmix.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_669.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_amf.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_ams.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_dbm.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_dmf.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_dsm.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_far.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_it.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_j2b.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_mdl.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_med.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_mod.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_mt2.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_mtm.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_okt.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_psm.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_ptm.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_s3m.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_stm.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_ult.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_umx.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_wav.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\load_xm.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\mmcmp.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\snd_dsp.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\snd_flt.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\snd_fx.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\sndfile.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\sndmix.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\libmodplug\tables.cpp">
+      <Filter>Libraries\libmodplug</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Libraries\mfc\2PassScale.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\ColourButton.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\DSoundEngine.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\Dialogs.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\Dib.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\DpiFunctions.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrotzApp.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrotzDialogs.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrotzFrameWnd.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrotzGfx.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrotzSound.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrotzWnd.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\ImagePNG.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\MenuBar.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\TextOutput.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Generic\frotz.h">
+      <Filter>Frotz Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Blorb\blorb.h">
+      <Filter>Blorb Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Blorb\blorblow.h">
+      <Filter>Blorb Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\libpng\png.h">
+      <Filter>Libraries\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\libpng\pngconf.h">
+      <Filter>Libraries\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\zlib\deflate.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\zlib\inffast.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\zlib\inffixed.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\zlib\inftrees.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\zlib\trees.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\zlib\zconf.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\zlib\zlib.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\zlib\zutil.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Frotz.bmp">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\GfxFont.bmp">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Infocom.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z1.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z1_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z2.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z2_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z3.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z3_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z4.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z4_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z5.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z5_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z6.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z6_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z7.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z7_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z8.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z8_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\ZLB.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+    <Image Include="res\Z_32.ico">
+      <Filter>Windows Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="res\Frotz.manifest">
+      <Filter>Windows Resources</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Frotz.rc2">
+      <Filter>Windows Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="help\Frotz.hhp">
+      <Filter>HTML Help Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Frotz.rc">
+      <Filter>Windows Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+*.chm
+*.user
+.vs/
+Blorb/
+GammaPNG/
+Specification/
+Tests/
+Win/Debug/
+Win/Release/
+Win/FrotzDeutsch/Release/
+Win/FrotzEspañol/Release/
+Win/FrotzFrançais/Release/
+Win/FrotzItaliano/Release/
+
