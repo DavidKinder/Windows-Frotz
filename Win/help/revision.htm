@@ -10,6 +10,9 @@
 <ul>
 <li>The <b>print_table</b> opcode now interprets the string passed to it as ZSCII,
 rather than ASCII.
+<li>Font substitution, which attempts to find font characters in other fonts when the
+characters are not in the current font, has been turned off for fixed-width fonts, as
+it caused more problems than it solved.
 </ul>
 
 <b>1.21</b>

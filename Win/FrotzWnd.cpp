@@ -470,7 +470,12 @@ void FrotzWnd::DrawInput(unsigned short* buffer, int pos, const CPoint& point, i
     m_dc.MoveTo(x,point.y);
     CRect rect(x,point.y,x+cx,point.y+height);
     if (*(buffer+pos) != 0)
-      m_textOut.TextOut(m_dc.GetSafeHdc(),0,0,(LPCWSTR)buffer+pos,1,rect,true);
+    {
+      if (m_fontType == TextFont)
+        m_textOut.TextOut(m_dc.GetSafeHdc(),0,0,(LPCWSTR)buffer+pos,1,rect,true);
+      else
+        ::ExtTextOutW(m_dc.GetSafeHdc(),0,0,ETO_OPAQUE,rect,(LPCWSTR)buffer+pos,1,NULL);
+    }
     else
       ::ExtTextOutW(m_dc.GetSafeHdc(),0,0,ETO_OPAQUE,rect,NULL,0,NULL);
 
@@ -672,23 +677,38 @@ void FrotzWnd::WriteText(const unsigned short* text, int len)
   if (len == 0)
     return;
 
-  if (m_fontType == GraphicsFont)
+  switch (m_fontType)
   {
+  case TextFont:
+    {
+      CSize size = m_textOut.GetTextExtent(m_dc.GetSafeHdc(),(LPCWSTR)text,len);
+      size.cy = m_fontSize.cy;
+
+      // Get the text rectangle, and adjust for any overhang (e.g. an italic font)
+      CRect rect(GetTextPoint(),size);
+      rect.left += m_lastOver;
+      m_lastOver = GetOverhang(text[len-1]);
+      rect.right += m_lastOver;
+
+      m_textOut.TextOut(m_dc.GetSafeHdc(),0,0,
+        (LPCWSTR)text,len,rect,!m_current.backTransparent);
+    }
+    break;
+  case FixedFont:
+    {
+      CSize size(0,0);
+      ::GetTextExtentPoint32W(m_dc.GetSafeHdc(),(LPCWSTR)text,len,&size);
+      size.cy = m_fontSize.cy;
+
+      CRect rect(GetTextPoint(),size);
+      ::ExtTextOutW(m_dc.GetSafeHdc(),0,0,
+        m_current.backTransparent ? 0 : ETO_OPAQUE,rect,(LPCWSTR)text,len,NULL);
+    }
+    break;
+  case GraphicsFont:
     for (int i = 0; i < len; i++)
       WriteGfxSymbol(text[i]);
-  }
-  else
-  {
-    CSize size = m_textOut.GetTextExtent(m_dc.GetSafeHdc(),(LPCWSTR)text,len);
-    size.cy = m_fontSize.cy;
-
-    // Get the text rectangle, and adjust for any overhang (e.g. an italic font)
-    CRect rect(GetTextPoint(),size);
-    rect.left += m_lastOver;
-    m_lastOver = GetOverhang(text[len-1]);
-    rect.right += m_lastOver;
-
-    m_textOut.TextOut(m_dc.GetSafeHdc(),0,0,(LPCWSTR)text,len,rect,!m_current.backTransparent);
+    break;
   }
 }
 
@@ -697,7 +717,12 @@ int FrotzWnd::GetTextWidth(const unsigned short* text, int len)
 {
   if (len == 0)
     return 0;
-  return m_textOut.GetTextExtent(m_dc.GetSafeHdc(),(LPCWSTR)text,len).cx;
+  if (m_fontType == TextFont)
+    return m_textOut.GetTextExtent(m_dc.GetSafeHdc(),(LPCWSTR)text,len).cx;
+  CSize size(0,0);
+  if (::GetTextExtentPoint32W(m_dc.GetSafeHdc(),(LPCWSTR)text,len,&size))
+    return size.cx;
+  return 0;
 }
 
 // Get the width of a Unicode character
