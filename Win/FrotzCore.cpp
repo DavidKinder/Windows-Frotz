@@ -909,6 +909,7 @@ void os_menu(int action, int menu, const zword * text)
  */
 extern "C" void os_reset_screen(void)
 {
+  flush_buffer();
   theWnd->FlushDisplay();
   theWnd->ResetOverhang();
 
