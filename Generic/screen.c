@@ -1310,7 +1310,7 @@ void z_buffer_screen (void)
 }/* z_buffer_screen */
 
 /*
- * z_print_table, print ASCII text in a rectangular area.
+ * z_print_table, print ZSCII text in a rectangular area.
  *
  *	zargs[0] = address of text to be printed
  *	zargs[1] = width of rectangular area
@@ -1365,7 +1365,7 @@ void z_print_table (void)
 	    LOW_BYTE (addr, c)
 	    addr++;
 
-	    print_char (c);
+	    print_char (translate_from_zscii (c));
 
 	}
 
