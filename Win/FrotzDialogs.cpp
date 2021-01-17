@@ -415,7 +415,7 @@ void AboutDialog::SetInfoText(void)
   CString aboutText;
   aboutText.LoadString(IDS_ABOUT_INFO);
   aboutText.Replace("%ver%","1.21");
-  aboutText.Replace("%year%","2019");
+  aboutText.Replace("%year%","2021");
   m_info.SetText(SF_RTF,aboutText);
 }
 
