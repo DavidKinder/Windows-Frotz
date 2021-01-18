@@ -184,7 +184,7 @@ enum BlorbTaskState
   BlorbTaskNotInit,
   BlorbTaskNeverShow,
   BlorbTaskCanShow,
-  BlorbTaskShowed
+  BlorbTaskShown
 };
 
 static HRESULT CALLBACK BlorbTaskCallback(HWND dlg, UINT msg, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData)
@@ -212,21 +212,10 @@ static HRESULT CALLBACK BlorbTaskCallback(HWND dlg, UINT msg, WPARAM wParam, LPA
 void FrotzSound::MsgInfocomBlorb(void)
 {
   static BlorbTaskState state = BlorbTaskNotInit;
-  static HMODULE comctl32 = 0;
 
   if (state == BlorbTaskNotInit)
     state = theApp.GetProfileInt("Files","Show Infocom Blorb Message",1) ? BlorbTaskCanShow : BlorbTaskNeverShow;
   if (state != BlorbTaskCanShow)
-    return;
-
-  if (comctl32 == 0)
-    comctl32 = ::LoadLibrary("comctl32.dll");
-  if (comctl32 == 0)
-    return;
-
-  typedef HRESULT(__stdcall *TASKDIALOGINDIRECT)(const TASKDIALOGCONFIG*, int*, int*, BOOL*);
-  TASKDIALOGINDIRECT taskDialogIndirect = (TASKDIALOGINDIRECT)::GetProcAddress(comctl32,"TaskDialogIndirect");
-  if (taskDialogIndirect == NULL)
     return;
 
   CStringW title, instruction, contentFmt, content, verify;
@@ -250,8 +239,8 @@ void FrotzSound::MsgInfocomBlorb(void)
   task.pfCallback = BlorbTaskCallback;
   task.lpCallbackData = (LONG_PTR)&state;
   BOOL dontShowAgain = FALSE;
-  (*taskDialogIndirect)(&task,NULL,NULL,&dontShowAgain);
-  state = BlorbTaskShowed;
+  ::TaskDialogIndirect(&task,NULL,NULL,&dontShowAgain);
+  state = BlorbTaskShown;
 }
 
 FrotzSound* FrotzSound::m_soundEffect = NULL;
