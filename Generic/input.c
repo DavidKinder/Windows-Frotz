@@ -215,8 +215,10 @@ void z_read (void)
 
     /* Supply default arguments */
 
-    if (zargc < 3)
+    if (zargc < 3) {
 	zargs[2] = 0;
+	zargs[3] = 0;
+    }
 
     /* Get maximum input size */
 
@@ -317,8 +319,10 @@ void z_read_char (void)
 
     /* Supply default arguments */
 
-    if (zargc < 2)
+    if (zargc < 2) {
 	zargs[1] = 0;
+	zargs[2] = 0;
+    }
 
     /* Read input from the current input stream */
 
