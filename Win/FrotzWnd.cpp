@@ -715,13 +715,21 @@ void FrotzWnd::WriteText(const unsigned short* text, int len)
 // Get the width of a Unicode string
 int FrotzWnd::GetTextWidth(const unsigned short* text, int len)
 {
-  if (len == 0)
-    return 0;
-  if (m_fontType == TextFont)
-    return m_textOut.GetTextExtent(m_dc.GetSafeHdc(),(LPCWSTR)text,len).cx;
-  CSize size(0,0);
-  if (::GetTextExtentPoint32W(m_dc.GetSafeHdc(),(LPCWSTR)text,len,&size))
-    return size.cx;
+  if (len > 0)
+  {
+    switch (m_fontType)
+    {
+    case TextFont:
+      return m_textOut.GetTextExtent(m_dc.GetSafeHdc(),(LPCWSTR)text,len).cx;
+    case FixedFont:
+      {
+        CSize size(0,0);
+        if (::GetTextExtentPoint32W(m_dc.GetSafeHdc(),(LPCWSTR)text,len,&size))
+          return size.cx;
+      }
+      break;
+    }
+  }
   return 0;
 }
 
@@ -744,11 +752,19 @@ bool FrotzWnd::HasGlyph(int font, unsigned short c)
   switch (font)
   {
   case TEXT_FONT:
+    {
+      CFont* prevFont = m_dc.SelectObject(&m_fontText);
+      hasGlyph = m_textOut.CanOutput(m_dc.GetSafeHdc(),c);
+      m_dc.SelectObject(prevFont);
+    }
+    break;
   case FIXED_WIDTH_FONT:
     {
-      CFont* prevFont = m_dc.SelectObject(
-        (font == FIXED_WIDTH_FONT) ? &m_fontFixed : &m_fontText);
-      hasGlyph = m_textOut.CanOutput(m_dc.GetSafeHdc(),c);
+      CFont* prevFont = m_dc.SelectObject(&m_fontFixed);
+      WORD idx[1] = { 0xFFFF };
+      WCHAR wc = c;
+      if (::GetGlyphIndicesW(m_dc.GetSafeHdc(),&wc,1,idx,GGI_MARK_NONEXISTING_GLYPHS) != GDI_ERROR)
+        hasGlyph = (idx[0] != 0xFFFF);
       m_dc.SelectObject(prevFont);
     }
     break;
