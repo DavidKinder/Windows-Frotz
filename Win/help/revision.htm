@@ -8,11 +8,14 @@
 
 <b>1.22</b>
 <ul>
-<li>The <b>print_table</b> opcode now interprets the string passed to it as ZSCII,
-rather than ASCII.
+<li>There is a flaw in the Infocom game Arthur: if the screen is too wide, then the
+game corrupts its internal state. As a result, Frotz tries to limit the initial size
+of its window when running Arthur to prevent this.
 <li>Font substitution, which attempts to find font characters in other fonts when the
 characters are not in the current font, has been turned off for fixed-width fonts, as
 it caused more problems than it solved.
+<li>The <b>print_table</b> opcode now interprets the string passed to it as ZSCII,
+rather than ASCII.
 </ul>
 
 <b>1.21</b>

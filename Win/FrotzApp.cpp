@@ -534,6 +534,15 @@ void FrotzApp::CreateMainWindow(void)
     int scale = (scaleX > scaleY) ? scaleY : scaleX;
     if (scale < 1)
       scale = 1;
+    if ((story_id == ARTHUR) && (scale > 1))
+    {
+      // Arthur corrupts its internal state if the screen is too wide
+      int cw = theWnd->GetCharWidth('0');
+      if (320*scale > 140*cw)
+        scale = (cw*140)/320;
+      if (scale < 1)
+        scale = 1;
+    }
     int width = (320*scale)+borderX;
     int height = (200*scale)+borderY;
 
