@@ -11,9 +11,6 @@ pushd \Programs
 "%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Libraries\libmodplug\*
 "%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Libraries\mfc\*
 "%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Libraries\ScaleGfx\*.h
-"%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Libraries\ScaleGfx\*.cpp
-"%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Libraries\ScaleGfx\*.def
-"%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Libraries\ScaleGfx\Makefile
 popd
 
 pushd Installer

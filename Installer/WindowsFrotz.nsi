@@ -6,6 +6,8 @@
 Name "Windows Frotz"
 Caption "Windows Frotz ${FROTZ_VERSION} Setup"
 BrandingText "NullSoft Install System"
+Unicode true
+ManifestDPIAware true
 
 SetCompressor /SOLID lzma
 RequestExecutionLevel admin
@@ -37,7 +39,6 @@ Section "DoInstall"
 
   SetOutPath "$INSTDIR"
   File "..\Win\Release\Frotz.exe"
-  File "..\Win\Release\ScaleGfx.dll"
   File "..\Win\Release\FrotzDeutsch.dll"
   File "..\Win\Release\FrotzEspañol.dll"
   File "..\Win\Release\FrotzFrançais.dll"
@@ -134,7 +135,6 @@ Section "Uninstall"
 
   RMDir /r "$INSTDIR\Examples"
   Delete "$INSTDIR\Frotz.exe"
-  Delete "$INSTDIR\ScaleGfx.dll"
   Delete "$INSTDIR\FrotzDeutsch.dll"
   Delete "$INSTDIR\FrotzEspañol.dll"
   Delete "$INSTDIR\FrotzFrançais.dll"
