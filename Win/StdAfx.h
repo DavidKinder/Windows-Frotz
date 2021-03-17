@@ -12,8 +12,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_WARNINGS
 
-#define INCLUDE_2PASS_SCALE
-
 #include <afxwin.h>
 #include <afxext.h>
 #include <afxcmn.h>

@@ -74,7 +74,7 @@
       <AdditionalDependencies>dsound.lib;nafxcwd.lib;libcmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/Frotz.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../../Libraries/ScaleGfx;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/Frotz.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -118,7 +118,7 @@
       <AdditionalDependencies>dsound.lib;nafxcw.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Release/Frotz.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../../Libraries/ScaleGfx;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -982,14 +982,15 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\Libraries\mfc\ImagePNG.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../Libraries/libpng;../../../Libraries/zlib;../../../Libraries/scalegfx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../Libraries/libpng;../../../Libraries/zlib</AdditionalIncludeDirectories>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level3</WarningLevel>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../../Libraries/libpng;../../../Libraries/zlib;../../../Libraries/scalegfx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../../Libraries/libpng;../../../Libraries/zlib</AdditionalIncludeDirectories>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level3</WarningLevel>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\Libraries\mfc\MenuBar.cpp" />
+    <ClCompile Include="..\..\..\Libraries\mfc\ScaleGfx.cpp" />
     <ClCompile Include="..\..\..\Libraries\mfc\TextOutput.cpp" />
     <ClCompile Include="..\..\..\Libraries\zlib\adler32.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -1240,10 +1241,10 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="FrotzGfx.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../Libraries/libpng;../../../Libraries/zlib;../../../Libraries/jpeg;../Generic;../Blorb;../../../Libraries/mfc;../../../Libraries/scalegfx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../Libraries/libpng;../../../Libraries/zlib;../../../Libraries/jpeg;../Generic;../Blorb;../../../Libraries/mfc</AdditionalIncludeDirectories>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level3</WarningLevel>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../../Libraries/libpng;../../../Libraries/zlib;../../../Libraries/jpeg;../Generic;../Blorb;../../../Libraries/mfc;../../../Libraries/scalegfx</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../../Libraries/libpng;../../../Libraries/zlib;../../../Libraries/jpeg;../Generic;../Blorb;../../../Libraries/mfc</AdditionalIncludeDirectories>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level3</WarningLevel>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</CompileAs>
     </ClCompile>
@@ -1277,7 +1278,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Libraries\libpng\png.h" />
     <ClInclude Include="..\..\..\Libraries\libpng\pngconf.h" />
-    <ClInclude Include="..\..\..\Libraries\mfc\2PassScale.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\ColourButton.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\Dialogs.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\Dib.h" />
@@ -1285,6 +1285,7 @@
     <ClInclude Include="..\..\..\Libraries\mfc\DSoundEngine.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\ImagePNG.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\MenuBar.h" />
+    <ClInclude Include="..\..\..\Libraries\mfc\ScaleGfx.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\TextOutput.h" />
     <ClInclude Include="..\..\..\Libraries\zlib\deflate.h" />
     <ClInclude Include="..\..\..\Libraries\zlib\inffast.h" />
