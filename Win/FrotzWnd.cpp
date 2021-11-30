@@ -915,8 +915,14 @@ void FrotzWnd::ResizeDisplay(void)
   // Update the game's header
   h_screen_width = (zword)newSize.cx;
   h_screen_height = (zword)newSize.cy;
-  h_screen_cols = (zbyte)(h_screen_width / h_font_width);
-  h_screen_rows = (zbyte)(h_screen_height / h_font_height);
+  zword screen_cols = h_screen_width / h_font_width;
+  if (screen_cols > 255)
+    screen_cols = 255;
+  h_screen_cols = (zbyte)screen_cols;
+  zword screen_rows = h_screen_height / h_font_height;
+  if (screen_rows > 255)
+    screen_rows = 255;
+  h_screen_rows = (zbyte)screen_rows;
   if (zmp != NULL)
   {
     resize_screen();
