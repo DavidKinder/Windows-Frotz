@@ -403,9 +403,11 @@ extern "C" void os_init_screen(void)
   if (screen_cols > 255)
     screen_cols = 255;
   h_screen_cols = (zbyte)screen_cols;
+  // The Z-Machine Standard specifies a height of 255 to mean
+  // "infinite", so the height is limited here to 254 rows, not 255.
   zword screen_rows = h_screen_height / h_font_height;
-  if (screen_rows > 255)
-    screen_rows = 255;
+  if (screen_rows > 254)
+    screen_rows = 254;
   h_screen_rows = (zbyte)screen_rows;
 
   // Check for sound
