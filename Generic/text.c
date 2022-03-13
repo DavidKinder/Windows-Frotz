@@ -999,12 +999,16 @@ void tokenise_line (zword text, zword token, zword dct, bool flag)
 	LOW_BYTE (sep_addr, sep_count)
 	sep_addr++;
 
-	do {
+	if (sep_count > 0) {
 
-	    LOW_BYTE (sep_addr, separator)
-	    sep_addr++;
+	    do {
 
-	} while (c != separator && --sep_count != 0);
+		LOW_BYTE (sep_addr, separator)
+		sep_addr++;
+
+	    } while (c != separator && --sep_count != 0);
+
+	}
 
 	/* This could be the start or the end of a word */
 
