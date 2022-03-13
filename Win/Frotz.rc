@@ -91,8 +91,8 @@ IDI_TZ8                 ICON                    "res\\Z8_32.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,2,0
- PRODUCTVERSION 1,2,2,0
+ FILEVERSION 1,2,4,0
+ PRODUCTVERSION 1,2,4,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -109,12 +109,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Frobozz Magic Interpreter Company"
             VALUE "FileDescription", "Frotz"
-            VALUE "FileVersion", "1.23"
+            VALUE "FileVersion", "1.24"
             VALUE "InternalName", "Frotz"
-            VALUE "LegalCopyright", "Copyright (c) 2002-2021 David Kinder"
+            VALUE "LegalCopyright", "Copyright (c) 2002-2022 David Kinder"
             VALUE "OriginalFilename", "Frotz.exe"
             VALUE "ProductName", "Frotz"
-            VALUE "ProductVersion", "1.23"
+            VALUE "ProductVersion", "1.24"
         END
     END
     BLOCK "VarFileInfo"
