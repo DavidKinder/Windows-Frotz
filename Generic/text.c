@@ -429,6 +429,10 @@ static void decode_text (enum string_type st, zword addr)
 
 	byte_addr = (long) addr << 1;
 
+    else if (st == LOW_STRING || st == VOCABULARY)
+
+	byte_addr = (long) addr;
+
     else if (st == HIGH_STRING) {
 
 	if (h_version <= V3)
@@ -456,14 +460,12 @@ static void decode_text (enum string_type st, zword addr)
 
 	/* Fetch the next 16bit word */
 
-	if (st == LOW_STRING || st == VOCABULARY) {
-	    LOW_WORD (addr, code)
-	    addr += 2;
-	} else if (st == HIGH_STRING || st == ABBREVIATION) {
+	if (st == EMBEDDED_STRING)
+	    CODE_WORD (code)
+	else {
 	    HIGH_WORD (byte_addr, code)
 	    byte_addr += 2;
-	} else
-	    CODE_WORD (code)
+	}
 
 	/* Read its three Z-characters */
 
