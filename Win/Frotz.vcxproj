@@ -963,6 +963,7 @@
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <ClCompile Include="..\..\..\Libraries\mfc\ColourButton.cpp" />
+    <ClCompile Include="..\..\..\Libraries\mfc\DarkMode.cpp" />
     <ClCompile Include="..\..\..\Libraries\mfc\Dialogs.cpp" />
     <ClCompile Include="..\..\..\Libraries\mfc\Dib.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../Generic;../Blorb;../../../Libraries/mfc</AdditionalIncludeDirectories>
@@ -1279,6 +1280,7 @@
     <ClInclude Include="..\..\..\Libraries\libpng\png.h" />
     <ClInclude Include="..\..\..\Libraries\libpng\pngconf.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\ColourButton.h" />
+    <ClInclude Include="..\..\..\Libraries\mfc\DarkMode.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\Dialogs.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\Dib.h" />
     <ClInclude Include="..\..\..\Libraries\mfc\DpiFunctions.h" />

@@ -462,6 +462,9 @@
     <ClCompile Include="..\..\..\Libraries\mfc\ScaleGfx.cpp">
       <Filter>Windows Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Libraries\mfc\DarkMode.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Libraries\mfc\ColourButton.h">
@@ -552,6 +555,9 @@
       <Filter>Libraries\zlib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Libraries\mfc\ScaleGfx.h">
+      <Filter>Windows Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Libraries\mfc\DarkMode.h">
       <Filter>Windows Headers</Filter>
     </ClInclude>
   </ItemGroup>
