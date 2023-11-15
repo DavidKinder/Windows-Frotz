@@ -435,7 +435,7 @@ END
 STRINGTABLE 
 BEGIN
     IDS_INFOCOM_BLORB1      "Ce jeu Infocom essaie d'utiliser des effets sonores, mais aucun fichier son (au format Blorb) n'a été trouvé."
-    IDS_INFOCOM_BLORB2      "Vous pouvez télécharger ces fichiers sons depuis l'IF-Archive, à\n<a href=""%S"">%S</a>"
+    IDS_INFOCOM_BLORB2      "Vous pouvez télécharger ces fichiers sons depuis l'IF-Archive, à\n<a href=""%S"">%S</a>\n\nUne fois téléchargé, copiez le fichier son dans le même répertoire que le fichier du jeu, avec le même nom (à part l'extension du fichier) que le fichier du jeu, c'est-à-dire ""%S""."
     IDS_INFOCOM_BLORB3      "Ne plus afficher ce message."
 END
 

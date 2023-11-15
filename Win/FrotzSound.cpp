@@ -218,12 +218,21 @@ void FrotzSound::MsgInfocomBlorb(void)
   if (state != BlorbTaskCanShow)
     return;
 
+  CString blorbName(story_name);
+  int sep = blorbName.ReverseFind('\\');
+  if (sep > 0)
+    blorbName = blorbName.Mid(sep+1);
+  int ext = blorbName.ReverseFind('.');
+  if (ext > 0)
+    blorbName = blorbName.Left(ext);
+  blorbName.Append(".blb");
+
   CStringW title, instruction, contentFmt, content, verify;
   title.LoadString(IDS_TITLE);
   instruction.LoadString(IDS_INFOCOM_BLORB1);
   contentFmt.LoadString(IDS_INFOCOM_BLORB2);
   LPCSTR url = "https://ifarchive.org/indexes/if-archive/infocom/media/blorb/";
-  content.Format(contentFmt,url,url);
+  content.Format(contentFmt,url,url,(LPCSTR)blorbName);
   verify.LoadString(IDS_INFOCOM_BLORB3);
 
   TASKDIALOGCONFIG task = { sizeof(TASKDIALOGCONFIG), 0 };
