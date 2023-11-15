@@ -10,6 +10,8 @@
 <ul>
 <li>The <b>tokenise</b> opcode now correctly handles the case of being passed a custom
 dictionary that starts with zero word-separator characters.
+<li>If the <b>print_addr</b> opcode is passed a string which starts below the 64K boundary
+but stretches past it, the interpreter will not now crash.
 </ul>
 
 <b>1.23</b>
