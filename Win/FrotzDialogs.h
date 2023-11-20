@@ -4,10 +4,12 @@
 /////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#include "Resource.h"
+
 #include "ColourButton.h"
+#include "DarkMode.h"
 #include "Dialogs.h"
 #include "Dib.h"
-#include "Resource.h"
 
 class CRichInfo : public CRichEditCtrl
 {
@@ -47,7 +49,7 @@ protected:
 
 protected:
   CRichInfo m_info;
-  CButton m_ok;
+  DarkModeButton m_ok;
 
   int m_dpi;
   int m_headingEnd;
@@ -81,8 +83,8 @@ protected:
   int m_dpi;
   CStatic m_logo;
   CRichInfo m_info;
-  CStatic m_border;
-  CButton m_ok;
+  DarkModeGroupBox m_border;
+  DarkModeButton m_ok;
 };
 
 class OptionsDialog : public CPropertySheet

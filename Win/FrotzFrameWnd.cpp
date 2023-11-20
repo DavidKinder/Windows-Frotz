@@ -92,6 +92,9 @@ bool FrotzFrameWnd::Create(bool toolbar, bool statusbar)
   if (!CreateEx(0,wndClass,CResString(IDS_TITLE),WS_OVERLAPPEDWINDOW,GetDefaultSize(),NULL,0))
     return false;
 
+  // Turn on dark mode, if needed
+  SetDarkMode(DarkMode::GetEnabled("Software\\David Kinder\\Frotz"));
+
   // Set the icon
   SetIcon(::LoadIcon(AfxGetInstanceHandle(),MAKEINTRESOURCE(IDI_INFOCOM)),TRUE);
 

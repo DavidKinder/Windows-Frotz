@@ -1267,6 +1267,10 @@ BOOL FrotzApp::InitInstance()
   // Load international resources, if needed
   LoadInternationalResources();
 
+  // Turn on dark mode for the application, if necessary
+  if (DarkMode::IsEnabled("Software\\David Kinder\\Frotz"))
+    DarkMode::SetAppDarkMode();
+
   // Get a game to run
   if (PromptForGame(true))
   {
