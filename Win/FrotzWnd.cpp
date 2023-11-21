@@ -41,6 +41,7 @@ FrotzWnd::~FrotzWnd()
 BEGIN_MESSAGE_MAP(FrotzWnd, CWnd)
   //{{AFX_MSG_MAP(FrotzWnd)
   ON_WM_PAINT()
+  ON_WM_NCPAINT()
   ON_WM_ERASEBKGND()
   ON_WM_SIZE()
   ON_WM_TIMER()
@@ -1114,6 +1115,20 @@ void FrotzWnd::OnPaint()
   // Copy the display bitmap
   dc.BitBlt(0,0,client.Width(),client.Height(),&m_dc,0,0,SRCCOPY);
   dc.SetBkColor(back);
+}
+
+void FrotzWnd::OnNcPaint()
+{
+  DarkMode* dark = DarkMode::GetActive(this);
+  if (dark)
+  {
+    CWindowDC dc(this);
+    CRect r = dark->PrepareNonClientBorder(this,dc);
+    dc.FillSolidRect(r,dark->GetColour(DarkMode::Dark3));
+    dc.SelectClipRgn(NULL);
+  }
+  else
+    Default();
 }
 
 BOOL FrotzWnd::OnEraseBkgnd(CDC*) 

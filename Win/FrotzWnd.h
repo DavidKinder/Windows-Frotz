@@ -30,6 +30,7 @@ public:
 protected:
   //{{AFX_MSG(FrotzWnd)
   afx_msg void OnPaint();
+  afx_msg void OnNcPaint();
   afx_msg BOOL OnEraseBkgnd(CDC* pDC);
   afx_msg void OnSize(UINT nType, int cx, int cy);
   afx_msg void OnLButtonDown(UINT nFlags, CPoint point);

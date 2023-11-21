@@ -80,7 +80,7 @@ protected:
 
 protected:
   FrotzWnd* m_clientWnd;
-  CStatusBar m_statusBar;
+  DarkModeStatusBar m_statusBar;
   CRect m_normalSize;
   UINT m_codePage;
   int m_dpi;
