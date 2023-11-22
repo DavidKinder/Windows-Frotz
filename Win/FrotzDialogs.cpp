@@ -425,7 +425,7 @@ void AboutDialog::SetInfoText(void)
 
 #define WM_RESIZEPAGE WM_APP+100
 
-OptionsDialog::OptionsDialog(UINT caption, CWnd* parentWnd) : CPropertySheet(caption,parentWnd)
+OptionsDialog::OptionsDialog(UINT caption, CWnd* parentWnd) : DarkModePropertySheet(caption,parentWnd)
 {
   GetFontDialog getFont(m_logFont,IDD_ABOUTGAME,parentWnd);
   getFont.DoModal();
@@ -434,7 +434,7 @@ OptionsDialog::OptionsDialog(UINT caption, CWnd* parentWnd) : CPropertySheet(cap
   m_fontHeightPerDpi = (double)m_logFont.lfHeight / (double)m_dpi;
 }
 
-BEGIN_MESSAGE_MAP(OptionsDialog, CPropertySheet)
+BEGIN_MESSAGE_MAP(OptionsDialog, DarkModePropertySheet)
   ON_WM_HELPINFO()
   ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
   ON_MESSAGE(WM_RESIZEPAGE, OnResizePage)  
@@ -442,7 +442,7 @@ END_MESSAGE_MAP()
 
 BOOL OptionsDialog::OnInitDialog() 
 {
-  CPropertySheet::OnInitDialog();
+  DarkModePropertySheet::OnInitDialog();
 
   m_dpi = DPI::getWindowDPI(this);
   m_fontHeightPerDpi = (double)m_logFont.lfHeight / (double)m_dpi;
@@ -465,6 +465,9 @@ BOOL OptionsDialog::OnInitDialog()
   }
   SetActivePage(page);
 
+  // Set dark mode only after all pages have been created by being made active
+  SetDarkMode(DarkMode::GetActive(this),true);
+
   // Resize the property page
   CTabCtrl* tab = GetTabControl();
   tab->GetWindowRect(&m_page);
@@ -480,7 +483,7 @@ BOOL OptionsDialog::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
   NMHDR* pnmh = (LPNMHDR) lParam;
   if (pnmh->code == TCN_SELCHANGE)
     PostMessage(WM_RESIZEPAGE);
-  return CPropertySheet::OnNotify(wParam, lParam, pResult);
+  return DarkModePropertySheet::OnNotify(wParam, lParam, pResult);
 }
 
 BOOL OptionsDialog::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
@@ -494,7 +497,7 @@ BOOL OptionsDialog::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT
       return TRUE;
     }
   }
-  return CPropertySheet::OnWndMsg(message,wParam,lParam,pResult);
+  return DarkModePropertySheet::OnWndMsg(message,wParam,lParam,pResult);
 }
 
 HWND WINAPI AfxHtmlHelp(HWND hWnd, LPCTSTR szHelpFilePath, UINT nCmd, DWORD_PTR dwData);
@@ -517,7 +520,6 @@ BOOL OptionsDialog::OnHelpInfo(HELPINFO* pHelpInfo)
     IDC_LEFT_MARGIN,13,
     IDC_RIGHT_MARGIN,14,
     IDC_MORE_PROMPT,15,
-    IDC_REGISTER_FILETYPES,16,
     IDC_WRAP_SCRIPT,17,
     IDC_SHOW_IFICTION,18,
     IDC_USERNAME,19,
@@ -675,7 +677,7 @@ void OptionsDialog::ChangeDialogFont(CWnd* wnd, CFont* font, double scale)
   }
 }
 
-OptionsDisplayPage::OptionsDisplayPage() : CPropertyPage(OptionsDisplayPage::IDD)
+OptionsDisplayPage::OptionsDisplayPage() : DarkModePropertyPage(OptionsDisplayPage::IDD)
 {
   m_fastScroll = FALSE;
   m_morePrompts = FALSE;
@@ -685,9 +687,12 @@ OptionsDisplayPage::OptionsDisplayPage() : CPropertyPage(OptionsDisplayPage::IDD
 
 void OptionsDisplayPage::DoDataExchange(CDataExchange* pDX)
 {
-  CPropertyPage::DoDataExchange(pDX);
+  DarkModePropertyPage::DoDataExchange(pDX);
   DDX_Control(pDX, IDC_PROP_FONT, m_propFont);
   DDX_Control(pDX, IDC_FIXED_FONT, m_fixedFont);
+  DDX_Control(pDX, IDC_FONT_SIZE, m_fontSizeCombo);
+  DDX_Control(pDX, IDC_LEFT_MARGIN, m_leftMarginEdit);
+  DDX_Control(pDX, IDC_RIGHT_MARGIN, m_rightMarginEdit);
   DDX_CBString(pDX, IDC_FONT_SIZE, m_fontSize);
   DDX_Check(pDX, IDC_FAST_SCROLL, m_fastScroll);
   DDX_Check(pDX, IDC_MORE_PROMPT, m_morePrompts);
@@ -697,7 +702,7 @@ void OptionsDisplayPage::DoDataExchange(CDataExchange* pDX)
 
 BOOL OptionsDisplayPage::OnInitDialog()
 {
-  CPropertyPage::OnInitDialog();
+  DarkModePropertyPage::OnInitDialog();
 
   // Get all the possible fonts
   CDC* dc = GetDC();
@@ -713,9 +718,12 @@ BOOL OptionsDisplayPage::OnInitDialog()
   if (m_fixedFont.SelectString(-1,m_fixedFontName) == CB_ERR)
     m_fixedFont.SetCurSel(0);
 
-  // Initialize the colour controls
+  // Initialize the controls
   m_textColour.SubclassDlgItem(IDC_TEXT_COLOUR,this);
   m_backColour.SubclassDlgItem(IDC_BACK_COLOUR,this);
+  m_fastScrollCheck.SubclassDlgItem(IDC_FAST_SCROLL,this,IDR_DARK_CHECK);
+  m_morePromptsCheck.SubclassDlgItem(IDC_MORE_PROMPT,this,IDR_DARK_CHECK);
+
   return TRUE;
 }
 
@@ -725,7 +733,16 @@ void OptionsDisplayPage::OnOK()
   // Read the font controls
   m_propFont.GetWindowText(m_propFontName);
   m_fixedFont.GetWindowText(m_fixedFontName);
-  CPropertyPage::OnOK();
+  m_fontSizeCombo.GetWindowText(m_fixedFontName);
+  DarkModePropertyPage::OnOK();
+}
+
+void OptionsDisplayPage::SetDarkMode(DarkMode* dark, bool init)
+{
+  DarkModePropertyPage::SetDarkMode(dark,init);
+  m_propFont.SetDarkMode(dark);
+  m_fixedFont.SetDarkMode(dark);
+  m_fontSizeCombo.SetDarkMode(dark);
 }
 
 // Called when enumerating fonts, populates the font drop down lists in the dialog
@@ -752,7 +769,7 @@ int CALLBACK OptionsDisplayPage::ListFonts(ENUMLOGFONTEX *font, NEWTEXTMETRICEX 
   return 1;
 }
 
-OptionsInterpreterPage::OptionsInterpreterPage() : CPropertyPage(OptionsInterpreterPage::IDD)
+OptionsInterpreterPage::OptionsInterpreterPage() : DarkModePropertyPage(OptionsInterpreterPage::IDD)
 {
   m_interpreter = 0;
   m_reportErrors = 0;
@@ -764,7 +781,10 @@ OptionsInterpreterPage::OptionsInterpreterPage() : CPropertyPage(OptionsInterpre
 
 void OptionsInterpreterPage::DoDataExchange(CDataExchange* pDX)
 {
-  CPropertyPage::DoDataExchange(pDX);
+  DarkModePropertyPage::DoDataExchange(pDX);
+  DDX_Control(pDX, IDC_TERP_NUMBER, m_interpreterCombo);
+  DDX_Control(pDX, IDC_ERRORS, m_reportErrorsCombo);
+  DDX_Control(pDX, IDC_USERNAME, m_usernameEdit);
   DDX_CBIndex(pDX, IDC_TERP_NUMBER, m_interpreter);
   DDX_CBIndex(pDX, IDC_ERRORS, m_reportErrors);
   DDX_Text(pDX, IDC_USERNAME, m_username);
@@ -774,34 +794,43 @@ void OptionsInterpreterPage::DoDataExchange(CDataExchange* pDX)
   DDX_Check(pDX, IDC_WRAP_SCRIPT, m_wrapScript);
 }
 
-OptionsStartupPage::OptionsStartupPage() : CPropertyPage(OptionsStartupPage::IDD)
+BOOL OptionsInterpreterPage::OnInitDialog()
 {
-  m_register = FALSE;
+  DarkModePropertyPage::OnInitDialog();
+
+  m_expandCheck.SubclassDlgItem(IDC_EXPAND,this,IDR_DARK_CHECK);
+  m_tandyCheck.SubclassDlgItem(IDC_TANDY,this,IDR_DARK_CHECK);
+  m_ignoreCheck.SubclassDlgItem(IDC_IGNORE_RUNTIME,this,IDR_DARK_CHECK);
+  m_wrapScriptCheck.SubclassDlgItem(IDC_WRAP_SCRIPT,this,IDR_DARK_CHECK);
+  return TRUE;
+}
+
+void OptionsInterpreterPage::SetDarkMode(DarkMode* dark, bool init)
+{
+  DarkModePropertyPage::SetDarkMode(dark,init);
+  m_interpreterCombo.SetDarkMode(dark);
+  m_reportErrorsCombo.SetDarkMode(dark);
+}
+
+OptionsStartupPage::OptionsStartupPage() : DarkModePropertyPage(OptionsStartupPage::IDD)
+{
   m_iFiction = 0;
 }
 
 void OptionsStartupPage::DoDataExchange(CDataExchange* pDX)
 {
-  CPropertyPage::DoDataExchange(pDX);
+  DarkModePropertyPage::DoDataExchange(pDX);
+  DDX_Control(pDX, IDC_SHOW_IFICTION, m_iFictionCombo);
   DDX_CBIndex(pDX, IDC_SHOW_IFICTION, m_iFiction);
-  DDX_Check(pDX, IDC_REGISTER_FILETYPES, m_register);
 }
 
-BOOL OptionsStartupPage::OnInitDialog()
+void OptionsStartupPage::SetDarkMode(DarkMode* dark, bool init)
 {
-  CPropertyPage::OnInitDialog();
-
-  // Remove the file registration checkbox for Vista and beyond
-  OSVERSIONINFO osvi;
-  osvi.dwOSVersionInfoSize = sizeof osvi;
-  ::GetVersionEx(&osvi);
-  if (osvi.dwMajorVersion >= 6)
-    GetDlgItem(IDC_REGISTER_FILETYPES)->ShowWindow(SW_HIDE);
-
-  return TRUE;
+  DarkModePropertyPage::SetDarkMode(dark,init);
+  m_iFictionCombo.SetDarkMode(dark);
 }
 
-OptionsSpeechPage::OptionsSpeechPage() : CPropertyPage(OptionsSpeechPage::IDD)
+OptionsSpeechPage::OptionsSpeechPage() : DarkModePropertyPage(OptionsSpeechPage::IDD)
 {
   m_speak = FALSE;
   m_rate = 0;
@@ -809,7 +838,7 @@ OptionsSpeechPage::OptionsSpeechPage() : CPropertyPage(OptionsSpeechPage::IDD)
 
 void OptionsSpeechPage::DoDataExchange(CDataExchange* pDX)
 {
-  CPropertyPage::DoDataExchange(pDX);
+  DarkModePropertyPage::DoDataExchange(pDX);
   DDX_Check(pDX, IDC_SPEAK, m_speak);
   DDX_Control(pDX, IDC_VOICE, m_voiceCtrl);
   DDX_Control(pDX, IDC_SPEECH_RATE, m_rateCtrl);
@@ -833,7 +862,9 @@ void OptionsSpeechPage::DoDataExchange(CDataExchange* pDX)
 
 BOOL OptionsSpeechPage::OnInitDialog() 
 {
-  CPropertyPage::OnInitDialog();
+  DarkModePropertyPage::OnInitDialog();
+
+  m_speakCheck.SubclassDlgItem(IDC_SPEAK,this,IDR_DARK_CHECK);
 
   CStringArray voices;
   TextToSpeech::GetSpeechEngine().GetVoices(voices,m_defaultVoice);
@@ -843,6 +874,12 @@ BOOL OptionsSpeechPage::OnInitDialog()
   m_rateCtrl.SetRange(-10,10,TRUE);
   m_rateCtrl.SetPos(m_rate);
   return TRUE;
+}
+
+void OptionsSpeechPage::SetDarkMode(DarkMode* dark, bool init)
+{
+  DarkModePropertyPage::SetDarkMode(dark,init);
+  m_voiceCtrl.SetDarkMode(dark);
 }
 
 /////////////////////////////////////////////////////////////////////////////

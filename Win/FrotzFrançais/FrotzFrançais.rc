@@ -159,9 +159,6 @@ BEGIN
                     IDC_LABEL_IFICTION,6,11,127,18
     COMBOBOX        IDC_SHOW_IFICTION,136,14,65,58,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Mettre Frotz par &défaut lors d'un double-clic sur des fichiers Z-code dans l'Explorateur Windows",
-                    IDC_REGISTER_FILETYPES,"Button",BS_AUTOCHECKBOX | 
-                    BS_MULTILINE | WS_TABSTOP,6,36,174,17
 END
 
 IDD_OPTIONS_SPEECH DIALOGEX 0, 0, 211, 88

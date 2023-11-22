@@ -158,9 +158,6 @@ BEGIN
                     IDC_LABEL_IFICTION,6,11,108,18
     COMBOBOX        IDC_SHOW_IFICTION,115,14,90,58,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Frotz als Sta&ndardprogramm zum Öffnen von Z-code Dateien im Windows Explorer festlegen",
-                    IDC_REGISTER_FILETYPES,"Button",BS_AUTOCHECKBOX | 
-                    BS_MULTILINE | WS_TABSTOP,6,36,175,17
 END
 
 IDD_OPTIONS_SPEECH DIALOGEX 0, 0, 211, 88

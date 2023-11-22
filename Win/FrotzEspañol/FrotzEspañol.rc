@@ -207,9 +207,6 @@ BEGIN
                     IDC_LABEL_IFICTION,6,7,106,25
     COMBOBOX        IDC_SHOW_IFICTION,114,14,65,58,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Establecer Frotz como programa predetermi&nado al hacer doble click en el Explorador de Windows sobre archivos Z-code",
-                    IDC_REGISTER_FILETYPES,"Button",BS_AUTOCHECKBOX | 
-                    BS_MULTILINE | WS_TABSTOP,6,39,179,32
 END
 
 IDD_OPTIONS_SPEECH DIALOGEX 0, 0, 211, 88

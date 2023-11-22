@@ -236,9 +236,6 @@ BEGIN
                     IDC_LABEL_IFICTION,6,11,112,18
     COMBOBOX        IDC_SHOW_IFICTION,122,15,65,58,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    CONTROL         "—делать Frotz приложением по &умолчанию дл€ открыти€ файлов Z-code по двойному клику в ѕпроводнике Windows",
-                    IDC_REGISTER_FILETYPES,"Button",BS_AUTOCHECKBOX | 
-                    BS_MULTILINE | WS_TABSTOP,6,36,192,29
 END
 
 IDD_OPTIONS_SPEECH DIALOGEX 0, 0, 211, 88

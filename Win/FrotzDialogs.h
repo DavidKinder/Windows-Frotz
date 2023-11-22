@@ -87,7 +87,7 @@ protected:
   DarkModeButton m_ok;
 };
 
-class OptionsDialog : public CPropertySheet
+class OptionsDialog : public DarkModePropertySheet
 {
 public:
   OptionsDialog(UINT caption, CWnd* parentWnd);
@@ -114,7 +114,7 @@ public:
   afx_msg LONG OnResizePage(UINT, LONG);
 };
 
-class OptionsDisplayPage : public CPropertyPage
+class OptionsDisplayPage : public DarkModePropertyPage
 {
 public:
   OptionsDisplayPage();
@@ -129,12 +129,19 @@ public:
   virtual BOOL OnInitDialog();
   virtual void OnOK();
 
+  void SetDarkMode(DarkMode* dark, bool init);
+
 private:
   // Called when enumerating fonts, and populates the font drop down lists in the dialog
   static int CALLBACK ListFonts(ENUMLOGFONTEX *font, NEWTEXTMETRICEX *metric, DWORD fontType, LPARAM param);
 
-  CComboBox m_propFont;
-  CComboBox m_fixedFont;
+  DarkModeComboBox m_propFont;
+  DarkModeComboBox m_fixedFont;
+  DarkModeComboBox m_fontSizeCombo;
+  DarkModeEdit m_leftMarginEdit;
+  DarkModeEdit m_rightMarginEdit;
+  DarkModeCheckButton m_fastScrollCheck;
+  DarkModeCheckButton m_morePromptsCheck;
 
 public:
   CString m_propFontName;
@@ -148,7 +155,7 @@ public:
   int m_rightMargin;
 };
 
-class OptionsInterpreterPage : public CPropertyPage
+class OptionsInterpreterPage : public DarkModePropertyPage
 {
 public:
   OptionsInterpreterPage();
@@ -156,8 +163,21 @@ public:
 // Dialog Data
   enum { IDD = IDD_OPTIONS_INTERPRETER };
 
+  virtual BOOL OnInitDialog();
+
+  void SetDarkMode(DarkMode* dark, bool init);
+
 protected:
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+private:
+  DarkModeComboBox m_interpreterCombo;
+  DarkModeComboBox m_reportErrorsCombo;
+  DarkModeEdit m_usernameEdit;
+  DarkModeCheckButton m_expandCheck;
+  DarkModeCheckButton m_tandyCheck;
+  DarkModeCheckButton m_ignoreCheck;
+  DarkModeCheckButton m_wrapScriptCheck;
 
 public:
   int m_interpreter;
@@ -169,7 +189,7 @@ public:
   CString m_username;
 };
 
-class OptionsStartupPage : public CPropertyPage
+class OptionsStartupPage : public DarkModePropertyPage
 {
 public:
   OptionsStartupPage();
@@ -177,18 +197,19 @@ public:
 // Dialog Data
   enum { IDD = IDD_OPTIONS_STARTUP };
 
+  void SetDarkMode(DarkMode* dark, bool init);
+
 protected:
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-public:
-  virtual BOOL OnInitDialog();
+private:
+  DarkModeComboBox m_iFictionCombo;
 
 public:
-  BOOL m_register;
   int m_iFiction;
 };
 
-class OptionsSpeechPage : public CPropertyPage
+class OptionsSpeechPage : public DarkModePropertyPage
 {
 public:
   OptionsSpeechPage();
@@ -202,9 +223,12 @@ protected:
 public:
   virtual BOOL OnInitDialog();
 
+  void SetDarkMode(DarkMode* dark, bool init);
+
 private:
-  CComboBox m_voiceCtrl;
-  CSliderCtrl m_rateCtrl;
+  DarkModeCheckButton m_speakCheck;
+  DarkModeComboBox m_voiceCtrl;
+  DarkModeSliderCtrl m_rateCtrl;
   CString m_defaultVoice;
 
 public:

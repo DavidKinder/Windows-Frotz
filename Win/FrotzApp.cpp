@@ -61,7 +61,7 @@ FrotzApp::FrotzApp()
   FrotzGfx::SetGamma(2.2);
   EnableHtmlHelp();
 
-  m_register = true;
+  m_register = false;
   m_toolBar = true;
   m_statusBar = true;
   m_notifyFull = true;
@@ -135,7 +135,6 @@ void FrotzApp::ReadSettings(void)
   m_username = GetProfileString("Interpreter","Username");
 
   m_filename = GetProfileString("Files","Initial Game","");
-  m_register = GetProfileInt("Files","Register File Types",0) ? true : false;
   m_iFiction = (Show_iFiction)GetProfileInt("Files","Show iFiction Dialog",Show_iF_First_Time);
 
   m_speak = GetProfileInt("Speech","Speak Text",0) ? true : false;
@@ -215,7 +214,6 @@ void FrotzApp::WriteSettings(void)
   WriteProfileString("Interpreter","Username",m_username);
 
   WriteProfileString("Files","Initial Game",m_filename);
-  WriteProfileInt("Files","Register File Types",m_register ? 1 : 0);
   WriteProfileInt("Files","Show iFiction Dialog",m_iFiction);
 
   WriteProfileInt("Speech","Speak Text",m_speak ? 1 : 0);
@@ -1383,7 +1381,6 @@ void FrotzApp::OnViewOptions()
   // Show the current startup settings
   OptionsStartupPage startup;
   options.AddPage(&startup);
-  startup.m_register = m_register;
   startup.m_iFiction = m_iFiction;
 
   // Show the current speech settings
@@ -1442,7 +1439,6 @@ void FrotzApp::OnViewOptions()
     CopyUsername();
 
     // Update the startup settings
-    m_register = startup.m_register ? true : false;
     m_iFiction = (Show_iFiction)startup.m_iFiction;
 
     // Update the speech settings
