@@ -172,7 +172,7 @@ BEGIN
     LTEXT           "&Stimme",IDC_STATIC,7,24,26,9
     COMBOBOX        IDC_VOICE,36,22,164,95,CBS_DROPDOWNLIST | CBS_SORT | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Spee&d",IDC_STATIC,7,45,22,8
+    LTEXT           "&Rate",IDC_STATIC,7,45,22,8
     CONTROL         "",IDC_SPEECH_RATE,"msctls_trackbar32",TBS_BOTH | 
                     TBS_NOTICKS | WS_TABSTOP,36,42,164,13,WS_EX_TRANSPARENT
 END
