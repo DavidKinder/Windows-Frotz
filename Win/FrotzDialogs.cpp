@@ -903,6 +903,14 @@ ScrollbackDialog::~ScrollbackDialog()
 {
 }
 
+void ScrollbackDialog::SetDarkMode(DarkMode* dark)
+{
+  BaseDialog::SetDarkMode(dark);
+
+  if (GetSafeHwnd() != 0)
+    m_edit.SetDarkMode(dark);
+}
+
 void ScrollbackDialog::DoDataExchange(CDataExchange* pDX)
 {
   BaseDialog::DoDataExchange(pDX);
@@ -919,6 +927,10 @@ BOOL ScrollbackDialog::OnInitDialog()
 {
   BaseDialog::OnInitDialog();
   m_dpi = DPI::getWindowDPI(this);
+
+  // Subclass the buttons
+  m_copyButton.SubclassDlgItem(IDC_COPY,this);
+  m_closeButton.SubclassDlgItem(IDOK,this);
 
   // Subclass the rich edit text control
   if (m_edit.SubclassDlgItem(IDC_TEXT,this) == FALSE)
@@ -946,9 +958,6 @@ BOOL ScrollbackDialog::OnInitDialog()
   // Set the control to format the text so that it fits
   // into the window
   m_edit.SetTargetDevice(NULL,0);
-
-  // Set the background colour
-  m_edit.SetBackgroundColor(FALSE,GetSysColor(COLOR_3DFACE));
 
   // Set the control to only show plain text, but allow all code pages
   m_edit.SetTextMode(TM_PLAINTEXT|TM_SINGLELEVELUNDO|TM_MULTICODEPAGE);

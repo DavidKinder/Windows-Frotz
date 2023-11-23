@@ -248,6 +248,8 @@ public:
 // Dialog Data
   enum { IDD = IDD_SCROLLBACK };
 
+  void SetDarkMode(DarkMode* dark);
+
 protected:
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
   afx_msg LRESULT OnDpiChanged(WPARAM, LPARAM);
@@ -264,7 +266,9 @@ protected:
   int m_textLen;
   int m_textTop;
   int m_dpi;
-  CRichEditCtrl m_edit;
+  DarkModeRichEditCtrl m_edit;
+  DarkModeButton m_copyButton;
+  DarkModeButton m_closeButton;
 };
 
 class GameFileDialog : public CFileDialog
