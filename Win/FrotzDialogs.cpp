@@ -35,9 +35,9 @@ static DWORD CALLBACK RichStreamCB(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG 
 // RichEdit control for About dialogs
 /////////////////////////////////////////////////////////////////////////////
 
-IMPLEMENT_DYNAMIC(CRichInfo, CRichEditCtrl)
+IMPLEMENT_DYNAMIC(CRichInfo, DarkModeRichEditCtrl)
 
-BEGIN_MESSAGE_MAP(CRichInfo, CRichEditCtrl)
+BEGIN_MESSAGE_MAP(CRichInfo, DarkModeRichEditCtrl)
   ON_WM_SETFOCUS()
   ON_WM_SETCURSOR()
 END_MESSAGE_MAP()
@@ -55,15 +55,13 @@ BOOL CRichInfo::OnSetCursor(CWnd*, UINT, UINT)
 
 void CRichInfo::PreSubclassWindow()
 {
-  SetBackgroundColor(FALSE,GetSysColor(COLOR_3DFACE));
-
   // Set the control to word wrap the text
   SetTargetDevice(NULL,0);
 
   // Notify the parent window of the control's required size
   SetEventMask(ENM_REQUESTRESIZE);
 
-  CRichEditCtrl::PreSubclassWindow();
+  DarkModeRichEditCtrl::PreSubclassWindow();
 }
 
 void CRichInfo::SetText(int format, const CString& text)
@@ -89,6 +87,13 @@ AboutGameDialog::AboutGameDialog(CWnd* pParent)
 
 AboutGameDialog::~AboutGameDialog()
 {
+}
+
+void AboutGameDialog::SetDarkMode(DarkMode* dark)
+{
+  BaseDialog::SetDarkMode(dark);
+  if (GetSafeHwnd() != 0)
+    m_info.SetDarkMode(dark,DarkMode::Darkest);
 }
 
 void AboutGameDialog::DoDataExchange(CDataExchange* pDX)
@@ -300,6 +305,13 @@ AboutDialog::AboutDialog(CWnd* pParent)
 
 AboutDialog::~AboutDialog()
 {
+}
+
+void AboutDialog::SetDarkMode(DarkMode* dark)
+{
+  BaseDialog::SetDarkMode(dark);
+  if (GetSafeHwnd() != 0)
+    m_info.SetDarkMode(dark,DarkMode::Darkest);
 }
 
 void AboutDialog::DoDataExchange(CDataExchange* pDX)
@@ -908,7 +920,7 @@ void ScrollbackDialog::SetDarkMode(DarkMode* dark)
   BaseDialog::SetDarkMode(dark);
 
   if (GetSafeHwnd() != 0)
-    m_edit.SetDarkMode(dark);
+    m_edit.SetDarkMode(dark,DarkMode::Back);
 }
 
 void ScrollbackDialog::DoDataExchange(CDataExchange* pDX)

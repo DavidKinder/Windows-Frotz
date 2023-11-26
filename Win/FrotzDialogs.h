@@ -11,7 +11,7 @@
 #include "Dialogs.h"
 #include "Dib.h"
 
-class CRichInfo : public CRichEditCtrl
+class CRichInfo : public DarkModeRichEditCtrl
 {
   DECLARE_DYNAMIC(CRichInfo)
 
@@ -37,6 +37,8 @@ public:
 
 // Dialog Data
   enum { IDD = IDD_ABOUTGAME };
+
+  virtual void SetDarkMode(DarkMode* dark);
 
 protected:
   //{{AFX_MSG(FrotzWnd)
@@ -67,6 +69,8 @@ public:
 
 // Dialog Data
   enum { IDD = IDD_ABOUT };
+
+  virtual void SetDarkMode(DarkMode* dark);
 
 protected:
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
