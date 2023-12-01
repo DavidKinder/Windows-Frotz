@@ -6,6 +6,7 @@
 #include "StdAfx.h"
 #include "FrotzApp.h"
 #include "FrotzDialogs.h"
+#include "FrotzFrameWnd.h"
 #include "FrotzGfx.h"
 #include "FrotzSound.h"
 #include "DpiFunctions.h"
@@ -75,13 +76,40 @@ void CRichInfo::SetText(int format, const CString& text)
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// Base class for Frotz dialogs
+/////////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_DYNAMIC(FrotzDialog, BaseDialog)
+
+BEGIN_MESSAGE_MAP(FrotzDialog, BaseDialog)
+END_MESSAGE_MAP()
+
+FrotzDialog::FrotzDialog(UINT templateId, CWnd* parent) : BaseDialog(templateId,parent)
+{
+}
+
+INT_PTR FrotzDialog::DoModal()
+{
+  FrotzFrameWnd* frame = NULL;
+  if (m_pParentWnd && m_pParentWnd->IsKindOf(RUNTIME_CLASS(FrotzFrameWnd)))
+    frame = (FrotzFrameWnd*)m_pParentWnd;
+
+  if (frame)
+    frame->SetModalDialog(this);
+  INT_PTR result = BaseDialog::DoModal();
+  if (frame)
+    frame->SetModalDialog(NULL);
+  return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // About This Game dialog
 /////////////////////////////////////////////////////////////////////////////
 
-IMPLEMENT_DYNAMIC(AboutGameDialog, BaseDialog)
+IMPLEMENT_DYNAMIC(AboutGameDialog, FrotzDialog)
 
 AboutGameDialog::AboutGameDialog(CWnd* pParent)
-  : BaseDialog(AboutGameDialog::IDD, pParent), m_dpi(96), m_headingEnd(0)
+  : FrotzDialog(AboutGameDialog::IDD, pParent), m_dpi(96), m_headingEnd(0)
 {
 }
 
@@ -91,25 +119,25 @@ AboutGameDialog::~AboutGameDialog()
 
 void AboutGameDialog::SetDarkMode(DarkMode* dark)
 {
-  BaseDialog::SetDarkMode(dark);
+  FrotzDialog::SetDarkMode(dark);
   if (GetSafeHwnd() != 0)
     m_info.SetDarkMode(dark,DarkMode::Darkest);
 }
 
 void AboutGameDialog::DoDataExchange(CDataExchange* pDX)
 {
-  BaseDialog::DoDataExchange(pDX);
+  FrotzDialog::DoDataExchange(pDX);
   DDX_Control(pDX, IDOK, m_ok);
 }
 
-BEGIN_MESSAGE_MAP(AboutGameDialog, BaseDialog)
+BEGIN_MESSAGE_MAP(AboutGameDialog, FrotzDialog)
   ON_WM_PAINT()
   ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
 END_MESSAGE_MAP()
 
 BOOL AboutGameDialog::OnInitDialog()
 {
-  BaseDialog::OnInitDialog();
+  FrotzDialog::OnInitDialog();
   m_dpi = DPI::getWindowDPI(this);
 
   CWaitCursor wc;
@@ -296,10 +324,10 @@ LRESULT AboutGameDialog::OnDpiChanged(WPARAM wparam, LPARAM)
 // About dialog
 /////////////////////////////////////////////////////////////////////////////
 
-IMPLEMENT_DYNAMIC(AboutDialog, BaseDialog)
+IMPLEMENT_DYNAMIC(AboutDialog, FrotzDialog)
 
 AboutDialog::AboutDialog(CWnd* pParent)
-  : BaseDialog(AboutDialog::IDD, pParent), m_dpi(96)
+  : FrotzDialog(AboutDialog::IDD, pParent), m_dpi(96)
 {
 }
 
@@ -309,27 +337,27 @@ AboutDialog::~AboutDialog()
 
 void AboutDialog::SetDarkMode(DarkMode* dark)
 {
-  BaseDialog::SetDarkMode(dark);
+  FrotzDialog::SetDarkMode(dark);
   if (GetSafeHwnd() != 0)
     m_info.SetDarkMode(dark,DarkMode::Darkest);
 }
 
 void AboutDialog::DoDataExchange(CDataExchange* pDX)
 {
-  BaseDialog::DoDataExchange(pDX);
+  FrotzDialog::DoDataExchange(pDX);
   DDX_Control(pDX, IDC_LOGO, m_logo);
   DDX_Control(pDX, IDC_BORDER, m_border);
   DDX_Control(pDX, IDOK, m_ok);
 }
 
-BEGIN_MESSAGE_MAP(AboutDialog, BaseDialog)
+BEGIN_MESSAGE_MAP(AboutDialog, FrotzDialog)
   ON_NOTIFY(EN_REQUESTRESIZE, IDC_INFO, OnResizeInfo)
   ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
 END_MESSAGE_MAP()
 
 BOOL AboutDialog::OnInitDialog()
 {
-  BaseDialog::OnInitDialog();
+  FrotzDialog::OnInitDialog();
   m_dpi = DPI::getWindowDPI(this);
 
   // Subclass the rich edit text control
@@ -446,11 +474,27 @@ OptionsDialog::OptionsDialog(UINT caption, CWnd* parentWnd) : DarkModePropertySh
   m_fontHeightPerDpi = (double)m_logFont.lfHeight / (double)m_dpi;
 }
 
+IMPLEMENT_DYNAMIC(OptionsDialog, DarkModePropertySheet)
+
 BEGIN_MESSAGE_MAP(OptionsDialog, DarkModePropertySheet)
   ON_WM_HELPINFO()
   ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
   ON_MESSAGE(WM_RESIZEPAGE, OnResizePage)  
 END_MESSAGE_MAP()
+
+INT_PTR OptionsDialog::DoModal()
+{
+  FrotzFrameWnd* frame = NULL;
+  if (m_pParentWnd && m_pParentWnd->IsKindOf(RUNTIME_CLASS(FrotzFrameWnd)))
+    frame = (FrotzFrameWnd*)m_pParentWnd;
+
+  if (frame)
+    frame->SetModalDialog(this);
+  INT_PTR result = DarkModePropertySheet::DoModal();
+  if (frame)
+    frame->SetModalDialog(NULL);
+  return result;
+}
 
 BOOL OptionsDialog::OnInitDialog() 
 {
@@ -900,10 +944,10 @@ void OptionsSpeechPage::SetDarkMode(DarkMode* dark, bool init)
 
 #define WM_SAMESIZEASMAIN WM_APP+101
 
-IMPLEMENT_DYNAMIC(ScrollbackDialog, BaseDialog)
+IMPLEMENT_DYNAMIC(ScrollbackDialog, FrotzDialog)
 
 ScrollbackDialog::ScrollbackDialog(LPCWSTR text, int textLen, CWnd* pParent)
-  : BaseDialog(ScrollbackDialog::IDD, pParent)
+  : FrotzDialog(ScrollbackDialog::IDD, pParent)
 {
   m_text = text;
   m_textLen = textLen;
@@ -917,7 +961,7 @@ ScrollbackDialog::~ScrollbackDialog()
 
 void ScrollbackDialog::SetDarkMode(DarkMode* dark)
 {
-  BaseDialog::SetDarkMode(dark);
+  FrotzDialog::SetDarkMode(dark);
 
   if (GetSafeHwnd() != 0)
     m_edit.SetDarkMode(dark,DarkMode::Back);
@@ -925,10 +969,10 @@ void ScrollbackDialog::SetDarkMode(DarkMode* dark)
 
 void ScrollbackDialog::DoDataExchange(CDataExchange* pDX)
 {
-  BaseDialog::DoDataExchange(pDX);
+  FrotzDialog::DoDataExchange(pDX);
 }
 
-BEGIN_MESSAGE_MAP(ScrollbackDialog, BaseDialog)
+BEGIN_MESSAGE_MAP(ScrollbackDialog, FrotzDialog)
   ON_WM_SIZE()
   ON_BN_CLICKED(IDC_COPY, OnCopy)
   ON_MESSAGE(WM_DPICHANGED, OnDpiChanged)
@@ -937,7 +981,7 @@ END_MESSAGE_MAP()
 
 BOOL ScrollbackDialog::OnInitDialog()
 {
-  BaseDialog::OnInitDialog();
+  FrotzDialog::OnInitDialog();
   m_dpi = DPI::getWindowDPI(this);
 
   // Subclass the buttons
@@ -994,7 +1038,7 @@ BOOL ScrollbackDialog::OnInitDialog()
 
 void ScrollbackDialog::OnSize(UINT nType, int cx, int cy)
 {
-  BaseDialog::OnSize(nType,cx,cy);
+  FrotzDialog::OnSize(nType,cx,cy);
 
   // Resize the edit control
   if (m_edit.GetSafeHwnd() != NULL)

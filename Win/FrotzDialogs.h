@@ -27,7 +27,19 @@ public:
   void SetText(int format, const CString& text);
 };
 
-class AboutGameDialog : public BaseDialog
+class FrotzDialog : public BaseDialog
+{
+  DECLARE_DYNAMIC(FrotzDialog)
+
+public:
+  FrotzDialog(UINT templateId, CWnd* parent = NULL);
+
+  virtual INT_PTR DoModal();
+
+  DECLARE_MESSAGE_MAP()
+};
+
+class AboutGameDialog : public FrotzDialog
 {
   DECLARE_DYNAMIC(AboutGameDialog)
 
@@ -59,7 +71,7 @@ protected:
   CDibSection m_coverBitmap;
 };
 
-class AboutDialog : public BaseDialog
+class AboutDialog : public FrotzDialog
 {
   DECLARE_DYNAMIC(AboutDialog)
 
@@ -93,8 +105,11 @@ protected:
 
 class OptionsDialog : public DarkModePropertySheet
 {
+  DECLARE_DYNAMIC(OptionsDialog)
+
 public:
   OptionsDialog(UINT caption, CWnd* parentWnd);
+  virtual INT_PTR DoModal();
 
 protected:
   DECLARE_MESSAGE_MAP()
@@ -241,7 +256,7 @@ public:
   int m_rate;
 };
 
-class ScrollbackDialog : public BaseDialog
+class ScrollbackDialog : public FrotzDialog
 {
   DECLARE_DYNAMIC(ScrollbackDialog)
 

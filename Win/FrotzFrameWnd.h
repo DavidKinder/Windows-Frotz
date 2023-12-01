@@ -7,10 +7,14 @@
 #include "MenuBar.h"
 #include "Resource.h"
 
+#define DARKMODE_REGISTRY "Software\\David Kinder\\Frotz"
+
 class FrotzWnd;
 
 class FrotzFrameWnd : public MenuBarFrameWnd
 {
+  DECLARE_DYNAMIC(FrotzFrameWnd)
+
 public:
   FrotzFrameWnd();
 
@@ -37,6 +41,8 @@ public:
   void UpdateMenus(CArray<CStringArray,CStringArray&>& menus);
   // Remove any game defined menus
   void ResetMenus(void);
+  // Set the currently active modal dialog
+  void SetModalDialog(CWnd* dialog);
 
   // Show the HTMLHelp format help file
   virtual void HtmlHelp(DWORD_PTR dwData, UINT nCmd = 0x000F);
@@ -48,6 +54,7 @@ protected:
   afx_msg void OnDestroy();
   afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
   afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+  afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
   afx_msg LRESULT OnInputLangChange(WPARAM wParam, LPARAM lParam);
   afx_msg void OnUpdateTime(CCmdUI* pCmdUI);
   afx_msg void OnUpdateZcode(CCmdUI* pCmdUI);
@@ -80,6 +87,7 @@ protected:
 
 protected:
   FrotzWnd* m_clientWnd;
+  CWnd* m_modalDialog;
   DarkModeStatusBar m_statusBar;
   CRect m_normalSize;
   UINT m_codePage;

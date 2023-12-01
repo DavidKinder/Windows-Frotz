@@ -7,6 +7,7 @@
 #include "FrotzApp.h"
 #include "FrotzWnd.h"
 #include "FrotzFrameWnd.h"
+#include "FrotzDialogs.h"
 #include "DpiFunctions.h"
 
 #ifdef _DEBUG
@@ -29,7 +30,7 @@ bool FilterHotkeys(char c)
   return (strchr("DHNPRSUX",c) == NULL);
 }
 
-FrotzFrameWnd::FrotzFrameWnd() : m_clientWnd(NULL), m_codePage(CP_ACP), m_dpi(96)
+FrotzFrameWnd::FrotzFrameWnd() : m_clientWnd(NULL), m_modalDialog(NULL), m_codePage(CP_ACP), m_dpi(96)
 {
   m_menuBar.SetUseF10(false);
   m_menuBar.SetFilterAltX(FilterHotkeys);
@@ -49,12 +50,15 @@ FrotzFrameWnd::~FrotzFrameWnd()
   delete m_clientWnd;
 }
 
+IMPLEMENT_DYNAMIC(FrotzFrameWnd, MenuBarFrameWnd)
+
 BEGIN_MESSAGE_MAP(FrotzFrameWnd, MenuBarFrameWnd)
   //{{AFX_MSG_MAP(FrotzFrameWnd)
   ON_WM_CREATE()
   ON_WM_DESTROY()
   ON_WM_GETMINMAXINFO()
   ON_WM_CHAR()
+  ON_WM_SETTINGCHANGE()
   ON_MESSAGE(WM_INPUTLANGCHANGE, OnInputLangChange)
   ON_COMMAND(ID_HOT_DEBUG, OnHotDebug)
   ON_COMMAND(ID_HOT_HELP, OnHotHelp)
@@ -93,7 +97,7 @@ bool FrotzFrameWnd::Create(bool toolbar, bool statusbar)
     return false;
 
   // Turn on dark mode, if needed
-  SetDarkMode(DarkMode::GetEnabled("Software\\David Kinder\\Frotz"));
+  SetDarkMode(DarkMode::GetEnabled(DARKMODE_REGISTRY));
 
   // Set the icon
   SetIcon(::LoadIcon(AfxGetInstanceHandle(),MAKEINTRESOURCE(IDI_INFOCOM)),TRUE);
@@ -153,6 +157,12 @@ void FrotzFrameWnd::ResetMenus(void)
     m_menuBar.Update();
     SetBarSizes();
   }
+}
+
+// Set the currently active modal dialog
+void FrotzFrameWnd::SetModalDialog(CWnd* dialog)
+{
+  m_modalDialog = dialog;
 }
 
 HWND WINAPI AfxHtmlHelp(HWND hWnd, LPCTSTR szHelpFilePath, UINT nCmd, DWORD_PTR dwData);
@@ -294,6 +304,25 @@ void FrotzFrameWnd::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
     m_clientWnd->InputUnicode(unicode);
 
   MenuBarFrameWnd::OnChar(nChar,nRepCnt,nFlags);
+}
+
+void FrotzFrameWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
+{
+  MenuBarFrameWnd::OnSettingChange(uFlags,lpszSection);
+
+  if ((m_dark != NULL) != DarkMode::IsEnabled(DARKMODE_REGISTRY))
+  {
+    SetDarkMode(DarkMode::GetEnabled(DARKMODE_REGISTRY));
+    if (m_modalDialog != NULL)
+    {
+      if (m_modalDialog->IsKindOf(RUNTIME_CLASS(FrotzDialog)))
+        ((FrotzDialog*)m_modalDialog)->SetDarkMode(DarkMode::GetActive(m_modalDialog));
+      else if (m_modalDialog->IsKindOf(RUNTIME_CLASS(OptionsDialog)))
+        ((OptionsDialog*)m_modalDialog)->SetDarkMode(DarkMode::GetActive(m_modalDialog),false);
+    }
+    if (m_dark != NULL)
+      DarkMode::SetAppDarkMode();
+  }
 }
 
 LRESULT FrotzFrameWnd::OnInputLangChange(WPARAM wParam, LPARAM lParam)

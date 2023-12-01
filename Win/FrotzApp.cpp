@@ -1266,7 +1266,7 @@ BOOL FrotzApp::InitInstance()
   LoadInternationalResources();
 
   // Turn on dark mode for the application, if necessary
-  if (DarkMode::IsEnabled("Software\\David Kinder\\Frotz"))
+  if (DarkMode::IsEnabled(DARKMODE_REGISTRY))
     DarkMode::SetAppDarkMode();
 
   // Get a game to run
@@ -1513,7 +1513,7 @@ void FrotzApp::OnViewOptions()
 
 void FrotzApp::OnViewScrollback()
 {
-  ScrollbackDialog dialog((LPCWSTR)m_scrollback.GetData(),m_scrollback.GetSize());
+  ScrollbackDialog dialog((LPCWSTR)m_scrollback.GetData(),m_scrollback.GetSize(),AfxGetMainWnd());
   dialog.DoModal();
 }
 
