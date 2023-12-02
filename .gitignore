@@ -1,4 +1,5 @@
 *.chm
+*.aps
 *.user
 .vs/
 Blorb/
