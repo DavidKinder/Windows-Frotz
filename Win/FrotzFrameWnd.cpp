@@ -320,8 +320,7 @@ void FrotzFrameWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
       else if (m_modalDialog->IsKindOf(RUNTIME_CLASS(OptionsDialog)))
         ((OptionsDialog*)m_modalDialog)->SetDarkMode(DarkMode::GetActive(m_modalDialog),false);
     }
-    if (m_dark != NULL)
-      DarkMode::SetAppDarkMode();
+    DarkMode::SetAppDarkMode(m_dark);
   }
 }
 
