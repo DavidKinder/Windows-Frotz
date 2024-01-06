@@ -454,8 +454,8 @@ void AboutDialog::SetInfoText(void)
 {
   CString aboutText;
   aboutText.LoadString(IDS_ABOUT_INFO);
-  aboutText.Replace("%ver%","1.24");
-  aboutText.Replace("%year%","2023");
+  aboutText.Replace("%ver%","1.25");
+  aboutText.Replace("%year%","2024");
   m_info.SetText(SF_RTF,aboutText);
 }
 
@@ -789,7 +789,7 @@ void OptionsDisplayPage::OnOK()
   // Read the font controls
   m_propFont.GetWindowText(m_propFontName);
   m_fixedFont.GetWindowText(m_fixedFontName);
-  m_fontSizeCombo.GetWindowText(m_fixedFontName);
+  m_fontSizeCombo.GetWindowText(m_fontSize);
   DarkModePropertyPage::OnOK();
 }
 
