@@ -253,6 +253,7 @@ extern "C" int os_read_file_name(char *file_name, const char *default_name, int 
   theWnd->ResetOverhang();
 
   bool open = true;
+  bool overPrompt = false;
   int filter = 0;
   int title = 0;
   LPCSTR defExt = NULL;
@@ -261,6 +262,7 @@ extern "C" int os_read_file_name(char *file_name, const char *default_name, int 
   {
     case FILE_SAVE:
       open = false;
+      overPrompt = true;
       filter = IDS_SAVE_FILTER;
       title = IDS_SAVE_TITLE;
       defExt = "sav";
@@ -279,6 +281,7 @@ extern "C" int os_read_file_name(char *file_name, const char *default_name, int 
       break;
     case FILE_RECORD:
       open = false;
+      overPrompt = true;
       filter = IDS_RECORD_FILTER;
       title = IDS_RECORD_TITLE;
       defExt = "rec";
@@ -291,6 +294,7 @@ extern "C" int os_read_file_name(char *file_name, const char *default_name, int 
       break;
     case FILE_SAVE_AUX:
       open = false;
+      overPrompt = true;
       filter = IDS_AUX_FILTER;
       title = IDS_SAVE_AUX_TITLE;
       break;
@@ -304,7 +308,7 @@ extern "C" int os_read_file_name(char *file_name, const char *default_name, int 
   }
 
   SimpleFileDialog dialog(open,defExt,default_name,
-    OFN_HIDEREADONLY|OFN_ENABLESIZING|(open ? 0 : OFN_OVERWRITEPROMPT),
+    OFN_HIDEREADONLY|OFN_ENABLESIZING|(overPrompt ? OFN_OVERWRITEPROMPT : 0),
     CResString(filter),AfxGetMainWnd());
   CResString titlestr(title);
   dialog.m_ofn.lpstrTitle = titlestr;
