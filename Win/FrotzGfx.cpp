@@ -411,7 +411,7 @@ FrotzGfx* FrotzGfx::LoadPNG(BYTE* data, int)
   graphic->m_width = width;
   graphic->m_height = height;
 
-  if (m_adaptiveMode && color_type == PNG_COLOR_TYPE_PALETTE && bit_depth <= 4)
+  if (m_adaptiveMode && color_type == PNG_COLOR_TYPE_PALETTE && bit_depth <= 8)
   {
     graphic->m_usesPalette = true;
 
