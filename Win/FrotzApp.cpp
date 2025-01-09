@@ -1542,3 +1542,8 @@ CResString::CResString(UINT id)
 {
   LoadString(id);
 }
+
+CResStringW::CResStringW(UINT id)
+{
+  LoadString(id);
+}

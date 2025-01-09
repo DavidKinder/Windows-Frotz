@@ -258,3 +258,9 @@ class CResString : public CString
 public:
   CResString(UINT id);
 };
+
+class CResStringW : public CStringW
+{
+public:
+  CResStringW(UINT id);
+};

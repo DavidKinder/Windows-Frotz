@@ -172,8 +172,8 @@ public:
   // Get the colour of a pixel
   COLORREF GetPixel(POINT p);
 
-  // Write an ASCII string
-  void WriteText(const char* text);
+  // Write a Unicode string without any font adjustment
+  void WriteSimpleText(LPCWSTR text);
   // Write a Unicode string
   void WriteText(const unsigned short* text, int len);
   // Get the width of a Unicode string

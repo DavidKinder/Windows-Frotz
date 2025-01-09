@@ -458,7 +458,7 @@ extern "C" void os_more_prompt(void)
     CPoint point = theWnd->GetTextPoint();
 
     // Show a [More] prompt
-    theWnd->WriteText(CResString(IDS_MORE));
+    theWnd->WriteSimpleText(CResStringW(IDS_MORE));
     theWnd->DrawCursor(true);
     theWnd->FlushDisplay();
     theApp.SpeakText();
@@ -931,9 +931,9 @@ extern "C" void os_reset_screen(void)
     os_set_text_style(0);
     screen_new_line();
 
-    CResString hit(IDS_HIT_KEY_EXIT);
+    CResStringW hit(IDS_HIT_KEY_EXIT);
     for (int i = 0; i < hit.GetLength(); i++)
-      os_display_char((unsigned char)hit[i]);
+      os_display_char((zchar)hit[i]);
     os_read_key(0,1);
   }
 }

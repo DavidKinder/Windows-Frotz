@@ -661,15 +661,16 @@ COLORREF FrotzWnd::GetPixel(POINT p)
   return m_dc.GetPixel(p);
 }
 
-// Write an ASCII string
-void FrotzWnd::WriteText(const char* text)
+// Write a Unicode string without any font adjustment
+void FrotzWnd::WriteSimpleText(LPCWSTR text)
 {
-  int len = strlen(text);
-  CSize size = m_dc.GetTextExtent(text,len);
+  int len = wcslen(text);
+  CSize size(0,0);
+  ::GetTextExtentPoint32W(m_dc.GetSafeHdc(),text,len,&size);
   size.cy = m_fontSize.cy;
 
   CRect rect(GetTextPoint(),size);
-  m_dc.ExtTextOut(0,0,ETO_OPAQUE,rect,text,len,NULL);
+  ::ExtTextOutW(m_dc.GetSafeHdc(),0,0,ETO_OPAQUE,rect,text,len,NULL);
 }
 
 // Write a Unicode string
