@@ -28,14 +28,16 @@ typedef unsigned short zword;
 typedef unsigned short zchar;
 
 enum story {
+    PLANETFALL,
+    AMFV,
+    STATIONFALL,
+    LURKING_HORROR,
     BEYOND_ZORK,
     SHERLOCK,
     ZORK_ZERO,
     SHOGUN,
-    ARTHUR,
     JOURNEY,
-    LURKING_HORROR,
-    AMFV,
+    ARTHUR,
     UNKNOWN
 };
 

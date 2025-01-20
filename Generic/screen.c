@@ -1859,16 +1859,35 @@ void z_show_status (void)
 	print_char ((global1 >= 12) ? 'p' : 'a');
 	print_char ('m');
 
+    } else if (brief) {
+
+	pad_status_line (15);
+
+	print_num (global1);
+	print_string (" / ");
+	print_num (global2);
+
     } else {				/* print score and moves */
 
-	pad_status_line (brief ? 15 : 30);
+	pad_status_line (30);
 
-	print_string (brief ? "S: " : "Score: ");
+	print_string ("Score: ");
 	print_num (global1);
 
-	pad_status_line (brief ? 8 : 14);
+	pad_status_line (14);
 
-	print_string (brief ? "M: " : "Moves: ");
+	/* Planetfall and Stationfall both use the move counter as a time */
+
+	if (story_id == PLANETFALL || story_id == STATIONFALL) {
+
+	    print_string ("Time: ");
+
+	} else {
+
+	    print_string ("Moves: ");
+
+	}
+
 	print_num (global2);
 
     }
