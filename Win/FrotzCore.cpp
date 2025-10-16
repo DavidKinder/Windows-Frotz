@@ -415,10 +415,12 @@ extern "C" void os_init_screen(void)
   h_screen_rows = (zbyte)screen_rows;
 
   // Check for sound
-  if ((h_version == V3) && (h_flags & OLD_SOUND_FLAG))
+  //if ((h_version == V3) && (h_flags & OLD_SOUND_FLAG)) /* Fix for i6 */
+  if ((h_version == V3) && ((h_flags & OLD_SOUND_FLAG) || (h_flags & SOUND_FLAG)))
   {
     if (!theApp.GotBlorbFile() || !FrotzSound::Init(theWnd))
       h_flags &= ~OLD_SOUND_FLAG;
+      h_flags &= ~SOUND_FLAG; /* For inform6 */
   }
   else if ((h_version >= V4) && (h_flags & SOUND_FLAG))
   {
