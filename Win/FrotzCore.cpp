@@ -420,7 +420,10 @@ extern "C" void os_init_screen(void)
     if (!theApp.GotBlorbFile() || !FrotzSound::Init(theWnd))
       h_flags &= ~OLD_SOUND_FLAG;
   }
-  else if ((h_version >= V4) && (h_flags & SOUND_FLAG))
+  // SOUND_FLAG is really only for V4+, but Inform 6 generates game
+  // files with this flag set if @sound_effect is used, regardless
+  // of the Z-code version.
+  else if ((h_version >= V3) && (h_flags & SOUND_FLAG))
   {
     if (!theApp.GotBlorbFile() || !FrotzSound::Init(theWnd))
       h_flags &= ~SOUND_FLAG;
