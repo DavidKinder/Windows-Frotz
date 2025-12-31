@@ -84,8 +84,9 @@ BEGIN
     "E",            ID_RL_END,              VIRTKEY, CONTROL, NOINVERT
     "B",            ID_RL_BACK,             VIRTKEY, CONTROL, NOINVERT
     "F",            ID_RL_FORWARD,          VIRTKEY, CONTROL, NOINVERT
-    "W",            ID_RL_RUBOUT,           VIRTKEY, CONTROL, NOINVERT
-    "K",            ID_RL_KILL,             VIRTKEY, CONTROL, NOINVERT
+    "W",            ID_RL_CUT_CURRENT,      VIRTKEY, CONTROL, NOINVERT
+    "K",            ID_RL_CUT_TO_END,       VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_BACK_WORD,           VIRTKEY, CONTROL, NOINVERT
     "P",            ID_VIEW_OPTIONS,        VIRTKEY, CONTROL, NOINVERT
     "L",            ID_VIEW_SCROLLBACK,     VIRTKEY, CONTROL, NOINVERT
 END

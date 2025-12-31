@@ -771,12 +771,18 @@ extern "C" zchar os_read_line(int max, zchar *buf, int timeout, int width, int c
         theWnd->EraseLastInputRect(point);
         theWnd->DrawInput(buf,pos,point,width,true);
         break;
-      case FrotzWnd::Input::KillLine:
-        *(buf+pos) = 0;
-        theWnd->DrawInput(buf,pos,point,width,true);
+      case FrotzWnd::Input::CutToEnd:
+        {
+          CStringW cut((LPCWSTR)buf+pos);
+          cut.Trim();
+          *(buf+pos) = 0;
+          theWnd->DrawInput(buf,pos,point,width,true);
+          theWnd->CopyToClipboard(cut);
+        }
         break;
-      case FrotzWnd::Input::RuboutWord:
-        // Find the start of the next word to the left of the cursor
+      case FrotzWnd::Input::BackWord:
+      case FrotzWnd::Input::CutCurrentWord:
+        // Find the start of the word to the left of the cursor
         {
           int c = 0;
           bool inword = false;
@@ -795,10 +801,17 @@ extern "C" zchar os_read_line(int max, zchar *buf, int timeout, int width, int c
             c++;
           }
 
+          // Make a copy of the word
+          CStringW cut((LPCWSTR)buf+pos-c,c);
+          cut.Trim();
+
           // Delete the word
           memmove(buf+pos-c,buf+pos,sizeof(zword)*(wcslen((LPCWSTR)buf)-pos+c));
           pos -= c;
           theWnd->DrawInput(buf,pos,point,width,true);
+
+          if (input.type == FrotzWnd::Input::CutCurrentWord)
+            theWnd->CopyToClipboard(cut);
         }
         break;
       case FrotzWnd::Input::CheckRestart:

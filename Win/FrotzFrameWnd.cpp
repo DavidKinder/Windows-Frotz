@@ -73,8 +73,9 @@ BEGIN_MESSAGE_MAP(FrotzFrameWnd, MenuBarFrameWnd)
   ON_COMMAND(ID_RL_DEL, OnReadLineDel)
   ON_COMMAND(ID_RL_BACK, OnReadLineBack)
   ON_COMMAND(ID_RL_FORWARD, OnReadLineForward)
-  ON_COMMAND(ID_RL_RUBOUT, OnReadLineRubout)
-  ON_COMMAND(ID_RL_KILL, OnReadLineKill)
+  ON_COMMAND(ID_RL_CUT_CURRENT, OnReadLineCutCurrentWord)
+  ON_COMMAND(ID_RL_CUT_TO_END, OnReadLineCutToEnd)
+  ON_COMMAND(ID_BACK_WORD, OnBackWord)
   ON_COMMAND(ID_EDIT_PASTE, OnEditPaste)
   ON_COMMAND(ID_HELP_FINDER, OnHelpFinder)
   ON_COMMAND(ID_FULLSCREEN, OnFullscreen)
@@ -372,11 +373,22 @@ void FrotzFrameWnd::OnEditPaste()
 {
   if (OpenClipboard())
   {
-    HGLOBAL handle = ::GetClipboardData(CF_TEXT);
-    if (handle)
+    HGLOBAL handle = 0;
+    if (handle = ::GetClipboardData(CF_UNICODETEXT))
     {
-      LPTSTR text = (LPTSTR)::GlobalLock(handle); 
-      if (text) 
+      LPWSTR text = (LPWSTR)::GlobalLock(handle);
+      if (text)
+      {
+        int len = wcslen(text);
+        for (int i = 0; i < len; i++)
+          m_clientWnd->InputUnicode(text[i]);
+        ::GlobalUnlock(handle);
+      }
+    }
+    else if (handle = ::GetClipboardData(CF_TEXT))
+    {
+      LPSTR text = (LPSTR)::GlobalLock(handle);
+      if (text)
       {
         int len = strlen(text);
         for (int i = 0; i < len; i++)
@@ -385,7 +397,7 @@ void FrotzFrameWnd::OnEditPaste()
           if (::MultiByteToWideChar(CP_ACP,MB_PRECOMPOSED,text+i,1,(LPWSTR)&unicode,1) > 0)
             m_clientWnd->InputUnicode(unicode);
         }
-        ::GlobalUnlock(handle); 
+        ::GlobalUnlock(handle);
       }
     }
     CloseClipboard();
@@ -516,14 +528,19 @@ void FrotzFrameWnd::OnReadLineForward()
   m_clientWnd->InputZcodeKey(ZC_ARROW_RIGHT);
 }
 
-void FrotzFrameWnd::OnReadLineRubout()
+void FrotzFrameWnd::OnReadLineCutCurrentWord()
 {
-  m_clientWnd->InputType(FrotzWnd::Input::RuboutWord);
+  m_clientWnd->InputType(FrotzWnd::Input::CutCurrentWord);
 }
 
-void FrotzFrameWnd::OnReadLineKill()
+void FrotzFrameWnd::OnReadLineCutToEnd()
 {
-  m_clientWnd->InputType(FrotzWnd::Input::KillLine);
+  m_clientWnd->InputType(FrotzWnd::Input::CutToEnd);
+}
+
+void FrotzFrameWnd::OnBackWord()
+{
+  m_clientWnd->InputType(FrotzWnd::Input::BackWord);
 }
 
 namespace

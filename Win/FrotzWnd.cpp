@@ -554,6 +554,19 @@ bool FrotzWnd::CompareUnicode(unsigned short* s1, unsigned short* s2, int len)
   return true;
 }
 
+// Copy a string to the clipboard
+void FrotzWnd::CopyToClipboard(const CStringW& text)
+{
+  OpenClipboard();
+  ::EmptyClipboard();
+  HGLOBAL textClip = ::GlobalAlloc(GMEM_MOVEABLE,(text.GetLength()+1)*sizeof(WCHAR));
+  void* textPtr = ::GlobalLock(textClip);
+  wcscpy((LPWSTR)textPtr,(LPCWSTR)text);
+  ::GlobalUnlock(textClip);
+  ::SetClipboardData(CF_UNICODETEXT,textClip);
+  ::CloseClipboard();
+}
+
 // Add an output character to the pending text
 void FrotzWnd::AddOutput(unsigned short c, bool status)
 {

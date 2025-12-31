@@ -131,8 +131,9 @@
 #define ID_RL_DEL                       32905
 #define ID_RL_BACK                      32906
 #define ID_RL_FORWARD                   32907
-#define ID_RL_RUBOUT                    32908
-#define ID_RL_KILL                      32909
+#define ID_RL_CUT_CURRENT               32908
+#define ID_RL_CUT_TO_END                32909
+#define ID_BACK_WORD                    32910
 
 // Next default values for new objects
 // 

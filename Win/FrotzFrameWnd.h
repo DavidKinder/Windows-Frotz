@@ -73,8 +73,9 @@ protected:
   afx_msg void OnReadLineDel();
   afx_msg void OnReadLineBack();
   afx_msg void OnReadLineForward();
-  afx_msg void OnReadLineRubout();
-  afx_msg void OnReadLineKill();
+  afx_msg void OnReadLineCutCurrentWord();
+  afx_msg void OnReadLineCutToEnd();
+  afx_msg void OnBackWord();
   afx_msg void OnHelpLink(UINT nID);
   afx_msg void OnHelpTranslateLink(UINT nID);
   //}}AFX_MSG

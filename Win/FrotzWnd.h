@@ -65,8 +65,9 @@ public:
       ZcodeKey,
       VirtualKey,
       Reset,
-      KillLine,
-      RuboutWord,
+      CutToEnd,
+      CutCurrentWord,
+      BackWord,
       CheckRestart
     };
 
@@ -144,6 +145,8 @@ public:
   void SetLastInput(unsigned short* buffer);
   // Attempt to correct the case of an input line
   void RecaseInput(unsigned short* buffer);
+  // Copy a string to the clipboard
+  void CopyToClipboard(const CStringW& text);
 
   // Add an output character to the pending text
   void AddOutput(unsigned short c, bool status);
