@@ -111,7 +111,7 @@ BEGIN
             VALUE "FileDescription", "Frotz"
             VALUE "FileVersion", "1.28"
             VALUE "InternalName", "Frotz"
-            VALUE "LegalCopyright", "Copyright (c) 2002-2025 David Kinder"
+            VALUE "LegalCopyright", "Copyright (c) 2002-2026 David Kinder"
             VALUE "OriginalFilename", "Frotz.exe"
             VALUE "ProductName", "Frotz"
             VALUE "ProductVersion", "1.28"
