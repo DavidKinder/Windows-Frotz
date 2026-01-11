@@ -42,7 +42,8 @@ protected:
   static FrotzGfx* LoadRect(BYTE* data, int length);
 
 protected:
-  BYTE* m_pixels;
+  DWORD* m_pixels;
+  BYTE* m_indexes;
 
   int m_width;
   int m_height;
@@ -54,8 +55,6 @@ protected:
   double m_ratioMax;
 
   CArray<DWORD,DWORD> m_palette;
-
-  bool m_usesPalette;
   bool m_colorChanger;
 
   static double m_gamma;
