@@ -34,9 +34,6 @@
     <Filter Include="Libraries\zlib">
       <UniqueIdentifier>{25090e9e-c370-442f-b023-b63cb6d8e3f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Libraries\jpeg">
-      <UniqueIdentifier>{d48e500b-0b4a-45ba-ae30-b5e4c2b0ee33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Libraries\libogg">
       <UniqueIdentifier>{3362cd09-ef58-4df6-b77b-62b63ed2b7a6}</UniqueIdentifier>
     </Filter>
@@ -215,90 +212,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Libraries\zlib\zutil.c">
       <Filter>Libraries\zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jcomapi.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdapimin.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdapistd.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdatadst.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdatasrc.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdcoefct.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdcolor.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jddctmgr.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdhuff.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdinput.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdmainct.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdmarker.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdmaster.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdmerge.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdphuff.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdpostct.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdsample.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jdtrans.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jerror.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jidctflt.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jidctfst.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jidctint.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jidctred.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jmemmgr.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jmemnobs.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jquant1.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jquant2.c">
-      <Filter>Libraries\jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Libraries\jpeg\jutils.c">
-      <Filter>Libraries\jpeg</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Libraries\libogg\src\bitwise.c">
       <Filter>Libraries\libogg</Filter>
