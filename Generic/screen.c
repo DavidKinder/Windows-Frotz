@@ -1036,6 +1036,9 @@ void z_draw_picture (void)
 
 	}
 
+    if (story_id == ARTHUR && pic == 3)
+	os_read_key (10, 0);
+
     os_draw_picture (pic, y, x);
 
     if (story_id == SHOGUN)
