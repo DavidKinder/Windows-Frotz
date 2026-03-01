@@ -524,11 +524,18 @@ void FrotzApp::CreateMainWindow(void)
     theWnd->GetClientRect(clientSize);
     wnd->GetWindowRect(windowSize);
 
+    // Determine the base size of the window to use. The screen modes used by
+    // Infocom's MS-DOS V6 interpreters have non-square pixels with dimensions
+    // of 5:6. This is simulated here by stretching the base height of the
+    // window by 1/6 = 20%, i.e. 240 rather than 200.
+    int baseWidth = 320;
+    int baseHeight = (h_interpreter_number == INTERP_MSDOS) ? 240 : 200;
+
     // Work out the largest integer scaling that will fit on the screen
     int borderX = windowSize.Width() - clientSize.Width();
     int borderY = windowSize.Height() - clientSize.Height();
-    int scaleX = (int)floor((double)(screen.Width() - borderX) / 320.0);
-    int scaleY = (int)floor((double)(screen.Height() - borderY) / 200.0);
+    int scaleX = (int)floor((double)(screen.Width() - borderX) / (double)baseWidth);
+    int scaleY = (int)floor((double)(screen.Height() - borderY) / (double)baseHeight);
     int scale = (scaleX > scaleY) ? scaleY : scaleX;
     if (scale < 1)
       scale = 1;
@@ -541,8 +548,8 @@ void FrotzApp::CreateMainWindow(void)
       if (scale < 1)
         scale = 1;
     }
-    int width = (320*scale)+borderX;
-    int height = (200*scale)+borderY;
+    int width = (baseWidth*scale)+borderX;
+    int height = (baseHeight*scale)+borderY;
 
     WINDOWPLACEMENT place;
     ::ZeroMemory(&place,sizeof(WINDOWPLACEMENT));

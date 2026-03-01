@@ -10,6 +10,9 @@
 <ul>
 <li>An anti-aliasing algorithm is now used when rescaling the Infocom V6 graphics, used when the
 interpreter window is not an integer multiple of 320 x 200.
+<li>The screen modes used by Infocom's MS-DOS V6 interpreters have non-square pixels with
+dimensions of 5:6. This is now simulated by stretching the height of all images, and the default
+window height, by 20% when playing an Infocom V6 game with the interpreter number set to MSDOS.
 <li>The release 242 beta versions of Zork Zero require different implementations of the
 <b>get_wind_prop</b> and <b>put_wind_prop</b> opcodes, which are now implemented as special cases
 for these versions.

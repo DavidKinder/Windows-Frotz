@@ -63,6 +63,14 @@ CSize FrotzGfx::GetSize(double erf)
   if (r <= 0.0)
     r = 1.0;
 
+  if (theApp.IsInfocomV6() && (h_interpreter_number == INTERP_MSDOS))
+  {
+    // The screen modes used by Infocom's MS-DOS V6 interpreters have non-square pixels
+    // with dimensions of 5:6. This is simulated here by stretching the height of all
+    // images by 1/6 = 20%.
+    return CSize((int)(m_width*r), (int)(m_height*r*1.2));
+  }
+
   return CSize((int)(m_width*r), (int)(m_height*r));
 }
 
