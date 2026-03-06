@@ -523,65 +523,34 @@ void FrotzApp::CreateMainWindow(void)
     CRect clientSize, windowSize;
     theWnd->GetClientRect(clientSize);
     wnd->GetWindowRect(windowSize);
-
-    // Determine the base size of the window to use. The screen modes used by
-    // Infocom's MS-DOS V6 interpreters have non-square pixels with dimensions
-    // of 5:6. This is simulated here by stretching the base height of the
-    // window by 1/6 = 20%, i.e. 240 rather than 200.
-    int baseWidth = 320;
-    int baseHeight = (h_interpreter_number == INTERP_MSDOS) ? 240 : 200;
-
-    // Work out the largest integer scaling that will fit on the screen
     int borderX = windowSize.Width() - clientSize.Width();
     int borderY = windowSize.Height() - clientSize.Height();
-    int scaleX = (int)floor((double)(screen.Width() - borderX) / (double)baseWidth);
-    int scaleY = (int)floor((double)(screen.Height() - borderY) / (double)baseHeight);
-    int scale = (scaleX > scaleY) ? scaleY : scaleX;
-    if (scale < 1)
-      scale = 1;
-    if ((story_id == ARTHUR) && (scale > 1))
-    {
-      // Arthur corrupts its internal state if the screen is too wide
-      int cw = theWnd->GetCharWidth('0');
-      if (320*scale > 140*cw)
-        scale = (cw*140)/320;
-      if (scale < 1)
-        scale = 1;
-    }
-    int width = (baseWidth*scale)+borderX;
-    int height = (baseHeight*scale)+borderY;
 
+    int innerWidth = (int)(screen.Width() * 0.8);
+    int innerHeight = (int)(screen.Height() * 0.8);
+    double innerRatio = (double)innerHeight / (double)innerWidth;
+
+    // Determine the inner size of the window to use. The screen modes used by
+    // Infocom's MS-DOS V6 interpreters have non-square pixels with dimensions
+    // of 5:6. This is handled here by adjusting the desired ratio between window
+    // with and height.
+    double wantRatio = ((h_interpreter_number == INTERP_MSDOS) ? 240.0 : 200.0) / 320.0;
+    if (innerRatio > wantRatio)
+      innerHeight = (int)(innerWidth * wantRatio);
+    else
+      innerWidth = (int)(innerHeight / wantRatio);
+
+    int x = (screen.Width()-innerWidth-borderX) / 2;
+    int y = (screen.Height()-innerHeight-borderY) / 2;
     WINDOWPLACEMENT place;
     ::ZeroMemory(&place,sizeof(WINDOWPLACEMENT));
     place.length = sizeof(WINDOWPLACEMENT);
     wnd->GetWindowPlacement(&place);
-    if (m_wndSize.Width() > 0)
-    {
-      CRect wndSize;
-      double dpiScale = DPI::getWindowDPI(wnd) / 96.0;
-      wndSize.left = (int)(m_wndSize.left * dpiScale);
-      wndSize.top = (int)(m_wndSize.top * dpiScale);
-      wndSize.bottom = (int)(m_wndSize.bottom * dpiScale);
-      wndSize.right = (int)(m_wndSize.right * dpiScale);
-      place.rcNormalPosition = wndSize;
-    }
-
-    int x = place.rcNormalPosition.left;
-    int y = place.rcNormalPosition.top;
-    if (x+width > screen.Width())
-      x = screen.Width()-width;
-    if (y+height > screen.Height())
-      y = screen.Height()-height;
-    if (x < 0)
-      x = 0;
-    if (y < 0)
-      y = 0;
-
     place.showCmd = SW_SHOWNORMAL;
     place.rcNormalPosition.left = x;
     place.rcNormalPosition.top = y;
-    place.rcNormalPosition.right = x+width;
-    place.rcNormalPosition.bottom = y+height;
+    place.rcNormalPosition.right = x+innerWidth+borderX;
+    place.rcNormalPosition.bottom = y+innerHeight+borderY;
     wnd->SetWindowPlacement(&place);
   }
   else
