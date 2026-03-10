@@ -29,7 +29,9 @@ typedef unsigned short zchar;
 
 enum story {
     PLANETFALL,
+    WISHBRINGER,
     AMFV,
+    BUREAUCRACY,
     STATIONFALL,
     LURKING_HORROR,
     BEYOND_ZORK,

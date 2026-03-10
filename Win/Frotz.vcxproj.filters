@@ -378,6 +378,9 @@
     <ClCompile Include="..\..\..\Libraries\mfc\DarkMode.cpp">
       <Filter>Windows Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Patches.cpp">
+      <Filter>Windows Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Libraries\mfc\ColourButton.h">

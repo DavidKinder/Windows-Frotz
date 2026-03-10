@@ -22,6 +22,8 @@ int is_terminator(zword c);
 void screen_new_line(void);
 }
 
+void apply_patches(void);
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -441,6 +443,8 @@ extern "C" void os_init_screen(void)
     hx_fore_colour = FrotzApp::TrueToRGB5(theApp.GetDefaultColour(true));
     hx_back_colour = FrotzApp::TrueToRGB5(theApp.GetDefaultColour(false));
   }
+
+  apply_patches();
 }
 
 /*
