@@ -45,19 +45,22 @@ Section "DoInstall"
   File "..\Win\Release\FrotzItaliano.dll"
   File "..\Win\Release\FrotzRussian.dll"
   File "..\Win\Release\Frotz.chm"
+  File "..\Win\Release\Adventure.z5"
+  File "..\Win\Release\Zork 1.z5"
   File "..\COPYING"
   SetOutPath "$INSTDIR\Examples"
   File "..\Examples\Unicode.inf"
   File "..\Examples\Unicode.z5"
   File "..\Examples\ZSpec11.inf"
   File "..\Examples\ZSpec11.z6"
+  SetOutPath "$INSTDIR"
   WriteUninstaller "Uninstall.exe"
 
   ; Registry keys for the IFDB Download Advisor
   WriteRegStr HKLM "Software\IFDB.tads.org\MetaInstaller\Interpreters\WindowsFrotz.DavidKinder" "Version" ${FROTZ_VERSION}
   WriteRegStr HKLM "Software\IFDB.tads.org\MetaInstaller\Interpreters\WindowsFrotz.DavidKinder" "RunGame" '"$INSTDIR\Frotz.exe" "%1"'
 
-  SetShellVarContext all    
+  SetShellVarContext all
   ; Remove old Start Menu folder
   RMDir /r "$SMPROGRAMS\Windows Frotz"
   CreateShortCut "$SMPROGRAMS\Windows Frotz.lnk" "$INSTDIR\Frotz.exe"
@@ -141,6 +144,8 @@ Section "Uninstall"
   Delete "$INSTDIR\FrotzItaliano.dll"
   Delete "$INSTDIR\FrotzRussian.dll"
   Delete "$INSTDIR\Frotz.chm"
+  Delete "$INSTDIR\Adventure.z5"
+  Delete "$INSTDIR\Zork 1.z5"
   Delete "$INSTDIR\COPYING"
   Delete "$INSTDIR\Uninstall.exe"
   RMDir "$INSTDIR"

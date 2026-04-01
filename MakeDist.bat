@@ -7,7 +7,7 @@
 "%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip COPYING Blorb\*.c Blorb\*.h Generic\*.c Generic\*.h
 "%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Win\* Win\res\* Win\help\* MakeDist.bat Installer\*
 "%ProgramFiles(x86)%\Zip\zip" -r \Temp\WindowsFrotzSrc.zip Win\Frotz*\*
-pushd \Programs
+pushd ..\..
 "%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Libraries\libmodplug\*
 "%ProgramFiles(x86)%\Zip\zip" \Temp\WindowsFrotzSrc.zip Libraries\mfc\*
 popd
