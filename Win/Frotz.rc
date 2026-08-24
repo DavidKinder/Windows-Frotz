@@ -91,8 +91,8 @@ IDI_TZ8                 ICON                    "res\\Z8_32.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,7,0
- PRODUCTVERSION 1,2,7,0
+ FILEVERSION 1,2,9,0
+ PRODUCTVERSION 1,2,9,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -109,12 +109,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Frobozz Magic Interpreter Company"
             VALUE "FileDescription", "Frotz"
-            VALUE "FileVersion", "1.28"
+            VALUE "FileVersion", "1.29"
             VALUE "InternalName", "Frotz"
             VALUE "LegalCopyright", "Copyright (c) 2002-2026 David Kinder"
             VALUE "OriginalFilename", "Frotz.exe"
             VALUE "ProductName", "Frotz"
-            VALUE "ProductVersion", "1.28"
+            VALUE "ProductVersion", "1.29"
         END
     END
     BLOCK "VarFileInfo"
@@ -643,7 +643,7 @@ BEGIN
     IDS_FROTZ               "Frotz"
     IDS_FAIL_DIRECTSOUND    "Failed to initialize DirectSound"
     IDS_FULLSCREEN          "Frotz is about to go into full screen mode. Do you wish to continue?\n\nNote: To return to the display to normal, press Alt+Enter again."
-    IDS_ABOUT_INFO          "{\\rtf1\\ansi{\\b Windows Frotz %ver%, written by David Kinder.\\line Another fine product of the Frobozz Magic Z-code Interpreter Company.}{\\line\\super{ }\\par}Windows Frotz is released under the terms of the GNU General Public License. See the file COPYING that is included with this program for details.{\\line\\super{ }\\par}Windows Frotz copyright David Kinder 2002-%year%.\\line Frotz copyright Stefan Jokisch 1995-1997.{\\line\\super{ }\\par}Frotz was written by Stefan Jokisch, with additions by Jim Dunleavy and David Griffith. Windows Frotz uses jpeglib by the Independent JPEG Group; libpng by Guy Eric Schalnat, Andreas Dilger, Glenn Randers-Pehrson, and others; zlib by Jean-loup Gailly and Mark Adler; ModPlug by Olivier Lapicque; and libogg and libvorbis by the Xiph.org Foundation.}"
+    IDS_ABOUT_INFO          "{\\rtf1\\ansi{\\b Windows Frotz %ver%, written by David Kinder.\\line Another fine product of the Frobozz Magic Z-code Interpreter Company.}{\\line\\super{ }\\par}Windows Frotz is released under the terms of the GNU General Public License. See the file COPYING that is included with this program for details.{\\line\\super{ }\\par}Windows Frotz copyright David Kinder 2002-%year%.\\line Frotz copyright Stefan Jokisch 1995-1997.{\\line\\super{ }\\par}Frotz was written by Stefan Jokisch, with additions by Jim Dunleavy and David Griffith. Windows Frotz uses jpeglib by the Independent JPEG Group; libpng by Guy Eric Schalnat, Andreas Dilger, Glenn Randers-Pehrson, and others; zlib by Jean-loup Gailly and Mark Adler; ModPlug by Olivier Lapicque; libogg and libvorbis by the Xiph.org Foundation; and minimp3 by lieff.}"
     IDS_QUETZAL             "Save and restore games in Quetzal format"
     IDS_OPTIONS             "Options"
     IDS_LINK                "Go to the web page %s"

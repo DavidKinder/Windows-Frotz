@@ -1,1 +1,1 @@
-!define FROTZ_VERSION 1.28
+!define FROTZ_VERSION 1.29
