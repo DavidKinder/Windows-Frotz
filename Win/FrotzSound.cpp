@@ -17,6 +17,15 @@ extern "C"
 void end_of_sound(zword routine);
 }
 
+#define MINIMP3_ONLY_MP3
+#define MINIMP3_NO_SIMD
+#define MINIMP3_NO_STDIO
+#define MINIMP3_IMPLEMENTATION
+#pragma warning(push)
+#pragma warning(disable : 4244 4456)
+#include "minimp3_ex.h"
+#pragma warning(pop)
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -127,6 +136,12 @@ void FrotzSound::Play(int sound, bb_map_t* map, int repeat, int volume, unsigned
       {
         delete m_soundMusic;
         m_soundMusic = new FrotzSoundOGG(sound,eos,data,length);
+        m_soundMusic->Play(repeat,volume);
+      }
+      else if (id == bb_make_id('M','P','3',' '))
+      {
+        delete m_soundMusic;
+        m_soundMusic = new FrotzSoundMP3(sound,eos,data,length);
         m_soundMusic->Play(repeat,volume);
       }
     }
@@ -780,6 +795,7 @@ FrotzSoundOGG::FrotzSoundOGG(int sound, unsigned short eos, BYTE* data, int leng
 {
   m_renderPtr = NULL;
   m_duration = 0;
+  m_streamOpen = false;
 }
 
 FrotzSoundOGG::~FrotzSoundOGG()
@@ -922,6 +938,115 @@ long FrotzSoundOGG::VorbisTell(void* src)
   FrotzSoundOGG* sound = (FrotzSoundOGG*)src;
 
   return sound->m_renderPtr - sound->m_data;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Class for MP3 music
+/////////////////////////////////////////////////////////////////////////////
+
+struct FrotzSoundMP3::Impl
+{
+  mp3dec_ex_t decoder;
+};
+
+FrotzSoundMP3::FrotzSoundMP3(int sound, unsigned short eos, BYTE* data, int length) :
+  FrotzSound(sound,eos,data,length,false)
+{
+  m_duration = 0;
+  m_impl = new Impl();
+  m_decoderOpen = false;
+}
+
+FrotzSoundMP3::~FrotzSoundMP3()
+{
+  RemoveFromList();
+  if (m_decoderOpen)
+    mp3dec_ex_close(&(m_impl->decoder));
+  delete m_impl;
+}
+
+bool FrotzSoundMP3::Play(int repeat, int volume)
+{
+  // Open the MP3 decoder
+  if (mp3dec_ex_open_buf(&(m_impl->decoder),m_data,m_length,MP3D_SEEK_TO_SAMPLE))
+    return false;
+  m_decoderOpen = true;
+
+  // Create a buffer
+  if (CreateBuffer(m_impl->decoder.info.channels,m_impl->decoder.info.hz,16) == false)
+    return false;
+
+  // Set the duration of the sample
+  if (repeat > 0)
+  {
+    double samplesPerSec = m_impl->decoder.info.channels * m_impl->decoder.info.hz;
+    m_duration = (DWORD)ceil((1000.0 * repeat * m_impl->decoder.samples) / samplesPerSec);
+  }
+  else
+    m_duration = -1;
+
+  // Fill the buffer with sample data
+  m_repeat = (repeat < 0) ? -1 : repeat - 1;
+  if (FillBuffer(GetBufferSize()) == false)
+    return false;
+
+  // Set the volume for the buffer
+  SetBufferVolume(GetDecibelVolume(volume) * 100L);
+
+  // Start the buffer playing
+  return PlayBuffer(false);
+}
+
+bool FrotzSoundMP3::IsPlaying(void)
+{
+  return m_Active;
+}
+
+// Write sample data into the supplied PCM sample buffers
+void FrotzSoundMP3::WriteSampleData(unsigned char* sample, int len)
+{
+  int current = 0;
+  while (current < len)
+  {
+    size_t read = mp3dec_ex_read(&(m_impl->decoder),
+      (mp3d_sample_t *)sample,len / sizeof(mp3d_sample_t));
+    read *= sizeof(mp3d_sample_t);
+    if (read > 0)
+      current += read;
+    else
+    {
+      if (m_repeat > 0)
+      {
+        mp3dec_ex_seek(&(m_impl->decoder),0);
+        m_repeat--;
+      }
+      else if (m_repeat == -1)
+        mp3dec_ex_seek(&(m_impl->decoder),0);
+      else
+      {
+        while (current < len)
+          sample[current++] = 0;
+      }
+    }
+  }
+}
+
+// Check if the sound has finished playing
+bool FrotzSoundMP3::IsSoundOver(DWORD tick)
+{
+  if (m_Active == false)
+    return true;
+
+  // Check if sound is playing forever
+  if (m_duration < 0)
+    return false;
+  return (tick > m_StartTime + m_duration);
+}
+
+// Get a type identifier for the sound
+int FrotzSoundMP3::GetType(void)
+{
+  return (int)'3';
 }
 
 /////////////////////////////////////////////////////////////////////

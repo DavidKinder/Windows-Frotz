@@ -2,14 +2,11 @@
 *.aps
 *.user
 .vs/
-Blorb/
+Blorb/*/
+Blorb/*.txt
 GammaPNG/
 Specification/
 Tests/
 Win/Debug/
 Win/Release/
-Win/FrotzDeutsch/Release/
-Win/FrotzEspañol/Release/
-Win/FrotzFrançais/Release/
-Win/FrotzItaliano/Release/
-Win/FrotzRussian/Release/
+Win/*/Release/

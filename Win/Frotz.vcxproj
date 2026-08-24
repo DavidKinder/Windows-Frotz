@@ -1029,10 +1029,10 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="FrotzSound.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../Generic;../Blorb;../../../Libraries/mfc;../../../Libraries/libogg/include;../../../Libraries/libvorbis/include;../../../Libraries/libmodplug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../Generic;../Blorb;../../../Libraries/mfc;../../../Libraries/libogg/include;../../../Libraries/libvorbis/include;../../../Libraries/libmodplug;../../../Libraries/minimp3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level3</WarningLevel>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../Generic;../Blorb;../../../Libraries/mfc;../../../Libraries/libogg/include;../../../Libraries/libvorbis/include;../../../Libraries/libmodplug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../Generic;../Blorb;../../../Libraries/mfc;../../../Libraries/libogg/include;../../../Libraries/libvorbis/include;../../../Libraries/libmodplug;../../../Libraries/minimp3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level3</WarningLevel>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</CompileAs>
     </ClCompile>

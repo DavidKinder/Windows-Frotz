@@ -186,6 +186,30 @@ protected:
   bool m_streamOpen;
 };
 
+// Class for MP3 music
+class FrotzSoundMP3 : public FrotzSound, public CDSound
+{
+public:
+  FrotzSoundMP3(int sound, unsigned short eos, BYTE* data, int length);
+  virtual ~FrotzSoundMP3();
+
+  virtual bool Play(int repeat, int volume);
+  virtual bool IsPlaying(void);
+
+  virtual void WriteSampleData(unsigned char* sample, int len);
+  virtual bool IsSoundOver(DWORD tick);
+  virtual int GetType(void);
+
+protected:
+  int m_duration;
+
+  // Private implementation data
+  struct Impl;
+  Impl* m_impl;
+  // Whether the decoder has been opened
+  bool m_decoderOpen;
+};
+
 #ifndef __ISpVoice_FWD_DEFINED__
 #define __ISpVoice_FWD_DEFINED__
 typedef interface ISpVoice ISpVoice;
