@@ -237,6 +237,29 @@ static void load_string (zword addr, zword length)
 }/* load_string */
 
 /*
+ * search_alphabets
+ *
+ * Search the alphabets for a character and return the alphabet set
+ * it is in, or -1 if not found in any set.
+ *
+ */
+
+static int search_alphabets (zchar c)
+{
+    int index, set;
+
+    /* Space is encoded as Z-character 0 */
+    if ((c == 0) || (c == 32)) return -1;
+
+    for (set = 0; set < 3; set++)
+	for (index = 0; index < 26; index++)
+	    if (c == alphabet (set, index)) return set;
+
+    return -1;
+
+}/* search_alphabets */
+
+/*
  * encode_text
  *
  * Encode the Unicode text in the global "decoded" string then write
@@ -261,6 +284,7 @@ static void encode_text (int padding)
     const zchar *ptr = decoded;
     zchar c;
     int resolution = (h_version <= V3) ? 2 : 3;
+    int locked_set = 0;
     int i = 0;
 
     /* Expand abbreviations that some old Infocom games lack */
@@ -314,8 +338,30 @@ static void encode_text (int padding)
 
 	    /* Character found, store its index */
 
-	    if (set != 0)
-		zchars[i++] = ((h_version <= V2) ? 1 : 3) + set;
+	    if (set != locked_set) {
+
+		/* Once a "shift lock" has selected a set, there is
+		   no going back to set 0. */
+
+		if (set == 0) continue;
+
+		if (h_version <= V2) {
+
+		    /* If the next character is in the same set, use
+		       one "shift lock" to encode them both. This is
+		       relevant for one word in the Zork 1 dictionary,
+		       "pdp10", which is a synonym for the machine in
+		       the "machine room". */
+
+		    if ( search_alphabets (*ptr) == set) {
+
+			zchars[i++] = 3 + set;
+			locked_set = set;
+
+		    } else zchars[i++] = 1 + set;
+
+		} else zchars[i++] = 3 + set;
+	    }
 
 	    zchars[i++] = index + 6;
 
