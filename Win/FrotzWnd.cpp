@@ -596,7 +596,7 @@ void FrotzWnd::FlushDisplay(void)
 {
   FlushText();
   Invalidate();
-  ((FrotzApp*)AfxGetApp())->MessagePump();
+  ((FrotzApp*)AfxGetApp())->BusyMessagePump(0);
 }
 
 // Clear the display
@@ -607,7 +607,7 @@ void FrotzWnd::ClearDisplay(void)
   m_dc.FillSolidRect(CRect(CPoint(0,0),m_bitmap.GetSize()),
     app->GetDefaultColour(false));
   Invalidate();
-  app->MessagePump();
+  app->BusyMessagePump(0);
 }
 
 // Get the output text position

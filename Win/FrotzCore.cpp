@@ -1438,10 +1438,14 @@ extern "C" void os_tick (void)
 {
   static int count = 0;
 
-  // Check for completed sounds
   if (++count > 1000)
   {
     count = 0;
+
+    // Pump Windows messages once per second
+    ((FrotzApp*)AfxGetApp())->BusyMessagePump(1000);
+
+    // Check for completed sounds
     FrotzSound::OnNotify();
   }
 

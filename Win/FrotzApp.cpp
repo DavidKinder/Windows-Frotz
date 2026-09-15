@@ -103,6 +103,7 @@ void FrotzApp::Initialize(void)
 
   m_scrollback.SetSize(0,8192);
   m_startTime = CTime::GetCurrentTime();
+  m_lastMsgPump = ::GetTickCount();
 }
 
 // Run the interpreter core
@@ -605,7 +606,7 @@ void FrotzApp::MessagePump(void)
 {
   MSG msg;
   if (::PeekMessage(&msg,NULL,0,0,PM_NOREMOVE))
-  { 
+  {
     while (::PeekMessage(&msg,NULL,0,0,PM_NOREMOVE))
     {
       if (PumpMessage() == FALSE)
@@ -623,6 +624,40 @@ void FrotzApp::MessagePump(void)
       bIdle = CWinApp::OnIdle(lIdle++);
     ::WaitMessage();
   }
+
+  m_lastMsgPump = ::GetTickCount();
+
+  if (AfxGetMainWnd() == NULL)
+  {
+    WriteSettings();
+    exit(0);
+  }
+}
+
+// Process messages without waiting
+void FrotzApp::BusyMessagePump(DWORD minElapsed)
+{
+  if (minElapsed > 0)
+  {
+    DWORD current = ::GetTickCount();
+    if ((current >= m_lastMsgPump) && (current - m_lastMsgPump < minElapsed))
+      return;
+  }
+
+  MSG msg;
+  if (::PeekMessage(&msg,NULL,0,0,PM_NOREMOVE))
+  {
+    while (::PeekMessage(&msg,NULL,0,0,PM_NOREMOVE))
+    {
+      if (PumpMessage() == FALSE)
+      {
+        WriteSettings();
+        exit(0);
+      }
+    }
+  }
+
+  m_lastMsgPump = ::GetTickCount();
 
   if (AfxGetMainWnd() == NULL)
   {

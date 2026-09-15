@@ -96,6 +96,8 @@ public:
   void StoreBarState(bool toolbar, bool statusbar);
   // Process messages
   void MessagePump(void);
+  // Process messages without waiting
+  void BusyMessagePump(DWORD minElapsed);
   // Get the elapsed time for this game
   CTimeSpan GetElapsedTime(void);
   // Check if a character is printable
@@ -214,6 +216,7 @@ protected:
   bool m_statusBar;
   bool m_notifyFull;
   CTime m_startTime;
+  DWORD m_lastMsgPump;
 
   CString m_propFontName;
   CString m_fixedFontName;
