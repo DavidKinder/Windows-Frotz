@@ -358,6 +358,32 @@ void screen_char (zchar c)
 }/* screen_char */
 
 /*
+ * screen_string
+ *
+ * Display a string of characters on the screen.
+ *
+ */
+
+void screen_string (const zchar *s)
+{
+    zchar c;
+
+    while ((c = *s++) != 0)
+
+	if (c == ZC_NEW_FONT || c == ZC_NEW_STYLE) {
+
+	    int arg = (int) *s++;
+
+	    if (c == ZC_NEW_FONT)
+		os_set_font (arg);
+	    if (c == ZC_NEW_STYLE)
+		os_set_text_style (arg);
+
+	} else screen_char (c);
+
+}/* screen_string */
+
+/*
  * screen_word
  *
  * Display a string of characters on the screen. If the word doesn't fit
@@ -379,21 +405,7 @@ void screen_word (const zchar *s)
 
 	if (!enable_wrapping) {
 
-	    zchar c;
-
-	    while ((c = *s++) != 0)
-
-		if (c == ZC_NEW_FONT || c == ZC_NEW_STYLE) {
-
-		    int arg = (int) *s++;
-
-		    if (c == ZC_NEW_FONT)
-			os_set_font (arg);
-		    if (c == ZC_NEW_STYLE)
-			os_set_text_style (arg);
-
-		} else screen_char (c);
-
+	    screen_string (s);
 	    return;
 
 	}
@@ -409,7 +421,15 @@ void screen_word (const zchar *s)
 
     }
 
-    os_display_string (s); cwp->x_cursor += width;
+    if (enable_wrapping && (units_left () < width)) {
+
+	screen_string (s);
+
+    } else {
+
+	os_display_string (s); cwp->x_cursor += width;
+
+    }
 
 }/* screen_word */
 
