@@ -364,8 +364,8 @@ BOOL AboutDialog::OnInitDialog()
   if (m_info.SubclassDlgItem(IDC_INFO,this) == FALSE)
     return FALSE;
 
-  CRect dlgRect;
-  GetWindowRect(dlgRect);
+  CRect clientRect;
+  GetClientRect(clientRect);
 
   // Load the bitmap and center it in the dialog
   m_logo.SetBitmap(::LoadBitmap(AfxGetInstanceHandle(),MAKEINTRESOURCE(IDB_FROTZ)));
@@ -373,7 +373,7 @@ BOOL AboutDialog::OnInitDialog()
   m_logo.GetWindowRect(logoRect);
   ScreenToClient(logoRect);
   int w = logoRect.Width();
-  logoRect.left = (dlgRect.Width()-w)/2;
+  logoRect.left = (clientRect.Width()-w)/2;
   logoRect.right = logoRect.left+w;
   m_logo.MoveWindow(logoRect,FALSE);
 
@@ -393,6 +393,8 @@ BOOL AboutDialog::OnInitDialog()
   m_ok.MoveWindow(rect,FALSE);
 
   // Resize the dialog
+  CRect dlgRect;
+  GetWindowRect(dlgRect);
   dlgRect.bottom += logoRect.Height();
   MoveWindow(dlgRect,FALSE);
 
