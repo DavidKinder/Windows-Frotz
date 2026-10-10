@@ -77,18 +77,18 @@ END
 // Dialog
 //
 
-IDD_ABOUT DIALOGEX 0, 0, 288, 64
+IDD_ABOUT DIALOGEX 0, 0, 228, 64
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
     WS_SYSMENU
 CAPTION "Über Windows Frotz"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         139,IDC_LOGO,"Static",SS_BITMAP | SS_SUNKEN,42,3,175,38
-    GROUPBOX        "Info",IDC_BORDER,3,7,282,33
+    GROUPBOX        "Info",IDC_BORDER,3,7,222,33
     CONTROL         "",IDC_INFO,"RichEdit20A",ES_MULTILINE | ES_AUTOVSCROLL | 
-                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN,8,18,272,17,
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN,8,18,212,17,
                     WS_EX_TRANSPARENT
-    DEFPUSHBUTTON   "OK",IDOK,96,45,96,14
+    DEFPUSHBUTTON   "OK",IDOK,76,45,76,14
 END
 
 IDD_OPTIONS_DISPLAY DIALOGEX 0, 0, 212, 147
@@ -495,7 +495,7 @@ BEGIN
     IDS_FROTZ               "Frotz"
     IDS_FAIL_DIRECTSOUND    "Initialisierung von DirectSound fehlgeschlagen"
     IDS_FULLSCREEN          "Frotz wird in den Vollbildmodus umschalten. Möchten Sie fortfahren?\n\nZur Information: Drücken Sie erneut Alt+Enter, um in den Fenstermodus zurück zu gelangen."
-    IDS_ABOUT_INFO          "{\\rtf1\\ansi{\\b Windows Frotz %ver%, programmiert von David Kinder.\\line Ein weiteres Produkt der Frobozz Magic Z-Code Interpreter Company.}{\\line\\super{ }\\par}Windows Frotz wird unter den Bedingungen der GNU General Public License veröffentlicht. In der Datei COPYING, die diesem Programm beiliegt, finden Sie die vollständigen Lizenzbedingungen.{\\line\\super{ }\\par}Windows Frotz copyright David Kinder 2002-%year%.\\line Frotz copyright Stefan Jokisch 1995-1997.{\\line\\super{ }\\par}Frotz wurde programmiert von Stefan Jokisch, mit Unterstützung von Jim Dunleavy und David Griffith. Windows Frotz nutzt die jpeglib der Independent JPEG Group; libpng von Guy Eric Schalnat, Andreas Dilger, Glenn Randers-Pehrson und anderen; zlib von Jean-loup Gailly und Mark Adler; ModPlug von Olivier Lapicque; und libogg und libvorbis der Xiph.org Foundation.{\\line\\super{ }\\par}Deutsche Übersetzung: Lothar May}"
+    IDS_ABOUT_INFO          "{\\rtf1\\ansi{\\b Windows Frotz %ver%, programmiert von David Kinder.{\\line\\super{ }\\par}Ein weiteres Produkt der Frobozz Magic Z-Code Interpreter Company.}{\\line\\super{ }\\par}Windows Frotz copyright David Kinder 2002-%year%.\\line Deutsche Übersetzung von Lothar May.{\\line\\super{ }\\par}Frotz copyright Stefan Jokisch 1995-1997. Frotz wurde programmiert von Stefan Jokisch, mit Unterstützung von Jim Dunleavy und David Griffith. {\\line\\super{ }\\par}Windows Frotz wird unter den Bedingungen der GNU General Public License veröffentlicht. In der Datei COPYING, die diesem Programm beiliegt, finden Sie die vollständigen Lizenzbedingungen.}"
     IDS_QUETZAL             "Spielstände im Quetzal-Format speichern und laden"
     IDS_OPTIONS             "Einstellungen"
     IDS_LINK                "Gehe zu der Webseite %s"
